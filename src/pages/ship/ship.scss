@@ -1,0 +1,26 @@
+page-ship {
+  @import "../../theme/weui.min";
+  .container-div {
+    background-color: #efeeee;
+  }
+
+  .weui-flex {
+    color: #2d2d2d;
+    //color: #1e9bdd;
+  }
+
+  .weui-flex-margin-top {
+    margin-top: 8px;
+  }
+
+  .weui-msg__extra-area {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    padding-bottom: 10px;
+    position: relative;
+    left: auto;
+    bottom: auto;
+    width: 100%;
+    text-align: center
+  }
+}

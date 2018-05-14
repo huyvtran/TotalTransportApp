@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="back-custom"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>询 价</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+      <div class="weui-cell__bd">
+        <textarea class="weui-textarea" placeholder="请输入您的询价内容" [(ngModel)]="enquiry.content" rows="3"></textarea>
+        <div class="weui-textarea-counter"><span>{{enquiry.content.length}}</span>/200</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="weui-btn-area">
+    <button ion-button block (click)="submit()">
+      提&nbsp;&nbsp;交
+    </button>
+  </div>
+</ion-content>

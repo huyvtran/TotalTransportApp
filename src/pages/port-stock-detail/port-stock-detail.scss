@@ -1,0 +1,55 @@
+page-port-stock-detail {
+  @import "../../theme/weui.min";
+
+  .container-div {
+    //background-color: #efeeee;
+  }
+
+  .weui-cells__title {
+    color: #000000;
+    //margin-top: 0px;
+    //padding-top: 8px;
+    //padding-bottom: 5px;
+    background-color: #efeeee;
+    //border-bottom: 1px #cccccc solid;
+  }
+
+  .weui-cells__title_contract_no {
+    margin-top: 0px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+  }
+
+  .weui-form-preview__hd .weui-form-preview__value {
+    font-size: 16px;
+  }
+
+  .weui-form-preview__label, .weui-form-preview__value {
+    color: #2d2d2d;
+  }
+
+  .weui-form-preview__value_ship {
+    //color: #1e9bdd;
+  }
+
+  .weui-flex {
+    color: #2d2d2d;
+    //color: #1e9bdd;
+    text-align: center;
+  }
+
+  .weui-flex-margin-top {
+    margin-top: 8px;
+  }
+
+  .weui-flex-title {
+    color: #1e9bdd;
+  }
+
+  .weui-flex .weui-flex__item{
+    height: 42px;
+    line-height: 42px;
+    border-bottom: 1px #cccccc solid;
+  }
+
+}

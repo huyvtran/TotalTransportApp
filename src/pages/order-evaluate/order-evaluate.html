@@ -1,0 +1,44 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>订 单 评 价</ion-title>
+    <!--<ion-buttons end>-->
+    <!--<button ion-button (click)="submit()">提交</button>-->
+    <!--</ion-buttons>-->
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div class="weui-cells__title" *ngFor="let item of itemResult.itemStars;let itemIndex = index">
+    {{item.itemName}}
+    <div class="star-div" tappable (click)="chooseItemScoreStar(itemIndex,$event)">
+      <div *ngFor="let scoreMap of itemResult.itemStars[itemIndex].starMap; let indx = index">
+        <ion-icon name="star" *ngIf="itemResult.itemStars[itemIndex].star>=indx+1;"
+                  style="padding-right: 0.5em"
+                  [attr.data-index]="indx+1"></ion-icon>
+        <ion-icon name="star-outline" *ngIf="itemResult.itemStars[itemIndex].star<indx+1;"
+                  style="padding-right: 0.5em"
+                  [attr.data-index]="indx+1"></ion-icon>
+      </div>
+      <span>{{itemResult.itemStars[itemIndex].starMap[itemResult.itemStars[itemIndex].star-1]}}</span>
+    </div>
+  </div>
+  <!--<div class="weui-cells__title">内容描述</div>-->
+  <div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+      <div class="weui-cell__bd">
+        <textarea class="weui-textarea" placeholder="请输入您的评价内容描述" [(ngModel)]="itemResult.content" rows="3"></textarea>
+        <div class="weui-textarea-counter"><span>{{itemResult.content.length}}</span>/200</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="weui-btn-area">
+    <button ion-button block (click)="submit()">
+      提 交 评 价
+    </button>
+  </div>
+
+</ion-content>

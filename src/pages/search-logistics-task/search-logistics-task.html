@@ -1,0 +1,41 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>物流任务查询</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div class="weui-cells weui-cells_form">
+    <div class="weui-cell weui-cell_select weui-cell_select-after">
+      <div class="weui-cell__hd">
+        <label class="weui-label">运输方式</label>
+      </div>
+      <div class="weui-cell__bd">
+        <select class="weui-select" [(ngModel)]="queryParam.transportType">
+          <option value="1">水路运输</option>
+          <option value="2">铁路运输</option>
+          <option value="3">公路运输</option>
+          <option value="4">码头运输</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="weui-cell" *ngIf="queryParam.transportType == 1">
+      <div class="weui-cell__hd">
+        <label class="weui-label">船名</label>
+      </div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="text" [(ngModel)]="queryParam.shipName" placeholder="请输入船名(支持模糊查询)"/>
+      </div>
+    </div>
+
+  </div>
+  <div class="weui-btn-area">
+    <button ion-button block (click)="search()">
+      查&nbsp;&nbsp;&nbsp;&nbsp;询
+    </button>
+  </div>
+</ion-content>

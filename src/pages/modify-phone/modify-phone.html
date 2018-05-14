@@ -1,0 +1,45 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>修 改 手 机 号</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <!--<div class="weui-cells__title">当前账户:{{userInfo.account}}</div>-->
+  <div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label">原密码</label></div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="password" [(ngModel)]="oldPwd" placeholder="请输入原密码"/>
+      </div>
+    </div>
+    <div class="weui-cell weui-cell_vcode">
+      <div class="weui-cell__hd">
+        <label class="weui-label">新手机号</label>
+      </div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="tel" [(ngModel)]="userInfo.phone" placeholder="请输入新手机号">
+      </div>
+      <div class="weui-cell__ft">
+        <button ion-button small style="border-radius: 10px;" [disabled]="!verifyCode.disable"
+                (click)="getPhoneAuthCode()">
+          {{verifyCode.verifyCodeTips}}
+        </button>
+      </div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="number" [(ngModel)]="authCode" pattern="[0-9]*" placeholder="请输入验证码"/>
+      </div>
+    </div>
+  </div>
+  <div class="weui-btn-area">
+    <button ion-button block (click)="submit()">
+      提&nbsp;&nbsp;&nbsp;&nbsp;交
+    </button>
+  </div>
+</ion-content>

@@ -1,0 +1,22 @@
+page-notice-list {
+  @import "../../theme/weui.min";
+
+  .container-div {
+    background-color: #efeeee;
+  }
+
+  .weui-cells-title-first {
+    margin-top: 0px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    //color: #1296db;
+    color: #0d0d0d;
+    //font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .weui-cell__ft-time {
+    font-size: 14px;
+  }
+}

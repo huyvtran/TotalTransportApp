@@ -1,0 +1,97 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>货 盘 详 情</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="container-div">
+  <div class="weui-form-preview">
+    <div class="weui-form-preview__bd">
+      <p>
+        <label class="weui-form-preview__label">货类</label>
+        <span class="weui-form-preview__value">{{cargoInfo.cargoTypeCname}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">货名</label>
+        <span class="weui-form-preview__value">{{cargoInfo.cargoCname?cargoInfo.cargoCname:'无'}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">货量</label>
+        <span class="weui-form-preview__value">{{cargoInfo.amount|number:'1.0-2'}}吨</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">起始地</label>
+        <span class="weui-form-preview__value">{{cargoInfo.startPlaceCname}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">目的地</label>
+        <span class="weui-form-preview__value">{{cargoInfo.endPlaceCname}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">始发港</label>
+        <span class="weui-form-preview__value">{{cargoInfo.startWharf?cargoInfo.startWharf:'无'}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">目的港</label>
+        <span class="weui-form-preview__value">{{cargoInfo.endWharf?cargoInfo.endWharf:'无'}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">船舶数量</label>
+        <span class="weui-form-preview__value">{{cargoInfo.shipAmount?cargoInfo.shipAmount:0}}艘</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">船舶吨位</label>
+        <span class="weui-form-preview__value">{{cargoInfo.tonnage?cargoInfo.tonnage:0}}吨</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">是否封仓</label>
+        <span class="weui-form-preview__value" *ngIf="!cargoInfo.needSeal">未知</span>
+        <span class="weui-form-preview__value" *ngIf="cargoInfo.needSeal == 1">是</span>
+        <span class="weui-form-preview__value" *ngIf="cargoInfo.needSeal == 2">否</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">空船所在地</label>
+        <span class="weui-form-preview__value">{{cargoInfo.emptyPlace?cargoInfo.emptyPlace:'无'}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">装卸天数</label>
+        <span class="weui-form-preview__value">{{cargoInfo.loadDays?cargoInfo.loadDays:0}}天</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">装船日期</label>
+        <span class="weui-form-preview__value">{{cargoInfo.loadDate| date:'yyyy.MM.dd'}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">运价</label>
+        <span class="weui-form-preview__value">¥{{cargoInfo.price|number:'1.2-2'}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">开航费</label>
+        <span class="weui-form-preview__value">¥{{cargoInfo.saillingFee|number:'1.2-2'}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">滞期费</label>
+        <span class="weui-form-preview__value">¥{{cargoInfo.demurrageCharge|number:'1.2-2'}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">结算方式</label>
+        <span class="weui-form-preview__value">{{cargoInfo.clearingType?cargoInfo.clearingType:'无'}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">付款方式</label>
+        <span class="weui-form-preview__value">{{cargoInfo.paymentType?cargoInfo.paymentType:'无'}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">联系人员</label>
+        <span class="weui-form-preview__value">{{cargoInfo.linkMan}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">联系电话</label>
+        <span class="weui-form-preview__value">{{cargoInfo.linkTel}}</span>
+      </p>
+    </div>
+  </div>
+</ion-content>

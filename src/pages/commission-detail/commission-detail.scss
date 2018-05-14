@@ -1,0 +1,30 @@
+page-commission-detail {
+  @import "../../theme/weui.min";
+
+  .content-div {
+    background-color: #efeeee;
+  }
+
+  .weui-cells__title {
+    color: #000000;
+    //margin-top: 0px;
+    //padding-top: 8px;
+    //padding-bottom: 5px;
+    background-color: #efeeee;
+    //border-bottom: 1px #cccccc solid;
+  }
+
+  .weui-cells__title_contract_no {
+    margin-top: 0px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+  }
+
+  .weui-form-preview__hd .weui-form-preview__value {
+    font-size: 16px;
+  }
+
+  .weui-form-preview__label, .weui-form-preview__value {
+    color: #2d2d2d;
+  }
+}

@@ -1,0 +1,60 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>船 盘</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="container-div">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="松开刷新"
+      refreshingSpinner="circles"
+      refreshingText="刷新中...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="weui-panel" *ngFor="let ship of shipList">
+    <div class="weui-panel__bd" tappable (click)="goToShipDetail()">
+      <div class="weui-media-box weui-media-box_text">
+        <div class="weui-media-box__desc">
+          <div class="weui-flex">
+            <div class="weui-flex__item">
+              <div class="placeholder">船名:{{ship.vesselCname}}</div>
+            </div>
+            <div class="weui-flex__item">
+              <div class="placeholder">空船港:{{ship.portName}}</div>
+            </div>
+          </div>
+          <div class="weui-flex weui-flex-margin-top">
+            <div class="weui-flex__item">
+              <div class="placeholder">吨位:{{ship.loadTons|number:'1.0-2'}}吨</div>
+            </div>
+            <div class="weui-flex__item">
+              <div class="placeholder">空船日期:{{ship.emptyDate| date:'yyyy.MM.dd'}}</div>
+            </div>
+          </div>
+          <div class="weui-flex weui-flex-margin-top">
+            <div class="weui-flex__item">
+              <div class="placeholder">联系人员:{{ship.linkMan}}</div>
+            </div>
+            <div class="weui-flex__item">
+              <div class="placeholder">联系电话:{{ship.linkTel}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="weui-msg__extra-area" *ngIf="pager.currPageNo == pager.totalPageCount">
+    <div class="weui-footer">
+      <p class="weui-footer__text">---- 到底了 ----</p>
+    </div>
+  </div>
+  <ion-infinite-scroll *ngIf="pager.currPageNo < pager.totalPageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>

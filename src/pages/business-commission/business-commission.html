@@ -1,0 +1,368 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>业 务 委 托</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="goToCreateCommission()">
+        <ion-icon name="add-custom"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="container-div">
+  <div class="weui-tab">
+    <div class="weui-navbar">
+      <div class="weui-navbar__item" [ngClass]="{'weui-bar__item_on': commissionState == 2}" tappable
+           (click)="setCommissionState(2)">
+        已受理(1)
+      </div>
+      <div class="weui-navbar__item" [ngClass]="{'weui-bar__item_on': commissionState == 3}" tappable
+           (click)="setCommissionState(3)">
+        退回(1)
+      </div>
+      <div class="weui-navbar__item" [ngClass]="{'weui-bar__item_on': commissionState == 4}" tappable
+           (click)="setCommissionState(4)">
+        已发布(1)
+      </div>
+      <div class="weui-navbar__item" [ngClass]="{'weui-bar__item_on': commissionState == 0}" tappable
+           (click)="setCommissionState(0)">
+        所有(5)
+      </div>
+    </div>
+    <div class="weui-tab__panel">
+      <!-- 已受理 -->
+      <div *ngIf="commissionState == 2">
+        <div class="weui-panel">
+          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail()">
+            <div class="weui-media-box weui-media-box_text">
+              <div class="weui-media-box__desc">
+                <div class="weui-flex">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货名:铁矿石</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货量:10000吨</div>
+                  </div>
+                </div>
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">起始地:北仑港</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">目的地:张家港</div>
+                  </div>
+                </div>
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货类:矿石</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">创建日期:2018.05.10</div>
+                  </div>
+                </div>
+              </div>
+              <div class="weui-flex weui-flex-margin-top">
+                <div class="weui-flex__item">
+                  <div class="placeholder">状态:已受理</div>
+                </div>
+                <!--<div class="weui-flex__item">-->
+                <!--<div class="placeholder"></div>-->
+                <!--</div>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 退回 -->
+      <div *ngIf="commissionState == 3">
+        <div class="weui-panel">
+          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail()">
+            <div class="weui-media-box weui-media-box_text">
+              <div class="weui-media-box__desc">
+                <div class="weui-flex">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货名:铁矿石</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货量:10000吨</div>
+                  </div>
+                </div>
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">起始地:北仑港</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">目的地:张家港</div>
+                  </div>
+                </div>
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货类:矿石</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">创建日期:2018.05.10</div>
+                  </div>
+                </div>
+              </div>
+              <div class="weui-flex weui-flex-margin-top">
+                <div class="weui-flex__item">
+                  <div class="placeholder">状态:退回</div>
+                </div>
+                <!--<div class="weui-flex__item">-->
+                <!--<div class="placeholder"></div>-->
+                <!--</div>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 已发布 -->
+      <div *ngIf="commissionState == 4">
+        <div class="weui-panel">
+          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail()">
+            <div class="weui-media-box weui-media-box_text">
+              <div class="weui-media-box__desc">
+                <div class="weui-flex">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货名:铁矿石</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货量:10000吨</div>
+                  </div>
+                </div>
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">起始地:北仑港</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">目的地:张家港</div>
+                  </div>
+                </div>
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货类:矿石</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">创建日期:2018.05.10</div>
+                  </div>
+                </div>
+              </div>
+              <div class="weui-flex weui-flex-margin-top">
+                <div class="weui-flex__item">
+                  <div class="placeholder">状态:已发布</div>
+                </div>
+                <!--<div class="weui-flex__item">-->
+                <!--<div class="placeholder"></div>-->
+                <!--</div>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 所有 -->
+      <div *ngIf="commissionState == 0">
+        <div class="weui-panel">
+          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail()">
+            <div class="weui-media-box weui-media-box_text">
+              <div class="weui-media-box__desc">
+                <div class="weui-flex">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货名:铁矿石</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货量:10000吨</div>
+                  </div>
+                </div>
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">起始地:北仑港</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">目的地:张家港</div>
+                  </div>
+                </div>
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货类:矿石</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">创建日期:2018.05.10</div>
+                  </div>
+                </div>
+              </div>
+              <div class="weui-flex weui-flex-margin-top">
+                <div class="weui-flex__item">
+                  <div class="placeholder">状态:待受理</div>
+                </div>
+                <!--<div class="weui-flex__item">-->
+                <!--<div class="placeholder"></div>-->
+                <!--</div>-->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="weui-panel">
+          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail()">
+            <div class="weui-media-box weui-media-box_text">
+              <div class="weui-media-box__desc">
+                <div class="weui-flex">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货名:铁矿石</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货量:10000吨</div>
+                  </div>
+                </div>
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">起始地:北仑港</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">目的地:张家港</div>
+                  </div>
+                </div>
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货类:矿石</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">创建日期:2018.05.10</div>
+                  </div>
+                </div>
+              </div>
+              <div class="weui-flex weui-flex-margin-top">
+                <div class="weui-flex__item">
+                  <div class="placeholder">状态:已受理</div>
+                </div>
+                <!--<div class="weui-flex__item">-->
+                <!--<div class="placeholder"></div>-->
+                <!--</div>-->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="weui-panel">
+          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail()">
+            <div class="weui-media-box weui-media-box_text">
+              <div class="weui-media-box__desc">
+                <div class="weui-flex">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货名:铁矿石</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货量:10000吨</div>
+                  </div>
+                </div>
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">起始地:北仑港</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">目的地:张家港</div>
+                  </div>
+                </div>
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货类:矿石</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">创建日期:2018.05.10</div>
+                  </div>
+                </div>
+              </div>
+              <div class="weui-flex weui-flex-margin-top">
+                <div class="weui-flex__item">
+                  <div class="placeholder">状态:退回</div>
+                </div>
+                <!--<div class="weui-flex__item">-->
+                <!--<div class="placeholder"></div>-->
+                <!--</div>-->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="weui-panel">
+          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail()">
+            <div class="weui-media-box weui-media-box_text">
+              <div class="weui-media-box__desc">
+                <div class="weui-flex">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货名:铁矿石</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货量:10000吨</div>
+                  </div>
+                </div>
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">起始地:北仑港</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">目的地:张家港</div>
+                  </div>
+                </div>
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货类:矿石</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">创建日期:2018.05.10</div>
+                  </div>
+                </div>
+              </div>
+              <div class="weui-flex weui-flex-margin-top">
+                <div class="weui-flex__item">
+                  <div class="placeholder">状态:已发布</div>
+                </div>
+                <!--<div class="weui-flex__item">-->
+                <!--<div class="placeholder"></div>-->
+                <!--</div>-->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="weui-panel">
+          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail()">
+            <div class="weui-media-box weui-media-box_text">
+              <div class="weui-media-box__desc">
+                <div class="weui-flex">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货名:铁矿石</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货量:10000吨</div>
+                  </div>
+                </div>
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">起始地:北仑港</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">目的地:张家港</div>
+                  </div>
+                </div>
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货类:矿石</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">创建日期:2018.05.10</div>
+                  </div>
+                </div>
+              </div>
+              <div class="weui-flex weui-flex-margin-top">
+                <div class="weui-flex__item">
+                  <div class="placeholder">状态:已生成订单</div>
+                </div>
+                <!--<div class="weui-flex__item">-->
+                <!--<div class="placeholder"></div>-->
+                <!--</div>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

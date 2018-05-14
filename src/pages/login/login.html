@@ -1,0 +1,50 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>登 录</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <!--<div class="weui-cells__title" text-center>江海联运</div>-->
+  <div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label">账&nbsp;&nbsp;&nbsp;户</label></div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="text" [(ngModel)]="userInfo.account" placeholder="请输入账户"/>
+      </div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label">密&nbsp;&nbsp;&nbsp;码</label></div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="password" [(ngModel)]="userInfo.password" placeholder="请输入密码"/>
+      </div>
+    </div>
+    <div class="weui-cell weui-cell_switch">
+      <div class="weui-cell__bd">记住密码</div>
+      <div class="weui-cell__ft">
+        <input class="weui-switch" [(ngModel)]="isRemember" type="checkbox"/>
+      </div>
+    </div>
+  </div>
+  <div padding>
+    <span>
+      <a href="javascript:void(0);" class="quick-reg">
+      <h3 tappable (click)="goToRegistPage()">快速注册</h3>
+      </a>
+    </span>
+    <span>
+      <a href="javascript:void(0);" class="forget-pas">
+      <h3 tappable (click)="forgetPassword()">忘记密码</h3>
+      </a>
+    </span>
+  </div>
+  <div class="weui-btn-area">
+    <button ion-button block (click)="login()">
+      登&nbsp;&nbsp;&nbsp;&nbsp;录
+    </button>
+  </div>
+
+</ion-content>

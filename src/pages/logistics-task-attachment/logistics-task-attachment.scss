@@ -1,0 +1,21 @@
+page-logistics-task-attachment {
+  @import "../../theme/weui.min";
+
+  .photo-cont-wrap {
+    width: 100%;
+  }
+  .photo-cont {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    list-style: none;
+  }
+  .photo-cont .photo-cont-list {
+    margin-left: 10px;
+    margin-bottom: 10px;
+    float: left;
+  }
+  .photo-cont .photo-cont-list a img {
+    border: 1px solid #cacaca;
+    border-radius: 10px;
+  }
+}

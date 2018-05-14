@@ -1,0 +1,48 @@
+page-logistics-enquiry-detail {
+  @import "../../theme/weui.min";
+
+  .container-div {
+    background-color: #efeeee;
+  }
+
+  .weui-media-box__title {
+    font-size: 16px;
+  }
+
+  .weui-flex {
+    color: #2d2d2d;
+    //color: #1e9bdd;
+  }
+
+  .weui-cells__title {
+    color: #000000;
+    //margin-top: 0px;
+    //padding-top: 8px;
+    //padding-bottom: 5px;
+    background-color: #efeeee;
+    //border-bottom: 1px #cccccc solid;
+  }
+
+  //.weui-form-preview__hd .weui-form-preview__value {
+  //  font-size: 16px;
+  //}
+
+  .weui-cells__title_order_no {
+    margin-top: 0px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+  }
+
+  .weui-form-preview__label, .weui-form-preview__value {
+    color: #2d2d2d;
+  }
+
+  .weui-panel-first {
+    margin-top: 0px;
+  }
+
+  .weui-flex-margin-top {
+    margin-top: 8px;
+  }
+
+}

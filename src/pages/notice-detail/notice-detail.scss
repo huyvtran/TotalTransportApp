@@ -1,0 +1,25 @@
+page-notice-detail {
+  @import "../../theme/weui.min";
+
+  .container-div {
+    background-color: #efeeee;
+  }
+
+  .weui-article h2 {
+    font-size: 14px;
+    color: #999;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .weui-article h1 {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .weui-article h3 {
+    text-align: center;
+  }
+
+}

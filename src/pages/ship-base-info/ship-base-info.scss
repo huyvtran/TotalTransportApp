@@ -1,0 +1,20 @@
+page-ship-base-info {
+  @import "../../theme/weui.min";
+
+  .ship-pic {
+    width: 100%;
+    height: auto;
+  }
+
+  .container-div {
+    background-color: #efeeee;
+  }
+
+  .weui-form-preview__hd .weui-form-preview__value {
+    font-size: 16px;
+  }
+
+  .weui-form-preview__label, .weui-form-preview__value {
+    color: #2d2d2d;
+  }
+}

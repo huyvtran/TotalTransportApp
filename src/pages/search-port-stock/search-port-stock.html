@@ -1,0 +1,53 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>港 存 查 询</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <!--<div class="weui-cells__title" text-center>查询条件</div>-->
+  <div class="weui-cells weui-cells_form">
+    <div class="weui-cell weui-cell_select weui-cell_select-after">
+      <div class="weui-cell__hd">
+        <label class="weui-label">港口</label>
+      </div>
+      <div class="weui-cell__bd">
+        <select class="weui-select" [(ngModel)]="queryParam.port">
+          <option value="1">宁波港</option>
+          <option value="2">北仑港</option>
+          <option value="3">张家港</option>
+        </select>
+      </div>
+    </div>
+    <div class="weui-cell weui-cell_select weui-cell_select-after">
+      <div class="weui-cell__hd">
+        <label class="weui-label">码头</label>
+      </div>
+      <div class="weui-cell__bd">
+        <select class="weui-select" [(ngModel)]="queryParam.wharf">
+          <option value="0">所有码头</option>
+          <option value="1">矿石码头</option>
+          <option value="2">煤矿码头</option>
+          <option value="3">石油码头</option>
+        </select>
+      </div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__hd">
+        <label class="weui-label">货名</label>
+      </div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="text" [(ngModel)]="queryParam.cargoName" placeholder="请输入货名(支持模糊查询)"/>
+      </div>
+    </div>
+
+  </div>
+  <div class="weui-btn-area">
+    <button ion-button block (click)="search()">
+      查&nbsp;&nbsp;&nbsp;&nbsp;询
+    </button>
+  </div>
+</ion-content>

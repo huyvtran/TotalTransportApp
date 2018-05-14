@@ -1,0 +1,35 @@
+page-port-stock {
+  @import "../../theme/weui.min";
+
+  .container-div {
+    //background-color: #efeeee;
+  }
+
+  .weui-flex {
+    text-align: center;
+  }
+
+  .weui-flex .weui-flex__item{
+    height: 42px;
+    line-height: 42px;
+    border-bottom: 1px #cccccc solid;
+  }
+
+  .weui-flex-total-tips .weui-flex__item{
+    border-bottom: none;
+  }
+
+  .weui-flex-total-tips {
+    color: #ffffff;
+    background-color: #1e9bdd;
+    height: 120px;
+    font-size: 26px;
+    font-weight: bold;
+    font-family: "Microsoft Yahei";
+    padding-top: 36px;
+  }
+
+  .weui-flex-title {
+    color: #1e9bdd;
+  }
+}

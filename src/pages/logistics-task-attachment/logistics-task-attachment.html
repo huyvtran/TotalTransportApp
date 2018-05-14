@@ -1,0 +1,22 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>物流任务附件信息</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div *ngIf="attachmentPhotos && attachmentPhotos.length > 0" class="photo-cont-wrap">
+    <ul class="photo-cont" [ngStyle]="setAttachmentPhotoGalleryStyle()">
+      <li class="photo-cont-list" [ngStyle]="setAttachmentPhotoStyle()" *ngFor="let photo of attachmentPhotos;">
+        <a href="javascript:void(0)">
+          <img [ngStyle]="setAttachmentPhotoStyle()" tappable (click)="showAttachmentPhoto(photo.src)"
+               src="assets/imgs/logistics-task-attachment-pic.jpg"/>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</ion-content>

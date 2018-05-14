@@ -1,0 +1,32 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>合同订单查询</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <!--<div class="weui-cells__title" text-center>查询条件</div>-->
+  <div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label">起始日期</label></div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="date" [(ngModel)]="startDate"/>
+      </div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label">截止日期</label></div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="date" [(ngModel)]="endDate"/>
+      </div>
+    </div>
+
+  </div>
+  <div class="weui-btn-area">
+    <button ion-button block (click)="search()">
+      查&nbsp;&nbsp;&nbsp;&nbsp;询
+    </button>
+  </div>
+</ion-content>

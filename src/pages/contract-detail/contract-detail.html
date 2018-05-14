@@ -1,0 +1,182 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>合 同 详 情</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="content-div">
+  <div class="weui-cells__title weui-cells__title_contract_no">合同编号：20180504</div>
+  <div class="weui-form-preview">
+    <div class="weui-form-preview__bd">
+      <p>
+        <label class="weui-form-preview__label">合同名称</label>
+        <span class="weui-form-preview__value">与沙钢12月运输协议</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">流向</label>
+        <span class="weui-form-preview__value">北仑港 - 张家港</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">船名</label>
+        <span class="weui-form-preview__value weui-form-preview__value_ship" tappable
+              (click)="goToShipBaseInfo()">塔哈罗尔</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">货名</label>
+        <span class="weui-form-preview__value">铁矿石粉</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">货量</label>
+        <span class="weui-form-preview__value">1000吨</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">有效日期</label>
+        <span class="weui-form-preview__value">2018.05.01 - 2018.05.30</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">计价方式</label>
+        <span class="weui-form-preview__value">包干价</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">运价</label>
+        <span class="weui-form-preview__value">¥1000.00</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">状态</label>
+        <span class="weui-form-preview__value">执行中</span>
+      </p>
+    </div>
+  </div>
+  <div class="weui-cells__title">订单信息</div>
+  <div class="weui-panel" tappable (click)="goToOrderDetail(1)">
+    <div class="weui-panel__bd">
+      <div class="weui-media-box weui-media-box_text">
+        <div class="weui-media-box__desc">
+          <div class="weui-flex">
+            <div class="weui-flex__item">
+              <div class="placeholder">货名:铁矿石</div>
+            </div>
+            <div class="weui-flex__item">
+              <div class="placeholder">货量:10000吨</div>
+            </div>
+          </div>
+          <div class="weui-flex weui-flex-margin-top">
+            <div class="weui-flex__item">
+              <div class="placeholder">起始地:北仑港</div>
+            </div>
+            <div class="weui-flex__item">
+              <div class="placeholder">目的地:张家港</div>
+            </div>
+          </div>
+          <div class="weui-flex weui-flex-margin-top">
+            <div class="weui-flex__item">
+              <div class="placeholder">状态:执行中</div>
+            </div>
+            <div class="weui-flex__item">
+              <div class="placeholder"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="weui-panel" tappable (click)="goToOrderDetail(2)">
+    <div class="weui-panel__bd">
+      <div class="weui-media-box weui-media-box_text">
+        <div class="weui-media-box__desc">
+          <div class="weui-flex">
+            <div class="weui-flex__item">
+              <div class="placeholder">货名:铁矿石</div>
+            </div>
+            <div class="weui-flex__item">
+              <div class="placeholder">货量:10000吨</div>
+            </div>
+          </div>
+          <div class="weui-flex weui-flex-margin-top">
+            <div class="weui-flex__item">
+              <div class="placeholder">起始地:北仑港</div>
+            </div>
+            <div class="weui-flex__item">
+              <div class="placeholder">目的地:张家港</div>
+            </div>
+          </div>
+          <div class="weui-flex weui-flex-margin-top">
+            <div class="weui-flex__item">
+              <div class="placeholder">状态:待收货</div>
+            </div>
+            <div class="weui-flex__item">
+              <div class="placeholder"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="weui-panel" tappable (click)="goToOrderDetail(3)">
+    <div class="weui-panel__bd">
+      <div class="weui-media-box weui-media-box_text">
+        <div class="weui-media-box__desc">
+          <div class="weui-flex">
+            <div class="weui-flex__item">
+              <div class="placeholder">货名:铁矿石</div>
+            </div>
+            <div class="weui-flex__item">
+              <div class="placeholder">货量:10000吨</div>
+            </div>
+          </div>
+          <div class="weui-flex weui-flex-margin-top">
+            <div class="weui-flex__item">
+              <div class="placeholder">起始地:北仑港</div>
+            </div>
+            <div class="weui-flex__item">
+              <div class="placeholder">目的地:张家港</div>
+            </div>
+          </div>
+          <div class="weui-flex weui-flex-margin-top">
+            <div class="weui-flex__item">
+              <div class="placeholder">状态:待评价</div>
+            </div>
+            <div class="weui-flex__item">
+              <div class="placeholder"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="weui-panel" tappable (click)="goToOrderDetail(4)">
+    <div class="weui-panel__bd">
+      <div class="weui-media-box weui-media-box_text">
+        <div class="weui-media-box__desc">
+          <div class="weui-flex">
+            <div class="weui-flex__item">
+              <div class="placeholder">货名:铁矿石</div>
+            </div>
+            <div class="weui-flex__item">
+              <div class="placeholder">货量:10000吨</div>
+            </div>
+          </div>
+          <div class="weui-flex weui-flex-margin-top">
+            <div class="weui-flex__item">
+              <div class="placeholder">起始地:北仑港</div>
+            </div>
+            <div class="weui-flex__item">
+              <div class="placeholder">目的地:张家港</div>
+            </div>
+          </div>
+          <div class="weui-flex weui-flex-margin-top">
+            <div class="weui-flex__item">
+              <div class="placeholder">状态:已关闭</div>
+            </div>
+            <div class="weui-flex__item">
+              <div class="placeholder"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,40 @@
+page-login {
+  @import "../../theme/weui.min";
+  //重写WeUi 修改开光按钮颜色
+  .weui-switch-cp__input:checked ~ .weui-switch-cp__box, .weui-switch:checked {
+    border-color: #1296db;
+    background-color: #1296db
+  }
+  //解决WeUI表单顶部间隙
+  .weui-cells_form{
+    margin-top: 0px;
+  }
+  //解决手机验证码表单高度不对齐
+  .weui-cell__ft{
+    height: 45px;
+    padding-top: 5px;
+  }
+  .quick-reg {
+    float: left;
+    //width: 50%;
+  }
+  .quick-reg h3 {
+    font-size: 14px;
+    text-align: left;
+  }
+  .forget-pas h3 {
+    font-size: 14px;
+    text-align: right;
+  }
+  .forget-pas {
+    float: right;
+    //width: 50%;
+  }
+  a {
+    //color: #333;
+    //text-align: center;
+    //margin-top: 5px;
+    display: block;
+    text-decoration: none;
+  }
+}

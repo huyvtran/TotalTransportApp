@@ -1,0 +1,8 @@
+page-create-commission {
+  @import "../../theme/weui.min";
+  //解决WeUI表单顶部间隙
+  .weui-cells_form{
+    margin-top: 0px;
+  }
+
+}

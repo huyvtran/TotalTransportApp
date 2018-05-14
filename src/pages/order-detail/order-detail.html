@@ -1,0 +1,186 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>订 单 详 情</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="container-div">
+  <div class="weui-cells__title weui-cells__title_order_no">订单编号：20180504</div>
+  <div class="weui-form-preview">
+    <div class="weui-form-preview__bd">
+      <p>
+        <label class="weui-form-preview__label">起始地</label>
+        <span class="weui-form-preview__value">北仑港</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">起始地</label>
+        <span class="weui-form-preview__value">张家港</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">一程船</label>
+        <span class="weui-form-preview__value weui-form-preview__value_ship" tappable
+              (click)="goToShipBaseInfo()">塔哈罗尔</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">航次</label>
+        <span class="weui-form-preview__value">1804</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">货名</label>
+        <span class="weui-form-preview__value">铁矿石粉</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">货量</label>
+        <span class="weui-form-preview__value">1000吨</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">运价</label>
+        <span class="weui-form-preview__value">¥34/吨</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">状态</label>
+        <span class="weui-form-preview__value" *ngIf="orderState == 1">执行中</span>
+        <span class="weui-form-preview__value" *ngIf="orderState == 2">待收货</span>
+        <span class="weui-form-preview__value" *ngIf="orderState == 3">待评价</span>
+        <span class="weui-form-preview__value" *ngIf="orderState == 4">已关闭</span>
+      </p>
+    </div>
+    <div class="weui-form-preview__ft" *ngIf="orderState == 2">
+      <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0)" tappable
+         (click)="confirmReceiving()">确 认 收 货</a>
+    </div>
+    <div class="weui-form-preview__ft" *ngIf="orderState == 3">
+      <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0)" tappable
+         (click)="goToOrderEvaluate()">评 价</a>
+    </div>
+  </div>
+
+
+  <div class="weui-cells__title weui-cells__title_order_no" text-center>物流任务详情</div>
+  <div class="weui-tab">
+    <div class="weui-navbar">
+      <div class="weui-navbar__item" [ngClass]="{'weui-bar__item_on': transportType == 'waterway'}" tappable
+           (click)="setTransportType('waterway')">
+        水路(1)
+      </div>
+      <div class="weui-navbar__item" [ngClass]="{'weui-bar__item_on': transportType == 'railway'}" tappable
+           (click)="setTransportType('railway')">
+        铁路(0)
+      </div>
+      <div class="weui-navbar__item" [ngClass]="{'weui-bar__item_on': transportType == 'highway'}" tappable
+           (click)="setTransportType('highway')">
+        公路(1)
+      </div>
+    </div>
+    <div class="weui-tab__panel">
+      <!-- 水路 -->
+      <div *ngIf="transportType == 'waterway'">
+        <div class="weui-panel">
+          <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack()">
+            <div class="weui-media-box weui-media-box_text">
+              <div class="weui-media-box__desc">
+                <div class="weui-flex">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货名:铁矿石</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货量:10000吨</div>
+                  </div>
+                </div>
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">船名:塔哈罗</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">航次:1804</div>
+                  </div>
+                </div>
+              </div>
+              <div class="weui-flex weui-flex-margin-top">
+                <div class="weui-flex__item">
+                  <div class="placeholder">起始地:北仑港</div>
+                </div>
+                <div class="weui-flex__item">
+                  <div class="placeholder">目的地:张家港</div>
+                </div>
+              </div>
+              <div class="weui-flex weui-flex-margin-top">
+                <div class="weui-flex__item">
+                  <div class="placeholder">状态:在途</div>
+                </div>
+                <!--<div class="weui-flex__item">-->
+                <!--<div class="placeholder"></div>-->
+                <!--</div>-->
+              </div>
+            </div>
+          </div>
+          <div class="weui-panel__ft">
+            <a href="javascript:void(0);" tappable (click)="goToLogisticsTaskAttachment()"
+               class="weui-cell weui-cell_access weui-cell_link">
+              <div class="weui-cell__bd">查 看 附 件</div>
+              <span class="weui-cell__ft"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 铁路 -->
+      <div *ngIf="transportType == 'railway'">
+
+      </div>
+      <!-- 公路 -->
+      <div *ngIf="transportType == 'highway'">
+        <div class="weui-panel">
+          <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack()">
+            <div class="weui-media-box weui-media-box_text">
+              <div class="weui-media-box__desc">
+                <div class="weui-flex">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货名:铁矿石</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">货量:10000吨</div>
+                  </div>
+                </div>
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder">船名:塔哈罗</div>
+                  </div>
+                  <div class="weui-flex__item">
+                    <div class="placeholder">航次:1804</div>
+                  </div>
+                </div>
+              </div>
+              <div class="weui-flex weui-flex-margin-top">
+                <div class="weui-flex__item">
+                  <div class="placeholder">起始地:北仑港</div>
+                </div>
+                <div class="weui-flex__item">
+                  <div class="placeholder">目的地:张家港</div>
+                </div>
+              </div>
+              <div class="weui-flex weui-flex-margin-top">
+                <div class="weui-flex__item">
+                  <div class="placeholder">状态:在途</div>
+                </div>
+                <!--<div class="weui-flex__item">-->
+                <!--<div class="placeholder"></div>-->
+                <!--</div>-->
+              </div>
+            </div>
+          </div>
+          <div class="weui-panel__ft">
+            <a href="javascript:void(0);" tappable (click)="goToLogisticsTaskAttachment()"
+               class="weui-cell weui-cell_access weui-cell_link">
+              <div class="weui-cell__bd">查 看 附 件</div>
+              <span class="weui-cell__ft"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

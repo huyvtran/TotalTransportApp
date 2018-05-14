@@ -1,0 +1,127 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="back-custom"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>发 起 委 托</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <div class="weui-cells weui-cells_form">
+    <div class="weui-cell weui-cell_select weui-cell_select-after">
+      <div class="weui-cell__hd">
+        <label class="weui-label">货类</label>
+      </div>
+      <div class="weui-cell__bd">
+        <select class="weui-select" [(ngModel)]="commission.cargoType">
+          <option value="1">散杂货</option>
+          <option value="2">集装箱</option>
+          <option value="3">原油</option>
+          <option value="4">化工油品</option>
+          <option value="5">铁矿石</option>
+          <option value="6">煤炭</option>
+        </select>
+      </div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__hd">
+        <label class="weui-label">货名</label>
+      </div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="text" [(ngModel)]="commission.cargoName" placeholder="请输入货名"/>
+      </div>
+    </div>
+
+    <div class="weui-cell weui-cell_select weui-cell_select-after">
+      <div class="weui-cell__hd">
+        <label class="weui-label">受载量</label>
+      </div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="number" pattern="[0-9]*" [(ngModel)]="commission.amount" placeholder="请输入受载量"/>
+      </div>
+      <div class="weui-cell__hd">
+        <select class="weui-select" [(ngModel)]="commission.unit">
+          <option value="1">吨</option>
+          <option value="2">克</option>
+          <option value="3">米</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label">受载日期</label></div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="date" [(ngModel)]="commission.startDate"/>
+      </div>
+    </div>
+
+    <div class="weui-cell">
+      <div class="weui-cell__hd">
+        <label class="weui-label">浮动天数</label>
+      </div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="number" [(ngModel)]="commission.floatDay" placeholder="请输入浮动天数"/>
+      </div>
+    </div>
+
+    <div class="weui-cell weui-cell_select weui-cell_select-after">
+      <div class="weui-cell__hd">
+        <label class="weui-label">目的地</label>
+      </div>
+      <div class="weui-cell__bd">
+        <select class="weui-select" [(ngModel)]="commission.startPlace">
+          <option value="1">宁波港</option>
+          <option value="2">北仑港</option>
+          <option value="3">张家港</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="weui-cell weui-cell_select weui-cell_select-after">
+      <div class="weui-cell__hd">
+        <label class="weui-label">始发地</label>
+      </div>
+      <div class="weui-cell__bd">
+        <select class="weui-select" [(ngModel)]="commission.endPlace">
+          <option value="1">宁波港</option>
+          <option value="2">北仑港</option>
+          <option value="3">张家港</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="weui-cell">
+      <div class="weui-cell__hd">
+        <label class="weui-label">联系人</label>
+      </div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="text" [(ngModel)]="commission.linkMan" placeholder="请输入联系人"/>
+      </div>
+    </div>
+
+    <div class="weui-cell">
+      <div class="weui-cell__hd">
+        <label class="weui-label">联系电话</label>
+      </div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="tel" [(ngModel)]="commission.linkPhone" placeholder="请输入联系电话"/>
+      </div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__bd">
+        <textarea class="weui-textarea" placeholder="请输入备注" [(ngModel)]="commission.content" rows="3"></textarea>
+        <div class="weui-textarea-counter"><span>{{commission.content.length}}</span>/200</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="weui-btn-area">
+    <button ion-button block (click)="submit()">
+      提&nbsp;&nbsp;&nbsp;&nbsp;交
+    </button>
+  </div>
+</ion-content>

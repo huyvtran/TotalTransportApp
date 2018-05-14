@@ -1,0 +1,34 @@
+page-contract-order {
+  @import "../../theme/weui.min";
+
+  .content-div{
+    background-color: #efeeee;
+  }
+
+  .weui-navbar__item:active {
+    background-color: #ededed;
+  }
+
+  .weui-navbar__item.weui-bar__item_on {
+    color: #ffffff;
+    background-color: #1e9bdd;
+  }
+
+  .weui-media-box__title {
+    font-size: 16px;
+  }
+
+  .weui-flex {
+    //color: #2d2d2d;
+    color: #1e9bdd;
+  }
+
+  .weui-flex-margin-top {
+    margin-top: 8px;
+  }
+
+  .weui-media-box__info__meta {
+    color: #2d2d2d;
+  }
+
+}

@@ -1,0 +1,48 @@
+page-logistics-task {
+  @import "../../theme/weui.min";
+
+  .content-div {
+    background-color: #efeeee;
+  }
+
+  .weui-navbar__item:active {
+    background-color: #ededed;
+  }
+
+  .weui-navbar__item.weui-bar__item_on {
+    color: #ffffff;
+    background-color: #1e9bdd;
+  }
+
+  .weui-flex {
+    color: #2d2d2d;
+    //color: #1e9bdd;
+  }
+
+  .weui-flex-margin-top {
+    margin-top: 8px;
+  }
+
+  .weui-flex-total-tips-title {
+    color: #ffffff;
+    background-color: #1e9bdd;
+    height: 60px;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: "Microsoft Yahei";
+    padding-top: 22px;
+    text-align: center;
+  }
+
+  .weui-flex-total-tips {
+    color: #ffffff;
+    background-color: #1e9bdd;
+    height: 60px;
+    font-size: 26px;
+    font-weight: bold;
+    font-family: "Microsoft Yahei";
+    padding-top: 5px;
+    text-align: center;
+  }
+
+}
