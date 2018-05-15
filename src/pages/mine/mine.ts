@@ -89,11 +89,15 @@ export class MinePage {
 
   }
 
-  goToModifyPhone(){
+  goToPersonInfo() {
+    this.navCtrl.push('person-info');
+  }
+
+  goToModifyPhone() {
     this.navCtrl.push('modify-phone');
   }
 
-  goToModifyPassword(){
+  goToModifyPassword() {
     this.navCtrl.push('modify-password');
   }
 

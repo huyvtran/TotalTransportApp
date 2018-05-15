@@ -29,12 +29,13 @@ import {JpushUtilProvider} from "../../providers/jpush-util/jpush-util";
 })
 export class HomePage {
 
-  //认证用户类型userType：1：客户端用户 2：货主用户 3：船方用户 4：船货代用户
-  //是否认证isApproved: 0:未认证 1:已认证
-
   private loginUser: any = {
-    userType: '2',
-    isApproved: '1'
+    id: null,
+    userName: '管理员',
+    //认证用户类型userType：1：客户端用户 2：货主用户 3：船方用户 4：船货代用户
+    userType: 2,
+    //是否认证isApproved: 0:未认证 1:已认证
+    isApproved: 0
   };
 
   constructor(public platform: Platform,
@@ -149,6 +150,15 @@ export class HomePage {
     }).catch(err => {
       console.log(err)
     });
+  }
+
+  ionViewDidEnter() {
+    this.initLoginUser();
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad HomePage');
+    // this.initLoginUser();
   }
 
   initLoginUser() {

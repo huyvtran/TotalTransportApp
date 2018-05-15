@@ -10,14 +10,15 @@ export class AppConfig {
 
   //使用的url
   public static getUrl() {
-    // return AppConfig.getDebugUrl();
-    return AppConfig.getProdUrl();
+    return AppConfig.getDebugUrl();
+    // return AppConfig.getProdUrl();
   }
 
   //测试环境URL
   public static getDebugUrl() {
-    // return "http://127.0.0.1:8086/cbosAppServer";
-    return "http://202.96.124.70:8886/cbosAppServer";
+    return "http://127.0.0.1:8086/cbosAppServer";
+    // return "http://10.1.1.87:8080/cbosAppServer";
+    // return "http://202.96.124.70:8886/cbosAppServer";
   }
 
   //生产环境URL

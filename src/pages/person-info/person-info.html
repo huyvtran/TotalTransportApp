@@ -1,0 +1,76 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>个 人 信 息</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label">账户</label></div>
+      <div class="weui-cell__bd">
+        {{loginUser.account}}
+        <!--<input class="weui-input" type="text" [(ngModel)]="userInfo.account" placeholder="请输入账户"/>-->
+      </div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label">昵称</label></div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="text" [(ngModel)]="loginUser.userName" placeholder="请输入昵称"/>
+      </div>
+    </div>
+    <div class="weui-cell weui-cell_select weui-cell_select-after">
+      <div class="weui-cell__hd">
+        <label class="weui-label">性别</label>
+      </div>
+      <div class="weui-cell__bd">
+        <select class="weui-select" [(ngModel)]="loginUser.sex">
+          <option>请选择</option>
+          <option value="0">男</option>
+          <option value="1">女</option>
+        </select>
+      </div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label">手机号</label></div>
+      <div class="weui-cell__bd">
+        {{loginUser.mobil}}
+        <!--<input class="weui-input" type="text" [(ngModel)]="userInfo.phone" placeholder=""/>-->
+      </div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label">邮箱</label></div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="text" [(ngModel)]="loginUser.mail" placeholder="请输入邮箱"/>
+      </div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label">单位</label></div>
+      <div class="weui-cell__bd">
+        {{loginUser.companyName?loginUser.companyName:'无'}}
+        <!--<input class="weui-input" type="text" [(ngModel)]="userInfo.phone" placeholder=""/>-->
+      </div>
+    </div>
+    <div class="weui-cell weui-cell_select weui-cell_select-after">
+      <div class="weui-cell__hd">
+        <label class="weui-label">部门</label>
+      </div>
+      <div class="weui-cell__bd">
+        <select class="weui-select" [(ngModel)]="loginUser.deptId">
+          <option value="">请选择</option>
+          <option *ngFor="let dept of sysDeptList" value="{{dept.id}}">{{dept.deptName}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <!--<div class="weui-cells__tips">注册用户仅可使用通用功能，若需体验全部功能请联系相关人员办理认证手续</div>-->
+
+  <div class="weui-btn-area">
+    <button ion-button block (click)="checkSubmit()">
+      保&nbsp;&nbsp;&nbsp;&nbsp;存
+    </button>
+  </div>
+</ion-content>

@@ -41,6 +41,72 @@ export class UserServiceProvider {
     });
   }
 
+  /**
+   * 验证账户是否存在
+   * @param account
+   * @returns {Promise<any>}
+   */
+  checkAccount(account) {
+    let url = AppConfig.getUrl() + '/app/user/checkAccount.do';
+    let params = {account: account};
+    return new Promise((resolve, reject) => {
+      this.http.post(url, this.toQueryString(params), this.options)
+        .map(res => res.json())
+        .subscribe(data => {
+          if (Boolean(data)) {
+            if (data.result == 'fail') {
+              reject(data.message);
+            } else {
+              let result = {
+                result: data.result,
+                message: data.message,
+                //库内是否已存在该账号 true存在 false不存在
+                isExist: data.isExist
+              };
+              resolve(result);
+            }
+          } else {
+            reject('服务器未响应');
+          }
+        }, err => {
+          console.log(err);
+          reject('服务器异常,请检查!');
+        })
+    });
+  }
+
+  userRegist(user) {
+    let url = AppConfig.getUrl() + '/app/user/userRegist.do';
+    let params = {
+      account: user.account,
+      password: user.password,
+      userName: user.nickname,
+      mobil: user.phone
+    };
+    return new Promise((resolve, reject) => {
+      this.http.post(url, this.toQueryString(params), this.options)
+        .map(res => res.json())
+        .subscribe(data => {
+          if (Boolean(data)) {
+            if (data.result == 'fail') {
+              reject(data.message);
+            } else {
+              let result = {
+                result: data.result,
+                message: data.message
+              };
+              resolve(result);
+            }
+          } else {
+            reject('服务器未响应');
+          }
+        }, err => {
+          console.log(err);
+          reject('服务器异常,请检查!');
+        })
+    });
+  }
+
   //修改密码
   updatePassword(userId, oldPassword, newPassword) {
     let url = AppConfig.getUrl() + '/app/user/updatePassword.do';
@@ -54,6 +120,88 @@ export class UserServiceProvider {
               resolve(data);
             } else {
               reject(data.message);
+            }
+          } else {
+            reject('服务器未响应');
+          }
+        }, err => {
+          console.log(err);
+          reject('服务器异常,请检查!');
+        })
+    });
+  }
+
+  getUserByMobile(phone) {
+    let url = AppConfig.getUrl() + '/app/user/getUserByMobile.do';
+    let params = {phone: phone};
+    return new Promise((resolve, reject) => {
+      this.http.post(url, this.toQueryString(params), this.options)
+        .map(res => res.json())
+        .subscribe(data => {
+          if (Boolean(data)) {
+            if (data.result == 'fail') {
+              reject(data.message);
+            } else {
+              let result = {
+                result: data.result,
+                message: data.message,
+                user: data.user
+              };
+              resolve(result);
+            }
+          } else {
+            reject('服务器未响应');
+          }
+        }, err => {
+          console.log(err);
+          reject('服务器异常,请检查!');
+        })
+    });
+  }
+
+  resetPwd(userId, password) {
+    let url = AppConfig.getUrl() + '/app/user/passwordSet.do';
+    let params = {userId: userId, newPassword: password};
+    return new Promise((resolve, reject) => {
+      this.http.post(url, this.toQueryString(params), this.options)
+        .map(res => res.json())
+        .subscribe(data => {
+          if (Boolean(data)) {
+            if (data.result == 'fail') {
+              reject(data.message);
+            } else {
+              let result = {
+                result: data.result,
+                message: data.message
+              };
+              resolve(result);
+            }
+          } else {
+            reject('服务器未响应');
+          }
+        }, err => {
+          console.log(err);
+          reject('服务器异常,请检查!');
+        })
+    });
+  }
+
+  updatePhone(userId, phone) {
+    let url = AppConfig.getUrl() + '/app/user/updatePhone.do';
+    let params = {userId: userId, mobil: phone};
+    return new Promise((resolve, reject) => {
+      this.http.post(url, this.toQueryString(params), this.options)
+        .map(res => res.json())
+        .subscribe(data => {
+          if (Boolean(data)) {
+            if (data.result == 'fail') {
+              reject(data.message);
+            } else {
+              let result = {
+                result: data.result,
+                message: data.message
+              };
+              resolve(result);
             }
           } else {
             reject('服务器未响应');

@@ -25,7 +25,7 @@
       </div>
       <div class="weui-cell__ft">
         <button ion-button small style="border-radius: 10px;" [disabled]="!verifyCode.disable"
-                (click)="getPhoneAuthCode()">
+                (click)="checkPhone('authCode')">
           {{verifyCode.verifyCodeTips}}
         </button>
       </div>
@@ -58,7 +58,7 @@
   <div class="weui-cells__tips">注册用户仅可使用通用功能，若需体验全部功能请联系相关人员办理认证手续</div>
 
   <div class="weui-btn-area">
-    <button ion-button block (click)="regist()">
+    <button ion-button block (click)="checkAccount()">
       提&nbsp;&nbsp;&nbsp;&nbsp;交
     </button>
   </div>

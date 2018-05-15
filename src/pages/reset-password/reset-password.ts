@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {App, LoadingController, AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {UserServiceProvider} from "../../providers/user-service/user-service";
 
 /**
  * 重置密码
@@ -12,18 +13,20 @@ import {App, LoadingController, AlertController, IonicPage, NavController, NavPa
 @Component({
   selector: 'page-reset-password',
   templateUrl: 'reset-password.html',
+  providers: [UserServiceProvider]
 })
 export class ResetPasswordPage {
 
   private confirmPwd: any = '';
 
   private userInfo: any = {
-    account: 'admin',
+    userId: null,
     password: ''
   };
 
   constructor(public navCtrl: NavController,
               public app: App,
+              public userService: UserServiceProvider,
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
               public navParams: NavParams) {
@@ -31,10 +34,16 @@ export class ResetPasswordPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ResetPasswordPage');
+    this.userInfo.userId = this.navParams.get('userId');
   }
 
   /*验证*/
   checkSubmit() {
+
+    if (!Boolean(this.userInfo.userId)) {
+      this.alertTips('用户ID为空！');
+      return false;
+    }
 
     if (!Boolean(this.userInfo.password)) {
       this.alertTips('请输入密码！');
@@ -70,7 +79,8 @@ export class ResetPasswordPage {
     });
     loader.present();
 
-    setTimeout(() => {
+    this.userService.resetPwd(this.userInfo.userId, this.userInfo.password).then(data => {
+      console.log(data);
       loader.dismissAll();
       let alert = this.alertCtrl.create({
         title: '提示',
@@ -82,8 +92,28 @@ export class ResetPasswordPage {
         // this.navCtrl.push('login');
         this.app.getRootNav().setRoot('login');
       });
+    }, err => {
+      console.log(err);
+      loader.dismissAll();
+    }).catch(err => {
+      console.log(err);
+      loader.dismissAll();
+    });
 
-    }, 1000);
+    // setTimeout(() => {
+    //   loader.dismissAll();
+    //   let alert = this.alertCtrl.create({
+    //     title: '提示',
+    //     subTitle: '恭喜你，密码设置成功,请重新登录！',
+    //     buttons: ['确定']
+    //   });
+    //   alert.present();
+    //   alert.onDidDismiss(() => {
+    //     // this.navCtrl.push('login');
+    //     this.app.getRootNav().setRoot('login');
+    //   });
+    //
+    // }, 1000);
 
   }
 

@@ -62,29 +62,29 @@ export class LoginPage {
     });
     loader.present();
 
-    setTimeout(() => {
-      this.storageService.write(AppConfig.LOGIN_USER_NAME, {
-        username: 'admin',
-        password: '123456'
-      });
-      loader.dismissAll();
-      this.app.getRootNav().setRoot('tabs');
-      // this.navCtrl.push('tabs');
-    }, 1500);
-
-    // this.userService.login(this.userInfo.account, this.userInfo.password).then(data => {
-    //   console.log(data);
+    // setTimeout(() => {
+    //   this.storageService.write(AppConfig.LOGIN_USER_NAME, {
+    //     username: 'admin',
+    //     password: '123456'
+    //   });
     //   loader.dismissAll();
-    //   this.resultData = data;
-    //   this.storageService.write(AppConfig.LOGIN_USER_NAME, this.resultData.sysUser);
     //   this.app.getRootNav().setRoot('tabs');
-    // }, err => {
-    //   loader.dismissAll();
-    //   this.alertTips(err);
-    // }).catch(err => {
-    //   loader.dismissAll();
-    //   this.alertTips(err);
-    // });
+    //   // this.navCtrl.push('tabs');
+    // }, 1500);
+
+    this.userService.login(this.userInfo.account, this.userInfo.password).then(data => {
+      console.log(data);
+      loader.dismissAll();
+      this.resultData = data;
+      this.storageService.write(AppConfig.LOGIN_USER_NAME, this.resultData.sysUser);
+      this.app.getRootNav().setRoot('tabs');
+    }, err => {
+      loader.dismissAll();
+      this.alertTips(err);
+    }).catch(err => {
+      loader.dismissAll();
+      this.alertTips(err);
+    });
 
   }
 
