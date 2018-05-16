@@ -11,357 +11,259 @@
 
 
 <ion-content class="container-div">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="松开刷新"
+      refreshingSpinner="circles"
+      refreshingText="刷新中...">
+    </ion-refresher-content>
+  </ion-refresher>
   <div class="weui-tab">
     <div class="weui-navbar">
       <div class="weui-navbar__item" [ngClass]="{'weui-bar__item_on': commissionState == 2}" tappable
            (click)="setCommissionState(2)">
-        已受理(1)
+        已受理({{acceptPager.totalCount}})
       </div>
       <div class="weui-navbar__item" [ngClass]="{'weui-bar__item_on': commissionState == 3}" tappable
            (click)="setCommissionState(3)">
-        退回(1)
+        退回({{backPager.totalCount}})
       </div>
       <div class="weui-navbar__item" [ngClass]="{'weui-bar__item_on': commissionState == 4}" tappable
            (click)="setCommissionState(4)">
-        已发布(1)
+        已发布({{releasePager.totalCount}})
       </div>
       <div class="weui-navbar__item" [ngClass]="{'weui-bar__item_on': commissionState == 0}" tappable
            (click)="setCommissionState(0)">
-        所有(5)
+        所有({{allPager.totalCount}})
       </div>
     </div>
     <div class="weui-tab__panel">
       <!-- 已受理 -->
       <div *ngIf="commissionState == 2">
-        <div class="weui-panel">
-          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail()">
+        <div class="weui-panel" *ngFor="let commission of acceptCommissionList">
+          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail(commission.id)">
             <div class="weui-media-box weui-media-box_text">
               <div class="weui-media-box__desc">
                 <div class="weui-flex">
                   <div class="weui-flex__item">
-                    <div class="placeholder">货名:铁矿石</div>
+                    <div class="placeholder">货名:{{commission.cargoName}}</div>
                   </div>
                   <div class="weui-flex__item">
-                    <div class="placeholder">货量:10000吨</div>
+                    <div class="placeholder">货量:{{commission.amount|number:'1.0-2'}}{{commission.unitStr}}</div>
                   </div>
                 </div>
                 <div class="weui-flex weui-flex-margin-top">
                   <div class="weui-flex__item">
-                    <div class="placeholder">起始地:北仑港</div>
+                    <div class="placeholder">起始地:{{commission.startPlaceStr}}</div>
                   </div>
                   <div class="weui-flex__item">
-                    <div class="placeholder">目的地:张家港</div>
+                    <div class="placeholder">目的地:{{commission.endPlaceStr}}</div>
                   </div>
                 </div>
                 <div class="weui-flex weui-flex-margin-top">
                   <div class="weui-flex__item">
-                    <div class="placeholder">货类:矿石</div>
+                    <div class="placeholder">货类:{{commission.cargoTypeStr}}</div>
                   </div>
                   <div class="weui-flex__item">
-                    <div class="placeholder">创建日期:2018.05.10</div>
+                    <div class="placeholder">创建日期:{{commission.createTime|date:'yyyy.MM.dd'}}</div>
                   </div>
                 </div>
-              </div>
-              <div class="weui-flex weui-flex-margin-top">
-                <div class="weui-flex__item">
-                  <div class="placeholder">状态:已受理</div>
+
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder" *ngIf="commission.state == 1">状态：待受理</div>
+                    <div class="placeholder" *ngIf="commission.state == 2">状态：已受理</div>
+                    <div class="placeholder" *ngIf="commission.state == 3">状态：退回</div>
+                    <div class="placeholder" *ngIf="commission.state == 4">状态：已发布</div>
+                    <div class="placeholder" *ngIf="commission.state == 5">状态：已生成订单</div>
+                  </div>
+                  <!--<div class="weui-flex__item">-->
+                  <!--<div class="placeholder"></div>-->
+                  <!--</div>-->
                 </div>
-                <!--<div class="weui-flex__item">-->
-                <!--<div class="placeholder"></div>-->
-                <!--</div>-->
               </div>
             </div>
           </div>
         </div>
+        <div class="weui-msg__extra-area" *ngIf="acceptPager.currPageNo == acceptPager.totalPageCount">
+          <div class="weui-footer">
+            <p class="weui-footer__text">---- 到底了 ----</p>
+          </div>
+        </div>
+        <ion-infinite-scroll *ngIf="acceptPager.currPageNo < acceptPager.totalPageCount"
+                             (ionInfinite)="doInfinite($event)">
+          <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
       </div>
       <!-- 退回 -->
       <div *ngIf="commissionState == 3">
-        <div class="weui-panel">
-          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail()">
+        <div class="weui-panel" *ngFor="let commission of backCommissionList">
+          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail(commission.id)">
             <div class="weui-media-box weui-media-box_text">
               <div class="weui-media-box__desc">
                 <div class="weui-flex">
                   <div class="weui-flex__item">
-                    <div class="placeholder">货名:铁矿石</div>
+                    <div class="placeholder">货名:{{commission.cargoName}}</div>
                   </div>
                   <div class="weui-flex__item">
-                    <div class="placeholder">货量:10000吨</div>
+                    <div class="placeholder">货量:{{commission.amount|number:'1.0-2'}}{{commission.unitStr}}</div>
                   </div>
                 </div>
                 <div class="weui-flex weui-flex-margin-top">
                   <div class="weui-flex__item">
-                    <div class="placeholder">起始地:北仑港</div>
+                    <div class="placeholder">起始地:{{commission.startPlaceStr}}</div>
                   </div>
                   <div class="weui-flex__item">
-                    <div class="placeholder">目的地:张家港</div>
+                    <div class="placeholder">目的地:{{commission.endPlaceStr}}</div>
                   </div>
                 </div>
                 <div class="weui-flex weui-flex-margin-top">
                   <div class="weui-flex__item">
-                    <div class="placeholder">货类:矿石</div>
+                    <div class="placeholder">货类:{{commission.cargoTypeStr}}</div>
                   </div>
                   <div class="weui-flex__item">
-                    <div class="placeholder">创建日期:2018.05.10</div>
+                    <div class="placeholder">创建日期:{{commission.createTime|date:'yyyy.MM.dd'}}</div>
                   </div>
                 </div>
-              </div>
-              <div class="weui-flex weui-flex-margin-top">
-                <div class="weui-flex__item">
-                  <div class="placeholder">状态:退回</div>
+
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder" *ngIf="commission.state == 1">状态：待受理</div>
+                    <div class="placeholder" *ngIf="commission.state == 2">状态：已受理</div>
+                    <div class="placeholder" *ngIf="commission.state == 3">状态：退回</div>
+                    <div class="placeholder" *ngIf="commission.state == 4">状态：已发布</div>
+                    <div class="placeholder" *ngIf="commission.state == 5">状态：已生成订单</div>
+                  </div>
+                  <!--<div class="weui-flex__item">-->
+                  <!--<div class="placeholder"></div>-->
+                  <!--</div>-->
                 </div>
-                <!--<div class="weui-flex__item">-->
-                <!--<div class="placeholder"></div>-->
-                <!--</div>-->
               </div>
             </div>
           </div>
         </div>
+        <div class="weui-msg__extra-area" *ngIf="backPager.currPageNo == backPager.totalPageCount">
+          <div class="weui-footer">
+            <p class="weui-footer__text">---- 到底了 ----</p>
+          </div>
+        </div>
+        <ion-infinite-scroll *ngIf="backPager.currPageNo < backPager.totalPageCount" (ionInfinite)="doInfinite($event)">
+          <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
       </div>
       <!-- 已发布 -->
       <div *ngIf="commissionState == 4">
-        <div class="weui-panel">
-          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail()">
+        <div class="weui-panel" *ngFor="let commission of releaseCommissionList">
+          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail(commission.id)">
             <div class="weui-media-box weui-media-box_text">
               <div class="weui-media-box__desc">
                 <div class="weui-flex">
                   <div class="weui-flex__item">
-                    <div class="placeholder">货名:铁矿石</div>
+                    <div class="placeholder">货名:{{commission.cargoName}}</div>
                   </div>
                   <div class="weui-flex__item">
-                    <div class="placeholder">货量:10000吨</div>
+                    <div class="placeholder">货量:{{commission.amount|number:'1.0-2'}}{{commission.unitStr}}</div>
                   </div>
                 </div>
                 <div class="weui-flex weui-flex-margin-top">
                   <div class="weui-flex__item">
-                    <div class="placeholder">起始地:北仑港</div>
+                    <div class="placeholder">起始地:{{commission.startPlaceStr}}</div>
                   </div>
                   <div class="weui-flex__item">
-                    <div class="placeholder">目的地:张家港</div>
+                    <div class="placeholder">目的地:{{commission.endPlaceStr}}</div>
                   </div>
                 </div>
                 <div class="weui-flex weui-flex-margin-top">
                   <div class="weui-flex__item">
-                    <div class="placeholder">货类:矿石</div>
+                    <div class="placeholder">货类:{{commission.cargoTypeStr}}</div>
                   </div>
                   <div class="weui-flex__item">
-                    <div class="placeholder">创建日期:2018.05.10</div>
+                    <div class="placeholder">创建日期:{{commission.createTime|date:'yyyy.MM.dd'}}</div>
                   </div>
                 </div>
-              </div>
-              <div class="weui-flex weui-flex-margin-top">
-                <div class="weui-flex__item">
-                  <div class="placeholder">状态:已发布</div>
+
+                <div class="weui-flex weui-flex-margin-top">
+                  <div class="weui-flex__item">
+                    <div class="placeholder" *ngIf="commission.state == 1">状态：待受理</div>
+                    <div class="placeholder" *ngIf="commission.state == 2">状态：已受理</div>
+                    <div class="placeholder" *ngIf="commission.state == 3">状态：退回</div>
+                    <div class="placeholder" *ngIf="commission.state == 4">状态：已发布</div>
+                    <div class="placeholder" *ngIf="commission.state == 5">状态：已生成订单</div>
+                  </div>
+                  <!--<div class="weui-flex__item">-->
+                  <!--<div class="placeholder"></div>-->
+                  <!--</div>-->
                 </div>
-                <!--<div class="weui-flex__item">-->
-                <!--<div class="placeholder"></div>-->
-                <!--</div>-->
               </div>
             </div>
           </div>
         </div>
+        <div class="weui-msg__extra-area" *ngIf="releasePager.currPageNo == releasePager.totalPageCount">
+          <div class="weui-footer">
+            <p class="weui-footer__text">---- 到底了 ----</p>
+          </div>
+        </div>
+        <ion-infinite-scroll *ngIf="releasePager.currPageNo < releasePager.totalPageCount"
+                             (ionInfinite)="doInfinite($event)">
+          <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
       </div>
       <!-- 所有 -->
       <div *ngIf="commissionState == 0">
-        <div class="weui-panel">
-          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail()">
+        <div class="weui-panel" *ngFor="let commission of allCommissionList">
+          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail(commission.id)">
             <div class="weui-media-box weui-media-box_text">
               <div class="weui-media-box__desc">
                 <div class="weui-flex">
                   <div class="weui-flex__item">
-                    <div class="placeholder">货名:铁矿石</div>
+                    <div class="placeholder">货名:{{commission.cargoName}}</div>
                   </div>
                   <div class="weui-flex__item">
-                    <div class="placeholder">货量:10000吨</div>
+                    <div class="placeholder">货量:{{commission.amount|number:'1.0-2'}}{{commission.unitStr}}</div>
                   </div>
                 </div>
                 <div class="weui-flex weui-flex-margin-top">
                   <div class="weui-flex__item">
-                    <div class="placeholder">起始地:北仑港</div>
+                    <div class="placeholder">起始地:{{commission.startPlaceStr}}</div>
                   </div>
                   <div class="weui-flex__item">
-                    <div class="placeholder">目的地:张家港</div>
+                    <div class="placeholder">目的地:{{commission.endPlaceStr}}</div>
                   </div>
                 </div>
                 <div class="weui-flex weui-flex-margin-top">
                   <div class="weui-flex__item">
-                    <div class="placeholder">货类:矿石</div>
+                    <div class="placeholder">货类:{{commission.cargoTypeStr}}</div>
                   </div>
                   <div class="weui-flex__item">
-                    <div class="placeholder">创建日期:2018.05.10</div>
+                    <div class="placeholder">创建日期:{{commission.createTime|date:'yyyy.MM.dd'}}</div>
                   </div>
                 </div>
-              </div>
-              <div class="weui-flex weui-flex-margin-top">
-                <div class="weui-flex__item">
-                  <div class="placeholder">状态:待受理</div>
-                </div>
-                <!--<div class="weui-flex__item">-->
-                <!--<div class="placeholder"></div>-->
-                <!--</div>-->
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="weui-panel">
-          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail()">
-            <div class="weui-media-box weui-media-box_text">
-              <div class="weui-media-box__desc">
-                <div class="weui-flex">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货名:铁矿石</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货量:10000吨</div>
-                  </div>
-                </div>
+
                 <div class="weui-flex weui-flex-margin-top">
                   <div class="weui-flex__item">
-                    <div class="placeholder">起始地:北仑港</div>
+                    <div class="placeholder" *ngIf="commission.state == 1">状态：待受理</div>
+                    <div class="placeholder" *ngIf="commission.state == 2">状态：已受理</div>
+                    <div class="placeholder" *ngIf="commission.state == 3">状态：退回</div>
+                    <div class="placeholder" *ngIf="commission.state == 4">状态：已发布</div>
+                    <div class="placeholder" *ngIf="commission.state == 5">状态：已生成订单</div>
                   </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">目的地:张家港</div>
-                  </div>
+                  <!--<div class="weui-flex__item">-->
+                  <!--<div class="placeholder"></div>-->
+                  <!--</div>-->
                 </div>
-                <div class="weui-flex weui-flex-margin-top">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货类:矿石</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">创建日期:2018.05.10</div>
-                  </div>
-                </div>
-              </div>
-              <div class="weui-flex weui-flex-margin-top">
-                <div class="weui-flex__item">
-                  <div class="placeholder">状态:已受理</div>
-                </div>
-                <!--<div class="weui-flex__item">-->
-                <!--<div class="placeholder"></div>-->
-                <!--</div>-->
               </div>
             </div>
           </div>
         </div>
-        <div class="weui-panel">
-          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail()">
-            <div class="weui-media-box weui-media-box_text">
-              <div class="weui-media-box__desc">
-                <div class="weui-flex">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货名:铁矿石</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货量:10000吨</div>
-                  </div>
-                </div>
-                <div class="weui-flex weui-flex-margin-top">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">起始地:北仑港</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">目的地:张家港</div>
-                  </div>
-                </div>
-                <div class="weui-flex weui-flex-margin-top">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货类:矿石</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">创建日期:2018.05.10</div>
-                  </div>
-                </div>
-              </div>
-              <div class="weui-flex weui-flex-margin-top">
-                <div class="weui-flex__item">
-                  <div class="placeholder">状态:退回</div>
-                </div>
-                <!--<div class="weui-flex__item">-->
-                <!--<div class="placeholder"></div>-->
-                <!--</div>-->
-              </div>
-            </div>
+        <div class="weui-msg__extra-area" *ngIf="allPager.currPageNo == allPager.totalPageCount">
+          <div class="weui-footer">
+            <p class="weui-footer__text">---- 到底了 ----</p>
           </div>
         </div>
-        <div class="weui-panel">
-          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail()">
-            <div class="weui-media-box weui-media-box_text">
-              <div class="weui-media-box__desc">
-                <div class="weui-flex">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货名:铁矿石</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货量:10000吨</div>
-                  </div>
-                </div>
-                <div class="weui-flex weui-flex-margin-top">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">起始地:北仑港</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">目的地:张家港</div>
-                  </div>
-                </div>
-                <div class="weui-flex weui-flex-margin-top">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货类:矿石</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">创建日期:2018.05.10</div>
-                  </div>
-                </div>
-              </div>
-              <div class="weui-flex weui-flex-margin-top">
-                <div class="weui-flex__item">
-                  <div class="placeholder">状态:已发布</div>
-                </div>
-                <!--<div class="weui-flex__item">-->
-                <!--<div class="placeholder"></div>-->
-                <!--</div>-->
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="weui-panel">
-          <div class="weui-panel__bd" tappable (click)="goToCommissionDetail()">
-            <div class="weui-media-box weui-media-box_text">
-              <div class="weui-media-box__desc">
-                <div class="weui-flex">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货名:铁矿石</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货量:10000吨</div>
-                  </div>
-                </div>
-                <div class="weui-flex weui-flex-margin-top">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">起始地:北仑港</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">目的地:张家港</div>
-                  </div>
-                </div>
-                <div class="weui-flex weui-flex-margin-top">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货类:矿石</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">创建日期:2018.05.10</div>
-                  </div>
-                </div>
-              </div>
-              <div class="weui-flex weui-flex-margin-top">
-                <div class="weui-flex__item">
-                  <div class="placeholder">状态:已生成订单</div>
-                </div>
-                <!--<div class="weui-flex__item">-->
-                <!--<div class="placeholder"></div>-->
-                <!--</div>-->
-              </div>
-            </div>
-          </div>
-        </div>
+        <ion-infinite-scroll *ngIf="allPager.currPageNo < allPager.totalPageCount" (ionInfinite)="doInfinite($event)">
+          <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
       </div>
     </div>
   </div>

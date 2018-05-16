@@ -8,52 +8,53 @@
 
 
 <ion-content class="content-div">
-  <div class="weui-cells__title weui-cells__title_contract_no">委托单号：W20180504123022</div>
+  <div class="weui-cells__title weui-cells__title_contract_no">委托单号：{{commission.delegationNo}}</div>
   <div class="weui-form-preview">
     <div class="weui-form-preview__bd">
       <p>
         <label class="weui-form-preview__label">流向</label>
-        <span class="weui-form-preview__value">北仑港 - 张家港</span>
+        <span class="weui-form-preview__value">{{commission.startPlaceStr}} - {{commission.endPlaceStr}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">货类</label>
-        <span class="weui-form-preview__value">铁矿石</span>
+        <span class="weui-form-preview__value">{{commission.cargoTypeStr}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">货名</label>
-        <span class="weui-form-preview__value">PB粉</span>
+        <span class="weui-form-preview__value">{{commission.cargoName}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">受载量</label>
-        <span class="weui-form-preview__value">1000吨</span>
-      </p>
-      <p>
-        <label class="weui-form-preview__label">浮动天数</label>
-        <span class="weui-form-preview__value">2天</span>
+        <span class="weui-form-preview__value">{{commission.amount}}{{commission.unitStr}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">联系人</label>
-        <span class="weui-form-preview__value">张经理</span>
+        <span class="weui-form-preview__value">{{commission.linkMan}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">联系电话</label>
-        <span class="weui-form-preview__value">18846421209</span>
+        <span class="weui-form-preview__value">{{commission.linkPhone}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">受载日期</label>
-        <span class="weui-form-preview__value">2018.05.05</span>
+        <span
+          class="weui-form-preview__value">{{commission.startDate|date:'yyyy.MM.dd'}} ± {{commission.floatDay}}天</span>
       </p>
       <p>
         <label class="weui-form-preview__label">创建日期</label>
-        <span class="weui-form-preview__value">2018.05.01</span>
+        <span class="weui-form-preview__value">{{commission.createTime|date:'yyyy.MM.dd'}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">状态</label>
-        <span class="weui-form-preview__value">已受理</span>
+        <span *ngIf="commission.state == 1" class="weui-form-preview__value">待受理</span>
+        <span *ngIf="commission.state == 2" class="weui-form-preview__value">已受理</span>
+        <span *ngIf="commission.state == 3" class="weui-form-preview__value">退回</span>
+        <span *ngIf="commission.state == 4" class="weui-form-preview__value">已发布</span>
+        <span *ngIf="commission.state == 5" class="weui-form-preview__value">已生成订单</span>
       </p>
       <p>
         <label class="weui-form-preview__label">备注</label>
-        <span class="weui-form-preview__value">无</span>
+        <span class="weui-form-preview__value">{{commission.content?commission.content:'无'}}</span>
       </p>
     </div>
   </div>

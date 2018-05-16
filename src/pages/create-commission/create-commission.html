@@ -18,12 +18,10 @@
       </div>
       <div class="weui-cell__bd">
         <select class="weui-select" [(ngModel)]="commission.cargoType">
-          <option value="1">散杂货</option>
-          <option value="2">集装箱</option>
-          <option value="3">原油</option>
-          <option value="4">化工油品</option>
-          <option value="5">铁矿石</option>
-          <option value="6">煤炭</option>
+          <option value="">请选择</option>
+          <option *ngFor="let baseCargoType of baseCargoTypeList" value="{{baseCargoType.typeId}}">
+            {{baseCargoType.cargoTypeCname}}
+          </option>
         </select>
       </div>
     </div>
@@ -45,9 +43,8 @@
       </div>
       <div class="weui-cell__hd">
         <select class="weui-select" [(ngModel)]="commission.unit">
-          <option value="1">吨</option>
-          <option value="2">克</option>
-          <option value="3">米</option>
+          <option value="">请选择</option>
+          <option *ngFor="let unit of baseItemUnitList" value="{{unit.itemNo}}">{{unit.itemName}}</option>
         </select>
       </div>
     </div>
@@ -70,26 +67,26 @@
 
     <div class="weui-cell weui-cell_select weui-cell_select-after">
       <div class="weui-cell__hd">
-        <label class="weui-label">目的地</label>
+        <label class="weui-label">起始地</label>
       </div>
       <div class="weui-cell__bd">
         <select class="weui-select" [(ngModel)]="commission.startPlace">
-          <option value="1">宁波港</option>
-          <option value="2">北仑港</option>
-          <option value="3">张家港</option>
+          <option value="">请选择</option>
+          <option *ngFor="let basePlace of basePlaceList" value="{{basePlace.placeId}}">{{basePlace.placeCname}}
+          </option>
         </select>
       </div>
     </div>
 
     <div class="weui-cell weui-cell_select weui-cell_select-after">
       <div class="weui-cell__hd">
-        <label class="weui-label">始发地</label>
+        <label class="weui-label">目的地</label>
       </div>
       <div class="weui-cell__bd">
         <select class="weui-select" [(ngModel)]="commission.endPlace">
-          <option value="1">宁波港</option>
-          <option value="2">北仑港</option>
-          <option value="3">张家港</option>
+          <option value="">请选择</option>
+          <option *ngFor="let basePlace of basePlaceList" value="{{basePlace.placeId}}">{{basePlace.placeCname}}
+          </option>
         </select>
       </div>
     </div>

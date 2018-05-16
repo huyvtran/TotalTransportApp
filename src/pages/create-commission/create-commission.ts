@@ -8,6 +8,10 @@ import {
   NavController,
   NavParams
 } from 'ionic-angular';
+import {BaseServiceProvider} from "../../providers/base-service/base-service";
+import {CommissionServiceProvider} from "../../providers/commission-service/commission-service";
+import {StorageServiceProvider} from "../../providers/storage-service/storage-service";
+import {AppConfig} from "../../app/app.config";
 
 /**
  * 发起委托
@@ -20,18 +24,19 @@ import {
 @Component({
   selector: 'page-create-commission',
   templateUrl: 'create-commission.html',
+  providers: [BaseServiceProvider, CommissionServiceProvider, StorageServiceProvider]
 })
 export class CreateCommissionPage {
 
   private commission: any = {
-    cargoType: '1',
+    cargoType: '',
     cargoName: '',
     amount: '',
-    unit: '1',
+    unit: '',
     startDate: this.formatDate(new Date()),
     floatDay: '',
-    startPlace: '1',
-    endPlace: '3',
+    startPlace: '',
+    endPlace: '',
     linkMan: '',
     linkPhone: '',
     creator: '',
@@ -40,8 +45,21 @@ export class CreateCommissionPage {
     state: ''
   };
 
+  private loginUser: any = {};
+
+  private resultData: any = {};
+
+  private baseCargoTypeList = [];
+
+  private basePlaceList = [];
+
+  private baseItemUnitList = [];
+
   constructor(public navCtrl: NavController,
               public app: App,
+              public storageService: StorageServiceProvider,
+              public baseService: BaseServiceProvider,
+              public commissionService: CommissionServiceProvider,
               public viewCtrl: ViewController,
               public alertCtrl: AlertController,
               public loadingCtrl: LoadingController,
@@ -51,6 +69,52 @@ export class CreateCommissionPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CreateCommissionPage');
+    this.initLoginUser();
+    this.initBaseCargoTypeList();
+    this.initBaseItemUnitList();
+    this.initBasePlaceList();
+  }
+
+  initLoginUser() {
+    this.loginUser = this.storageService.read(AppConfig.LOGIN_USER_NAME);
+    console.log(this.loginUser);
+    if (Boolean(this.loginUser)) {
+      this.commission.creator = this.loginUser.id;
+      this.commission.linkMan = this.loginUser.userName;
+      this.commission.linkPhone = this.loginUser.mobil;
+      this.commission.clientId = this.loginUser.company;
+    }
+  }
+
+
+  initBasePlaceList() {
+    this.baseService.getBasePlaceList().then(data => {
+      console.log(data);
+      this.resultData = data;
+      this.basePlaceList = this.resultData.basePlaceList;
+    }, err => {
+      console.log(err);
+    });
+  }
+
+  initBaseItemUnitList() {
+    this.baseService.getBaseItemListByUnit().then(data => {
+      console.log(data);
+      this.resultData = data;
+      this.baseItemUnitList = this.resultData.baseItemList;
+    }, err => {
+      console.log(err);
+    });
+  }
+
+  initBaseCargoTypeList() {
+    this.baseService.getBaseCargoTypeList().then(data => {
+      console.log(data);
+      this.resultData = data;
+      this.baseCargoTypeList = this.resultData.baseCargoTypeList;
+    }, err => {
+      console.log(err);
+    });
   }
 
   back() {
@@ -149,19 +213,38 @@ export class CreateCommissionPage {
     });
     loader.present();
 
-    setTimeout(() => {
+    this.commissionService.addBusinessDelegation(this.commission).then(data => {
       loader.dismissAll();
       let alert = this.alertCtrl.create({
         title: '提示',
-        subTitle: '恭喜你，提交成功!',
+        subTitle: '提交成功!',
         buttons: ['确定']
       });
       alert.present();
       alert.onDidDismiss(() => {
         this.viewCtrl.dismiss({refresh: true});
       });
+    }, err => {
+      loader.dismissAll();
+      this.alertTips(err);
+    }).catch(err => {
+      loader.dismissAll();
+      this.alertTips(err);
+    });
 
-    }, 1000);
+    // setTimeout(() => {
+    //   loader.dismissAll();
+    //   let alert = this.alertCtrl.create({
+    //     title: '提示',
+    //     subTitle: '恭喜你，提交成功!',
+    //     buttons: ['确定']
+    //   });
+    //   alert.present();
+    //   alert.onDidDismiss(() => {
+    //     this.viewCtrl.dismiss({refresh: true});
+    //   });
+    //
+    // }, 1000);
 
   }
 
