@@ -165,9 +165,13 @@ export class HomePage {
     this.loginUser = this.storageService.read(AppConfig.LOGIN_USER_NAME);
   }
 
-  goToNoticeList() {
-    this.navCtrl.push('notice-list');
+  goToNotice() {
+    this.navCtrl.push('notice');
   }
+
+  // goToNoticeList() {
+  //   this.navCtrl.push('notice-list');
+  // }
 
   goToSearchShip() {
     this.navCtrl.push('search-ship');

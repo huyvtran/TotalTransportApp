@@ -36,6 +36,12 @@ export class ShipPage {
 
   private shipList = [];
 
+  private queryParam: any = {
+    port: '',
+    startDate: '',
+    endDate: ''
+  };
+
   constructor(public navCtrl: NavController,
               public app: App,
               public shipService: ShipServiceProvider,
@@ -46,6 +52,7 @@ export class ShipPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ShipPage');
+    this.queryParam = this.navParams.get('queryParam');
     this.queryShipData(1, this.pageSize, true);
   }
 
@@ -69,7 +76,10 @@ export class ShipPage {
     if (Boolean(isFirstLoad)) {
       loading.present();
     }
-    this.shipService.getShipInfoListByPage(null, page, rows).then(data => {
+    console.log('execute method getShipInfoListByPage');
+    console.log('queryParam:');
+    console.log(this.queryParam);
+    this.shipService.getShipInfoListByPage(this.queryParam, page, rows).then(data => {
       console.log(data);
       if (Boolean(isFirstLoad)) {
         loading.dismissAll();

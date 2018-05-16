@@ -18,9 +18,15 @@ export class ShipServiceProvider {
   }
 
   //船盘信息分页查询
-  getShipInfoListByPage(shipInfo, page, rows) {
+  getShipInfoListByPage(queryParam, page, rows) {
     let url = AppConfig.getUrl() + '/app/shipInfo/getShipInfoListByPage.do';
-    let params = {page: page, rows: rows};
+    let params = {
+      port: queryParam.port,
+      dateStart: queryParam.startDate,
+      dateEnd: queryParam.endDate,
+      page: page,
+      rows: rows
+    };
     return new Promise((resolve, reject) => {
       this.http.post(url, this.toQueryString(params), this.options)
         .map(res => res.json())

@@ -36,6 +36,13 @@ export class TransportPricePage {
 
   private transportPriceList = [];
 
+  private queryParam: any = {
+    startPlace: '',
+    endPlace: '',
+    startDate: '',
+    endDate: ''
+  };
+
   constructor(public navCtrl: NavController,
               public app: App,
               public transportPriceService: TransportPriceServiceProvider,
@@ -46,6 +53,7 @@ export class TransportPricePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TransportPricePage');
+    this.queryParam = this.navParams.get('queryParam');
     this.queryTransportPriceData(1, this.pageSize, true);
   }
 
@@ -69,7 +77,7 @@ export class TransportPricePage {
     if (Boolean(isFirstLoad)) {
       loading.present();
     }
-    this.transportPriceService.getTransportPriceListByPage(null, page, rows).then(data => {
+    this.transportPriceService.getTransportPriceListByPage(this.queryParam, page, rows).then(data => {
       console.log(data);
       if (Boolean(isFirstLoad)) {
         loading.dismissAll();

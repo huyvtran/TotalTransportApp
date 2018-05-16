@@ -9,28 +9,20 @@
 
 <ion-content>
   <div class="weui-cells weui-cells_form">
-    <div class="weui-cell weui-cell_select weui-cell_select-after">
+    <div class="weui-cell">
       <div class="weui-cell__hd">
         <label class="weui-label">起始地</label>
       </div>
       <div class="weui-cell__bd">
-        <select class="weui-select" [(ngModel)]="queryParam.startPlace">
-          <option value="1">宁波</option>
-          <option value="2">北仑</option>
-          <option value="3">张家</option>
-        </select>
+        <input class="weui-input" type="text" [(ngModel)]="queryParam.startPlace" placeholder="请输入起始地(支持模糊查询)"/>
       </div>
     </div>
-    <div class="weui-cell weui-cell_select weui-cell_select-after">
+    <div class="weui-cell">
       <div class="weui-cell__hd">
         <label class="weui-label">目的地</label>
       </div>
       <div class="weui-cell__bd">
-        <select class="weui-select" [(ngModel)]="queryParam.endPlace">
-          <option value="1">宁波</option>
-          <option value="2">北仑</option>
-          <option value="3">张家</option>
-        </select>
+        <input class="weui-input" type="text" [(ngModel)]="queryParam.endPlace" placeholder="请输入目的地(支持模糊查询)"/>
       </div>
     </div>
     <div class="weui-cell">

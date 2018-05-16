@@ -15,9 +15,8 @@
       </div>
       <div class="weui-cell__bd">
         <select class="weui-select" [(ngModel)]="queryParam.port">
-          <option value="1">宁波港</option>
-          <option value="2">北仑港</option>
-          <option value="3">张家港</option>
+          <option value="">全部</option>
+          <option *ngFor="let port of portList" value="{{port.portId}}">{{port.portName}}</option>
         </select>
       </div>
     </div>

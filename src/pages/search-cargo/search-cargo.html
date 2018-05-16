@@ -15,9 +15,8 @@
       </div>
       <div class="weui-cell__bd">
         <select class="weui-select" [(ngModel)]="queryParam.startPlace">
-          <option value="1">宁波</option>
-          <option value="2">北仑</option>
-          <option value="3">张家</option>
+          <option value="">全部</option>
+          <option *ngFor="let place of placeList" value="{{place.placeId}}">{{place.placeCname}}</option>
         </select>
       </div>
     </div>
@@ -27,9 +26,8 @@
       </div>
       <div class="weui-cell__bd">
         <select class="weui-select" [(ngModel)]="queryParam.endPlace">
-          <option value="1">宁波</option>
-          <option value="2">北仑</option>
-          <option value="3">张家</option>
+          <option value="">全部</option>
+          <option *ngFor="let place of placeList" value="{{place.placeId}}">{{place.placeCname}}</option>
         </select>
       </div>
     </div>

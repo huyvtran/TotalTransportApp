@@ -13,22 +13,38 @@
 
 
 <ion-content class="container-div">
-  <div class="weui-panel" *ngFor="let item of enquiryList">
-    <div class="weui-panel__bd" tappable (click)="goToLogisticsEnquiryDetail()">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="松开刷新"
+      refreshingSpinner="circles"
+      refreshingText="刷新中...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="weui-panel" *ngFor="let enquiry of enquiryList">
+    <div class="weui-panel__bd" tappable (click)="goToLogisticsEnquiryDetail(enquiry.id)">
       <div class="weui-media-box weui-media-box_text">
         <div class="weui-media-box__desc">
           <div class="weui-flex">
             <div class="weui-flex__item">
-              <div class="placeholder">{{item.content}}</div>
+              <div class="placeholder">{{enquiry.content}}</div>
             </div>
           </div>
           <div class="weui-flex weui-flex-margin-top">
             <div class="weui-flex__item">
-              <div class="placeholder">{{item.createTime |date:'yyyy.MM.dd HH:mm'}}</div>
+              <div class="placeholder">{{enquiry.requestTime |date:'yyyy.MM.dd HH:mm'}}</div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <div class="weui-msg__extra-area" *ngIf="pager.currPageNo == pager.totalPageCount">
+    <div class="weui-footer">
+      <p class="weui-footer__text">---- 到底了 ----</p>
+    </div>
+  </div>
+  <ion-infinite-scroll *ngIf="pager.currPageNo < pager.totalPageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

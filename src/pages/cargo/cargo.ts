@@ -36,6 +36,13 @@ export class CargoPage {
 
   private cargoList = [];
 
+  private queryParam: any = {
+    startPlace: '',
+    endPlace: '',
+    startDate: '',
+    endDate: ''
+  };
+
   constructor(public navCtrl: NavController,
               public app: App,
               public cargoService: CargoServiceProvider,
@@ -46,6 +53,7 @@ export class CargoPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CargoPage');
+    this.queryParam = this.navParams.get('queryParam');
     this.queryCargoData(1, this.pageSize, true);
   }
 
@@ -70,7 +78,7 @@ export class CargoPage {
       loading.present();
     }
 
-    this.cargoService.getCargoInfoListByPage(null, page, rows).then(data => {
+    this.cargoService.getCargoInfoListByPage(this.queryParam, page, rows).then(data => {
       console.log(data);
       if (Boolean(isFirstLoad)) {
         loading.dismissAll();

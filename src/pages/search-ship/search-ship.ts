@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {App, LoadingController, AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {BaseServiceProvider} from "../../providers/base-service/base-service";
 
 /**
  * 船盘查询
@@ -12,17 +13,23 @@ import {App, LoadingController, AlertController, IonicPage, NavController, NavPa
 @Component({
   selector: 'page-search-ship',
   templateUrl: 'search-ship.html',
+  providers: [BaseServiceProvider]
 })
 export class SearchShipPage {
 
+  private resultData: any = {};
+
   private queryParam: any = {
-    port: '1',
+    port: '',
     startDate: '',
     endDate: ''
   };
 
+  private portList = [];
+
   constructor(public navCtrl: NavController,
               public app: App,
+              public baseService: BaseServiceProvider,
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
               public navParams: NavParams) {
@@ -30,6 +37,7 @@ export class SearchShipPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SearchShipPage');
+    this.initPort();
     let startTime = new Date();
     let endTime = new Date();
     startTime.setDate(1);
@@ -40,6 +48,14 @@ export class SearchShipPage {
     this.queryParam.endDate = this.formatDate(endTime);
   }
 
+  initPort() {
+    this.baseService.getBasePortList().then(data => {
+      console.log(data);
+      this.resultData = data;
+      this.portList = this.resultData.basePortList;
+    });
+  }
+
   search() {
     console.log(this.queryParam.startDate);
     console.log(this.queryParam.endDate);
@@ -47,7 +63,7 @@ export class SearchShipPage {
       this.alertTips('起始时间不能大于截止时间！');
       return;
     }
-    this.navCtrl.push('ship');
+    this.navCtrl.push('ship', {queryParam: this.queryParam});
   }
 
   formatDate(date) {

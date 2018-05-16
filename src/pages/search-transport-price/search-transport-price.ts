@@ -16,8 +16,8 @@ import {App, LoadingController, AlertController, IonicPage, NavController, NavPa
 export class SearchTransportPricePage {
 
   private queryParam: any = {
-    startPlace: '1',
-    endPlace: '2',
+    startPlace: '',
+    endPlace: '',
     startDate: '',
     endDate: ''
   };
@@ -48,7 +48,7 @@ export class SearchTransportPricePage {
       this.alertTips('起始时间不能大于截止时间！');
       return;
     }
-    this.navCtrl.push('transport-price');
+    this.navCtrl.push('transport-price', {queryParam: this.queryParam});
   }
 
   formatDate(date) {

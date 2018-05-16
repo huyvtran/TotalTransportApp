@@ -18,9 +18,16 @@ export class CargoServiceProvider {
   }
 
   //货盘信息分页查询
-  getCargoInfoListByPage(cargoInfo, page, rows) {
+  getCargoInfoListByPage(queryParam, page, rows) {
     let url = AppConfig.getUrl() + '/app/cargoInfo/getCargoInfoListByPage.do';
-    let params = {page: page, rows: rows};
+    let params = {
+      startPort: queryParam.startPlace,
+      endPort: queryParam.endPlace,
+      dateStart: queryParam.startDate,
+      dateEnd: queryParam.endDate,
+      page: page,
+      rows: rows
+    };
     return new Promise((resolve, reject) => {
       this.http.post(url, this.toQueryString(params), this.options)
         .map(res => res.json())

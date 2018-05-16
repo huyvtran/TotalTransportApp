@@ -10,11 +10,11 @@
     <div class="weui-form-preview__bd">
       <p>
         <label class="weui-form-preview__label">询价时间</label>
-        <span class="weui-form-preview__value">2018.05.08 12:30</span>
+        <span class="weui-form-preview__value">{{enquiry.requestTime|date:'yyyy.MM.dd HH:mm'}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">询价内容</label>
-        <span class="weui-form-preview__value">宁波运输1000吨铁矿石到上海钢厂需要多少费用？</span>
+        <span class="weui-form-preview__value">{{enquiry.content}}</span>
       </p>
       <!--<p>-->
       <!--<label class="weui-form-preview__label">询价人</label>-->
@@ -25,51 +25,49 @@
 
 
   <div class="weui-cells__title weui-cells__title_order_no" text-center>回复内容详情</div>
-  <div class="weui-panel weui-panel-first">
+  <div *ngIf="enquiryReplyList.length == 0" class="weui-panel panel">
     <div class="weui-panel__bd">
       <div class="weui-media-box weui-media-box_text">
         <div class="weui-media-box__desc">
           <div class="weui-flex">
             <div class="weui-flex__item">
-              <div class="placeholder">预计100/吨,具体根据船期会稍微变动</div>
-            </div>
-          </div>
-          <div class="weui-flex weui-flex-margin-top">
-            <div class="weui-flex__item">
-              <div class="placeholder">宁波港船务有限公司</div>
-            </div>
-          </div>
-          <div class="weui-flex weui-flex-margin-top">
-            <div class="weui-flex__item">
-              <div class="placeholder">2018.05.08 16:30</div>
+              <div class="placeholder">暂无回复</div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="weui-panel">
+  <div *ngFor="let reply of enquiryReplyList;let itemIndex = index" class="weui-panel"
+       [ngClass]="{'weui-panel-first':itemIndex == 0}">
     <div class="weui-panel__bd">
       <div class="weui-media-box weui-media-box_text">
         <div class="weui-media-box__desc">
           <div class="weui-flex">
             <div class="weui-flex__item">
-              <div class="placeholder">预计130/吨,具体根据船期会稍微变动</div>
+              <div class="placeholder">{{reply.replyInfo}}</div>
             </div>
           </div>
           <div class="weui-flex weui-flex-margin-top">
             <div class="weui-flex__item">
-              <div class="placeholder">张家港船务有限公司</div>
+              <div class="placeholder">{{reply.replyUserStr}}</div>
             </div>
           </div>
           <div class="weui-flex weui-flex-margin-top">
             <div class="weui-flex__item">
-              <div class="placeholder">2018.05.08 16:36</div>
+              <div class="placeholder">{{reply.replyTime|date:'yyyy-MM-dd HH:mm'}}</div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
+  <div class="weui-msg__extra-area" *ngIf="pager.currPageNo == pager.totalPageCount">
+    <div class="weui-footer">
+      <p class="weui-footer__text">---- 到底了 ----</p>
+    </div>
+  </div>
+  <ion-infinite-scroll *ngIf="pager.currPageNo < pager.totalPageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

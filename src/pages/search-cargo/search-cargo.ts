@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {App, LoadingController, AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {BaseServiceProvider} from "../../providers/base-service/base-service";
 
 /**
  * 货盘查询
@@ -12,18 +13,24 @@ import {App, LoadingController, AlertController, IonicPage, NavController, NavPa
 @Component({
   selector: 'page-search-cargo',
   templateUrl: 'search-cargo.html',
+  providers: [BaseServiceProvider]
 })
 export class SearchCargoPage {
 
+  private resultData: any = {};
+
   private queryParam: any = {
-    startPlace: '1',
-    endPlace: '2',
+    startPlace: '',
+    endPlace: '',
     startDate: '',
     endDate: ''
   };
 
+  private placeList = [];
+
   constructor(public navCtrl: NavController,
               public app: App,
+              public baseService: BaseServiceProvider,
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
               public navParams: NavParams) {
@@ -31,6 +38,7 @@ export class SearchCargoPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SearchCargoPage');
+    this.initPlaceList();
     let startTime = new Date();
     let endTime = new Date();
     startTime.setDate(1);
@@ -41,6 +49,14 @@ export class SearchCargoPage {
     this.queryParam.endDate = this.formatDate(endTime);
   }
 
+  initPlaceList() {
+    this.baseService.getBasePlaceList().then(data => {
+      console.log(data);
+      this.resultData = data;
+      this.placeList = this.resultData.basePlaceList;
+    });
+  }
+
   search() {
     console.log(this.queryParam.startDate);
     console.log(this.queryParam.endDate);
@@ -48,7 +64,7 @@ export class SearchCargoPage {
       this.alertTips('起始时间不能大于截止时间！');
       return;
     }
-    this.navCtrl.push('cargo');
+    this.navCtrl.push('cargo', {queryParam: this.queryParam});
   }
 
   formatDate(date) {

@@ -89,6 +89,10 @@ export class BaseServiceProvider {
     });
   }
 
+  /**
+   * 基础货名列表
+   * @returns {Promise<any>}
+   */
   getBaseCargoList() {
     let url = AppConfig.getUrl() + '/app/baseCargo/getBaseCargoList.do';
     return new Promise((resolve, reject) => {
@@ -115,6 +119,10 @@ export class BaseServiceProvider {
     });
   }
 
+  /**
+   * 起始地目的地数据
+   * @returns {Promise<any>}
+   */
   getBasePlaceList() {
     let url = AppConfig.getUrl() + '/app/basePlace/getBasePlaceList.do';
     return new Promise((resolve, reject) => {
@@ -141,6 +149,40 @@ export class BaseServiceProvider {
     });
   }
 
+  /**
+   * 基础港口数据
+   * @returns {Promise<any>}
+   */
+  getBasePortList() {
+    let url = AppConfig.getUrl() + '/app/basePort/getBasePortList.do';
+    return new Promise((resolve, reject) => {
+      this.http.get(url)
+        .map(res => res.json())
+        .subscribe(data => {
+          if (Boolean(data)) {
+            if (data.result == 'success') {
+              let result = {
+                result: data.result,
+                message: data.message,
+                basePortList: data.basePortList
+              };
+              resolve(result);
+            } else {
+              reject(data.message);
+            }
+          } else {
+            reject('服务器未响应');
+          }
+        }, err => {
+          reject(err);
+        });
+    });
+  }
+
+  /**
+   * 基础货类列表
+   * @returns {Promise<any>}
+   */
   getBaseCargoTypeList() {
     let url = AppConfig.getUrl() + '/app/baseCargoType/getBaseCargoTypeList.do';
     return new Promise((resolve, reject) => {
@@ -167,6 +209,10 @@ export class BaseServiceProvider {
     });
   }
 
+  /**
+   * 基础数量单位列表
+   * @returns {Promise<any>}
+   */
   getBaseItemListByUnit() {
     let url = AppConfig.getUrl() + '/app/baseItem/getBaseItemListByUnit.do';
     return new Promise((resolve, reject) => {
@@ -193,6 +239,10 @@ export class BaseServiceProvider {
     });
   }
 
+  /**
+   * 基础工作单位列表
+   * @returns {Promise<any>}
+   */
   getBaseCompanyList() {
     let url = AppConfig.getUrl() + '/app/user/getBaseCompanyList.do';
     return new Promise((resolve, reject) => {
@@ -219,6 +269,10 @@ export class BaseServiceProvider {
     });
   }
 
+  /**
+   * 部门列表
+   * @returns {Promise<any>}
+   */
   getSysDeptList() {
     let url = AppConfig.getUrl() + '/app/user/getSysDeptList.do';
     return new Promise((resolve, reject) => {

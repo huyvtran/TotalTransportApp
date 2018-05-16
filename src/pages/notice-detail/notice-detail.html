@@ -9,35 +9,21 @@
 
 <ion-content class="container-div">
   <article class="weui-article">
-    <h1>中国空军歼-20开展海上实战化训练</h1>
+    <h1>{{notice.title}}</h1>
     <section>
-      <h2 class="title">发布时间：2018.05.09 14:17</h2>
+      <h2 class="title">发布时间: {{notice.reportTime|date:'yyyy.MM.dd'}}</h2>
       <section>
         <!--<h3>概要</h3>-->
         <p>
-          中新网5月9日电 据中国空军官方微博消息，中国空军新闻发言人申进科大校5月9日发布消息，中国自主研制的新一代隐身战斗机歼-20，近日首次开展海上方向实战化军事训练，进一步提升空军综合作战能力。
-        </p>
-        <!--<p>-->
-        <!--<img src="./images/pic_article.png" alt="">-->
-        <!--<img src="./images/pic_article.png" alt="">-->
-        <!--</p>-->
-        <!--</section>-->
-        <!--<section>-->
-        <!--<h3>内容介绍</h3>-->
-        <p>
-          发言人介绍称，歼-20战机列装空军作战部队后，飞行人才稳步成长，实战实训逐步展开，与歼-16、歼-10C等多型战机联合开展实战背景下的空战训练，在空军体系对抗演习中发挥重要作用，为空军新质作战能力跃升提供有力支撑。
-        </p>
-
-        <p>
-          空军发言人表示，歼-20战机展翅海空、实战实训，有助于空军更好地肩负起维护国家主权、安全和领土完整的神圣使命。
+          {{notice.content}}
         </p>
       </section>
     </section>
   </article>
-  <div class="weui-footer">
-    <p class="weui-footer__links">
-      <a href="http://www.chinanews.com/" class="weui-footer__link">来源：中国新闻网</a>
-    </p>
-    <p class="weui-footer__text">Copyright &copy; 1999- 2018 chinanews.com. All Rights Reserved</p>
-  </div>
+  <!--<div class="weui-footer">-->
+  <!--<p class="weui-footer__links">-->
+  <!--<a href="http://www.chinanews.com/" class="weui-footer__link">来源：中国新闻网</a>-->
+  <!--</p>-->
+  <!--<p class="weui-footer__text">Copyright &copy; 1999- 2018 chinanews.com. All Rights Reserved</p>-->
+  <!--</div>-->
 </ion-content>
