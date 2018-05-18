@@ -16,6 +16,15 @@
       refreshingText="刷新中...">
     </ion-refresher-content>
   </ion-refresher>
+  <div class="weui-panel" *ngIf="noticeList.length < 1">
+    <div class="weui-panel__bd">
+      <div class="weui-media-box weui-media-box_text">
+        <div class="weui-media-box__desc">
+          未查询到相关信息
+        </div>
+      </div>
+    </div>
+  </div>
   <div *ngFor="let notice of noticeList;let itemIndex = index" class="weui-cells"
        [ngClass]="{'weui-cells-first':itemIndex == 0}">
     <a class="weui-cell weui-cell_access" href="javascript:void(0);" tappable (click)="goToNoticeDetail(notice.id)">

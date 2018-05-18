@@ -70,17 +70,17 @@ export class CargoPage {
     }
   }
 
-  queryCargoData(page, rows, isFirstLoad?, infiniteScroll?) {
+  queryCargoData(page, rows, showLoading?, infiniteScroll?) {
     let loading = this.loadingCtrl.create({
       content: '加载货盘数据中...'
     });
-    if (Boolean(isFirstLoad)) {
+    if (Boolean(showLoading)) {
       loading.present();
     }
 
     this.cargoService.getCargoInfoListByPage(this.queryParam, page, rows).then(data => {
       console.log(data);
-      if (Boolean(isFirstLoad)) {
+      if (Boolean(showLoading)) {
         loading.dismissAll();
       }
       this.resultData = data;
@@ -99,7 +99,7 @@ export class CargoPage {
       }
       console.log('getCargoInfoListByPage fail');
       console.log(err);
-      if (Boolean(isFirstLoad)) {
+      if (Boolean(showLoading)) {
         loading.dismissAll();
       }
       this.alertTips(err);
@@ -109,7 +109,7 @@ export class CargoPage {
       }
       console.log('getCargoInfoListByPage error');
       console.log(err);
-      if (Boolean(isFirstLoad)) {
+      if (Boolean(showLoading)) {
         loading.dismissAll();
       }
       this.alertTips('服务器访问超时，请稍后尝试！');

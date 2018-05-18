@@ -14,30 +14,29 @@
         <div class="mh-cont mh-list-wrap mh-unfold">
           <div class="mh-list">
             <ul>
-              <!--<li *ngFor="let track of trackList;let isfirst = first" [ngClass]="{'first': isfirst == true}">-->
-              <!--<p>{{track.trackTime|date:'yyyy-MM-dd HH:mm:ss'}}</p>-->
-              <!--<p>{{track.taskDesc}}</p>-->
-              <!--<span class="before"></span><span class="after"></span><i *ngIf="isfirst == true"-->
-              <!--class="mh-icon mh-icon-new"></i>-->
+              <li *ngIf="trackList.length < 1">
+                <p>暂无物流信息,请耐心等待...</p>
+                <!--<span class="before"></span><span class="after"></span>-->
+              </li>
+
+              <li *ngFor="let track of trackList;let isfirst = first" [ngClass]="{'first': isfirst == true}">
+                <p>{{track.trackTime|date:'yyyy-MM-dd HH:mm:ss'}}</p>
+                <p>{{track.taskDesc}}</p>
+                <span class="before"></span><span class="after"></span><i *ngIf="isfirst == true"
+                                                                          class="mh-icon mh-icon-new"></i>
+              </li>
+
+              <!--<li class="first">-->
+              <!--<p>2018.05.07 09:30:23</p>-->
+              <!--<p>抵长江港锚地 预计12：50抵张家港口</p>-->
+              <!--<span class="before"></span><span class="after"></span><i class="mh-icon mh-icon-new"></i>-->
               <!--</li>-->
 
-              <li class="first">
-                <p>2018.05.07 09:30:23</p>
-                <p>抵长江港锚地 预计12：50抵张家港口</p>
-                <span class="before"></span><span class="after"></span><i class="mh-icon mh-icon-new"></i>
-              </li>
-
-              <li>
-                <p>2018.05.06 19:30:23</p>
-                <p>抵长江港锚地 预计20：50抵张家港口</p>
-                <span class="before"></span><span class="after"></span>
-              </li>
-
-              <li>
-                <p>2018.05.05 10:30:23</p>
-                <p>抵长江港锚地 预计12：50抵张家港口</p>
-                <span class="before"></span><span class="after"></span>
-              </li>
+              <!--<li>-->
+              <!--<p>2018.05.05 10:30:23</p>-->
+              <!--<p>抵长江港锚地 预计12：50抵张家港口</p>-->
+              <!--<span class="before"></span><span class="after"></span>-->
+              <!--</li>-->
 
             </ul>
           </div>

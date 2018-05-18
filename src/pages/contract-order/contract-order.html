@@ -8,283 +8,189 @@
 
 
 <ion-content class="content-div">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="松开刷新"
+      refreshingSpinner="circles"
+      refreshingText="刷新中...">
+    </ion-refresher-content>
+  </ion-refresher>
   <div class="weui-tab">
     <div class="weui-navbar">
       <div class="weui-navbar__item" [ngClass]="{'weui-bar__item_on': contractState == 'execute'}" tappable
            (click)="setContractState('execute')">
-        执行中(3)
+        执行中({{executePager.totalCount}})
       </div>
       <div class="weui-navbar__item" [ngClass]="{'weui-bar__item_on': contractState == 'close'}" tappable
            (click)="setContractState('close')">
-        已关闭(1)
+        已关闭({{closePager.totalCount}})
       </div>
       <div class="weui-navbar__item" [ngClass]="{'weui-bar__item_on': contractState == 'all'}" tappable
            (click)="setContractState('all')">
-        所有(4)
+        所有({{allPager.totalCount}})
       </div>
     </div>
     <div class="weui-tab__panel">
       <!-- 执行中 -->
       <div *ngIf="contractState == 'execute'">
-        <div class="weui-panel" tappable (click)="goToContractDetail()">
+        <div class="weui-panel" *ngIf="executeContractList.length < 1">
+          <div class="weui-panel__bd">
+            <div class="weui-media-box weui-media-box_text">
+              <div class="weui-media-box__desc">
+                未查询到相关信息
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="weui-panel" *ngFor="let contract of executeContractList" tappable
+             (click)="goToContractDetail(contract.id)">
           <!--<div class="weui-panel__hd">文字列表附来源</div>-->
           <div class="weui-panel__bd">
             <div class="weui-media-box weui-media-box_text">
-              <h4 class="weui-media-box__title">沙钢12月铁矿石运输协议</h4>
+              <h4 class="weui-media-box__title">{{contract.contractName}}</h4>
               <div class="weui-media-box__desc">
                 <div class="weui-flex">
                   <div class="weui-flex__item">
-                    <div class="placeholder">货名:铁矿石</div>
+                    <div class="placeholder">货名:{{contract.cargoCname}}</div>
                   </div>
                   <div class="weui-flex__item">
-                    <div class="placeholder">货量:10000吨</div>
+                    <div class="placeholder">货量:{{contract.loadsTon|number:'1.2-2'}}吨</div>
                   </div>
                 </div>
                 <div class="weui-flex weui-flex-margin-top">
                   <div class="weui-flex__item">
-                    <div class="placeholder">船名:塔哈罗</div>
+                    <div class="placeholder">船名:{{contract.shipNameStr}}</div>
                   </div>
                   <div class="weui-flex__item">
-                    <div class="placeholder">航次:1804</div>
+                    <div class="placeholder">类型:{{contract.contractTypeName}}</div>
                   </div>
                 </div>
               </div>
               <ul class="weui-media-box__info">
                 <li class="weui-media-box__info__meta">生效日期:</li>
-                <li class="weui-media-box__info__meta">2017.12.01</li>
+                <li class="weui-media-box__info__meta">{{contract.signTime|date:'yyyy.MM.dd'}}</li>
                 <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">合同状态:</li>
-                <li class="weui-media-box__info__meta">执行中</li>
+                <li class="weui-media-box__info__meta">{{contract.excuteStatus==1?'执行中':'已关闭'}}</li>
               </ul>
             </div>
           </div>
         </div>
-        <div class="weui-panel" tappable (click)="goToContractDetail()">
-          <div class="weui-panel__bd">
-            <div class="weui-media-box weui-media-box_text">
-              <h4 class="weui-media-box__title">沙钢11月铁矿石运输协议</h4>
-              <div class="weui-media-box__desc">
-                <div class="weui-flex">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货名:铁矿石</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货量:10000吨</div>
-                  </div>
-                </div>
-                <div class="weui-flex weui-flex-margin-top">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">船名:塔哈罗</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">航次:1804</div>
-                  </div>
-                </div>
-              </div>
-              <ul class="weui-media-box__info">
-                <li class="weui-media-box__info__meta">生效日期:</li>
-                <li class="weui-media-box__info__meta">2017.11.01</li>
-                <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">合同状态:</li>
-                <li class="weui-media-box__info__meta">执行中</li>
-              </ul>
-            </div>
-          </div>
+        <div class="weui-form-preview__ft" *ngIf="executePager.currPageNo < executePager.totalPageCount">
+          <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0)" tappable
+             (click)="doInfinite()">点 击 加 载 更 多</a>
         </div>
-        <div class="weui-panel" tappable (click)="goToContractDetail()">
-          <!--<div class="weui-panel__hd">文字列表附来源</div>-->
-          <div class="weui-panel__bd">
-            <div class="weui-media-box weui-media-box_text">
-              <h4 class="weui-media-box__title">沙钢10月铁矿石运输协议</h4>
-              <div class="weui-media-box__desc">
-                <div class="weui-flex">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货名:铁矿石</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货量:10000吨</div>
-                  </div>
-                </div>
-                <div class="weui-flex weui-flex-margin-top">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">船名:塔哈罗</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">航次:1804</div>
-                  </div>
-                </div>
-              </div>
-              <ul class="weui-media-box__info">
-                <li class="weui-media-box__info__meta">生效日期:</li>
-                <li class="weui-media-box__info__meta">2017.10.01</li>
-                <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">合同状态:</li>
-                <li class="weui-media-box__info__meta">执行中</li>
-              </ul>
-            </div>
+        <div class="weui-msg__extra-area" *ngIf="executePager.currPageNo == executePager.totalPageCount">
+          <div class="weui-footer">
+            <p class="weui-footer__text">---- 到底了 ----</p>
           </div>
         </div>
       </div>
       <!-- 已关闭 -->
       <div *ngIf="contractState == 'close'">
-        <div class="weui-panel" tappable (click)="goToContractDetail()">
+        <div class="weui-panel" *ngIf="closeContractList.length < 1">
+          <div class="weui-panel__bd">
+            <div class="weui-media-box weui-media-box_text">
+              <div class="weui-media-box__desc">
+                未查询到相关信息
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="weui-panel" *ngFor="let contract of closeContractList" tappable
+             (click)="goToContractDetail(contract.id)">
           <!--<div class="weui-panel__hd">文字列表附来源</div>-->
           <div class="weui-panel__bd">
             <div class="weui-media-box weui-media-box_text">
-              <h4 class="weui-media-box__title">沙钢9月铁矿石运输协议</h4>
+              <h4 class="weui-media-box__title">{{contract.contractName}}</h4>
               <div class="weui-media-box__desc">
                 <div class="weui-flex">
                   <div class="weui-flex__item">
-                    <div class="placeholder">货名:铁矿石</div>
+                    <div class="placeholder">货名:{{contract.cargoCname}}</div>
                   </div>
                   <div class="weui-flex__item">
-                    <div class="placeholder">货量:10000吨</div>
+                    <div class="placeholder">货量:{{contract.loadsTon|number:'1.0-2'}}吨</div>
                   </div>
                 </div>
                 <div class="weui-flex weui-flex-margin-top">
                   <div class="weui-flex__item">
-                    <div class="placeholder">船名:塔哈罗</div>
+                    <div class="placeholder">船名:{{contract.shipNameStr}}</div>
                   </div>
                   <div class="weui-flex__item">
-                    <div class="placeholder">航次:1804</div>
+                    <div class="placeholder">类型:{{contract.contractTypeName}}</div>
                   </div>
                 </div>
               </div>
               <ul class="weui-media-box__info">
                 <li class="weui-media-box__info__meta">生效日期:</li>
-                <li class="weui-media-box__info__meta">2017.09.01</li>
+                <li class="weui-media-box__info__meta">{{contract.signTime|date:'yyyy.MM.dd'}}</li>
                 <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">合同状态:</li>
-                <li class="weui-media-box__info__meta">已关闭</li>
+                <li class="weui-media-box__info__meta">{{contract.excuteStatus==1?'执行中':'已关闭'}}</li>
               </ul>
             </div>
+          </div>
+        </div>
+        <div class="weui-form-preview__ft" *ngIf="closePager.currPageNo < closePager.totalPageCount">
+          <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0)" tappable
+             (click)="doInfinite()">点 击 加 载 更 多</a>
+        </div>
+        <div class="weui-msg__extra-area" *ngIf="closePager.currPageNo == closePager.totalPageCount">
+          <div class="weui-footer">
+            <p class="weui-footer__text">---- 到底了 ----</p>
           </div>
         </div>
       </div>
       <!-- 所有 -->
       <div *ngIf="contractState == 'all'">
-        <div class="weui-panel" tappable (click)="goToContractDetail()">
+        <div class="weui-panel" *ngIf="allContractList.length < 1">
+          <div class="weui-panel__bd">
+            <div class="weui-media-box weui-media-box_text">
+              <div class="weui-media-box__desc">
+                未查询到相关信息
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="weui-panel" *ngFor="let contract of allContractList" tappable
+             (click)="goToContractDetail(contract.id)">
           <!--<div class="weui-panel__hd">文字列表附来源</div>-->
           <div class="weui-panel__bd">
             <div class="weui-media-box weui-media-box_text">
-              <h4 class="weui-media-box__title">沙钢12月铁矿石运输协议</h4>
+              <h4 class="weui-media-box__title">{{contract.contractName}}</h4>
               <div class="weui-media-box__desc">
                 <div class="weui-flex">
                   <div class="weui-flex__item">
-                    <div class="placeholder">货名:铁矿石</div>
+                    <div class="placeholder">货名:{{contract.cargoCname}}</div>
                   </div>
                   <div class="weui-flex__item">
-                    <div class="placeholder">货量:10000吨</div>
+                    <div class="placeholder">货量:{{contract.loadsTon|number:'1.0-2'}}吨</div>
                   </div>
                 </div>
                 <div class="weui-flex weui-flex-margin-top">
                   <div class="weui-flex__item">
-                    <div class="placeholder">船名:塔哈罗</div>
+                    <div class="placeholder">船名:{{contract.shipNameStr}}</div>
                   </div>
                   <div class="weui-flex__item">
-                    <div class="placeholder">航次:1804</div>
+                    <div class="placeholder">类型:{{contract.contractTypeName}}</div>
                   </div>
                 </div>
               </div>
               <ul class="weui-media-box__info">
                 <li class="weui-media-box__info__meta">生效日期:</li>
-                <li class="weui-media-box__info__meta">2017.12.01</li>
+                <li class="weui-media-box__info__meta">{{contract.signTime|date:'yyyy.MM.dd'}}</li>
                 <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">合同状态:</li>
-                <li class="weui-media-box__info__meta">执行中</li>
+                <li class="weui-media-box__info__meta">{{contract.excuteStatus==1?'执行中':'已关闭'}}</li>
               </ul>
             </div>
           </div>
         </div>
-        <div class="weui-panel" tappable (click)="goToContractDetail()">
-          <!--<div class="weui-panel__hd">文字列表附来源</div>-->
-          <div class="weui-panel__bd">
-            <div class="weui-media-box weui-media-box_text">
-              <h4 class="weui-media-box__title">沙钢11月铁矿石运输协议</h4>
-              <div class="weui-media-box__desc">
-                <div class="weui-flex">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货名:铁矿石</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货量:10000吨</div>
-                  </div>
-                </div>
-                <div class="weui-flex weui-flex-margin-top">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">船名:塔哈罗</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">航次:1804</div>
-                  </div>
-                </div>
-              </div>
-              <ul class="weui-media-box__info">
-                <li class="weui-media-box__info__meta">生效日期:</li>
-                <li class="weui-media-box__info__meta">2017.11.01</li>
-                <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">合同状态:</li>
-                <li class="weui-media-box__info__meta">执行中</li>
-              </ul>
-            </div>
-          </div>
+        <div class="weui-form-preview__ft" *ngIf="allPager.currPageNo < allPager.totalPageCount">
+          <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0)" tappable
+             (click)="doInfinite()">点 击 加 载 更 多</a>
         </div>
-        <div class="weui-panel" tappable (click)="goToContractDetail()">
-          <!--<div class="weui-panel__hd">文字列表附来源</div>-->
-          <div class="weui-panel__bd">
-            <div class="weui-media-box weui-media-box_text">
-              <h4 class="weui-media-box__title">沙钢10月铁矿石运输协议</h4>
-              <div class="weui-media-box__desc">
-                <div class="weui-flex">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货名:铁矿石</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货量:10000吨</div>
-                  </div>
-                </div>
-                <div class="weui-flex weui-flex-margin-top">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">船名:塔哈罗</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">航次:1804</div>
-                  </div>
-                </div>
-              </div>
-              <ul class="weui-media-box__info">
-                <li class="weui-media-box__info__meta">生效日期:</li>
-                <li class="weui-media-box__info__meta">2017.10.01</li>
-                <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">合同状态:</li>
-                <li class="weui-media-box__info__meta">执行中</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="weui-panel" tappable (click)="goToContractDetail()">
-          <!--<div class="weui-panel__hd">文字列表附来源</div>-->
-          <div class="weui-panel__bd">
-            <div class="weui-media-box weui-media-box_text">
-              <h4 class="weui-media-box__title">沙钢9月铁矿石运输协议</h4>
-              <div class="weui-media-box__desc">
-                <div class="weui-flex">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货名:铁矿石</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货量:10000吨</div>
-                  </div>
-                </div>
-                <div class="weui-flex weui-flex-margin-top">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">船名:塔哈罗</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">航次:1804</div>
-                  </div>
-                </div>
-              </div>
-              <ul class="weui-media-box__info">
-                <li class="weui-media-box__info__meta">生效日期:</li>
-                <li class="weui-media-box__info__meta">2017.09.01</li>
-                <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">合同状态:</li>
-                <li class="weui-media-box__info__meta">已关闭</li>
-              </ul>
-            </div>
+        <div class="weui-msg__extra-area" *ngIf="allPager.currPageNo == allPager.totalPageCount">
+          <div class="weui-footer">
+            <p class="weui-footer__text">---- 到底了 ----</p>
           </div>
         </div>
       </div>

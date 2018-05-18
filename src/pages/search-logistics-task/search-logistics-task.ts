@@ -16,6 +16,7 @@ import {App, LoadingController, AlertController, IonicPage, NavController, NavPa
 export class SearchLogisticsTaskPage {
 
   private queryParam: any = {
+    //运输方式 1水路运输 2铁路运输 3公路运输 4码头运输
     transportType: 1,
     shipName: ''
   };
@@ -37,7 +38,7 @@ export class SearchLogisticsTaskPage {
       this.alertTips('请选择运输方式！');
       return;
     }
-    this.navCtrl.push('logistics-task');
+    this.navCtrl.push('logistics-task', {queryParam: this.queryParam});
   }
 
   /*验证提醒*/

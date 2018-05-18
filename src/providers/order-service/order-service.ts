@@ -21,7 +21,13 @@ export class OrderServiceProvider {
 
   getOrderList(order, page, rows) {
     let url = AppConfig.getUrl() + '/app/order/getOrderList.do';
-    let params = {cargoOwner: order.cargoOwner, auditStatus: order.auditStatus, page: page, rows: rows};
+    let params = {
+      contractId: order.contractId,
+      cargoOwner: order.cargoOwner,
+      auditStatus: order.auditStatus,
+      page: page,
+      rows: rows
+    };
     return new Promise((resolve, reject) => {
       this.http.post(url, this.toQueryString(params), this.options)
         .map(res => res.json())

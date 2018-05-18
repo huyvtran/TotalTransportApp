@@ -9,64 +9,55 @@
 
 <ion-content class="container-div">
   <img class="ship-pic" src="assets/imgs/ship.png"/>
-  <!--<div class="weui-msg">-->
-  <!--<div class="weui-msg__icon-area">-->
-  <!--<img class="ship-pic" src="assets/imgs/ship.png"/>-->
-  <!--</div>-->
-  <!--<div class="weui-msg__text-area">-->
-  <!--<h2 class="weui-msg__title">塔哈罗尔</h2>-->
-  <!--<p class="weui-msg__desc">超大船舶</p>-->
-  <!--</div>-->
-  <!--</div>-->
   <div class="weui-form-preview">
     <div class="weui-form-preview__bd">
       <p>
         <label class="weui-form-preview__label">船名</label>
-        <span class="weui-form-preview__value">塔哈罗尔</span>
+        <span class="weui-form-preview__value">{{vesselInfo.vesselCname}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">IMO</label>
-        <span class="weui-form-preview__value">9322475</span>
+        <span class="weui-form-preview__value">{{vesselInfo.vesselImo}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">MMSI</label>
-        <span class="weui-form-preview__value">24718100</span>
+        <span class="weui-form-preview__value">{{vesselInfo.vesselMmsi}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">呼号</label>
-        <span class="weui-form-preview__value">ICDK</span>
+        <span class="weui-form-preview__value">{{vesselInfo.vesselCallletter}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">类型</label>
-        <span class="weui-form-preview__value">货船</span>
+        <span class="weui-form-preview__value">{{vesselInfo.vesselType}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">船旗</label>
-        <span class="weui-form-preview__value">ITA</span>
+        <span class="weui-form-preview__value">{{vesselInfo.vesselUnCode}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">DWT</label>
-        <span class="weui-form-preview__value">67986mt</span>
+        <span class="weui-form-preview__value">{{vesselInfo.vesselTotalWeight}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">吃水</label>
-        <span class="weui-form-preview__value">13.5m</span>
+        <span class="weui-form-preview__value">{{vesselInfo.vesselSeagaugeLoaded}}m</span>
       </p>
       <p>
         <label class="weui-form-preview__label">船籍港</label>
-        <span class="weui-form-preview__value">中国</span>
+        <span class="weui-form-preview__value">{{vesselInfo.vesselNationalityCode}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">船速</label>
-        <span class="weui-form-preview__value">24.3kts</span>
+        <span class="weui-form-preview__value">{{vesselInfo.vesselSpeed}}kts</span>
       </p>
       <p>
         <label class="weui-form-preview__label">长*宽*高</label>
-        <span class="weui-form-preview__value">294*234*21m</span>
+        <span class="weui-form-preview__value">{{vesselInfo.vesselLength}}*{{vesselInfo.vesselWidth}}*{{vesselInfo.vesselMaxHight}}m</span>
       </p>
       <p>
         <label class="weui-form-preview__label">船东</label>
-        <span class="weui-form-preview__value">北仑船务</span>
+        <span class="weui-form-preview__value">{{vesselInfo.vesselManager}}</span>
       </p>
     </div>
   </div>

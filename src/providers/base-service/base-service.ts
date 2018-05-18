@@ -328,6 +328,39 @@ export class BaseServiceProvider {
     });
   }
 
+  /**
+   * 查询基础船舶信息
+   * @param vesselId
+   * @returns {Promise<any>}
+   */
+  queryVesselInfo(vesselId) {
+    let url = AppConfig.getUrl() + '/app/baseVessel/queryVesselInfo.do';
+    let params = {vesselId: vesselId};
+    return new Promise((resolve, reject) => {
+      this.http.post(url, this.toQueryString(params), this.options)
+        .map(res => res.json())
+        .subscribe(data => {
+          if (Boolean(data)) {
+            if (data.result == 'fail') {
+              reject(data.message);
+            } else {
+              let result = {
+                result: data.result,
+                message: data.message,
+                baseVessel: data.baseVessel
+              };
+              resolve(result);
+            }
+          } else {
+            reject('服务器未响应');
+          }
+        }, err => {
+          console.log(err);
+          reject('网络连接超时,请检查!');
+        })
+    });
+  }
+
   // get(url) {
   //   return new Promise((resolve, reject) => {
   //     this.http.get(url)

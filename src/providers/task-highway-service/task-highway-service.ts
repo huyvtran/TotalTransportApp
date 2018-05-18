@@ -4,10 +4,11 @@ import 'rxjs/add/operator/map';
 import {AppConfig} from "../../app/app.config";
 
 /*
-  合同Service
+  公路运输Service
 */
 @Injectable()
-export class ContractServiceProvider {
+export class TaskHighwayServiceProvider {
+
   //封装Header提交表单数据
   private header: Headers = new Headers({
     'Content-Type': 'application/x-www-form-urlencoded'
@@ -15,23 +16,18 @@ export class ContractServiceProvider {
   private options: RequestOptions = new RequestOptions({headers: this.header});
 
   constructor(public http: Http) {
-    console.log('Hello OrderServiceProvider Provider');
+    console.log('Hello TaskWaterwayServiceProvider Provider');
   }
 
-  /**
-   * 查询货主合同列表
-   * @param queryParam
-   * @param page
-   * @param rows
-   * @returns {Promise<any>}
-   */
-  getShipperContractListByPage(queryParam, page, rows) {
-    let url = AppConfig.getUrl() + '/app/shipperContract/getShipperContractListByPage.do';
+  getTaskListByPage(queryParam, page, rows) {
+    let url = AppConfig.getUrl() + '/app/taskHighway/getTaskListByPage.do';
     let params = {
-      partyA: queryParam.partyA,
-      excuteStatus: queryParam.excuteStatus,
-      dateStart: queryParam.startDate,
-      dateEnd: queryParam.endDate,
+      // 物流任务状态   0 ：所有物流任务； 1：未执行； 2： 在途； 3： 已完成
+      state: queryParam.state,
+      //托运人(船方)
+      carrier:queryParam.carrier,
+      //承运人(货主)
+      consignor:queryParam.consignor,
       page: page,
       rows: rows
     };
@@ -60,14 +56,11 @@ export class ContractServiceProvider {
     });
   }
 
-  /**
-   * 查询合同详情信息
-   * @param id
-   * @returns {Promise<any>}
-   */
-  getShipperContractById(id) {
-    let url = AppConfig.getUrl() + '/app/shipperContract/getShipperContractById.do';
-    let params = {id: id};
+  getAttachmentFileListByPage(taskId) {
+    let url = AppConfig.getUrl() + '/app/taskHighway/getAttachmentFileListByPage.do';
+    let params = {
+      taskId: taskId
+    };
     return new Promise((resolve, reject) => {
       this.http.post(url, this.toQueryString(params), this.options)
         .map(res => res.json())
@@ -77,7 +70,7 @@ export class ContractServiceProvider {
               let result = {
                 result: data.result,
                 message: data.message,
-                shipperContract: data.shipperContract
+                pager: data.pager
               };
               resolve(result);
             } else {

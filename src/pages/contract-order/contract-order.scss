@@ -1,7 +1,7 @@
 page-contract-order {
   @import "../../theme/weui.min";
 
-  .content-div{
+  .content-div {
     background-color: #efeeee;
   }
 
@@ -29,6 +29,17 @@ page-contract-order {
 
   .weui-media-box__info__meta {
     color: #2d2d2d;
+  }
+
+  .weui-msg__extra-area {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    padding-bottom: 10px;
+    position: relative;
+    left: auto;
+    bottom: auto;
+    width: 100%;
+    text-align: center
   }
 
 }

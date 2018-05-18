@@ -1,5 +1,11 @@
 import {Component} from '@angular/core';
-import {App, LoadingController, AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {
+  App, LoadingController, AlertController, IonicPage, NavController, NavParams,
+  ViewController
+} from 'ionic-angular';
+import {AppConfig} from "../../app/app.config";
+import {StorageServiceProvider} from "../../providers/storage-service/storage-service";
+import {OrderServiceProvider} from "../../providers/order-service/order-service";
 
 /**
  * 订单评价
@@ -12,8 +18,24 @@ import {App, LoadingController, AlertController, IonicPage, NavController, NavPa
 @Component({
   selector: 'page-order-evaluate',
   templateUrl: 'order-evaluate.html',
+  providers: [StorageServiceProvider, OrderServiceProvider]
 })
 export class OrderEvaluatePage {
+
+  private resultData: any = {};
+
+  private loginUser: any = {
+    id: null,
+    userName: '管理员',
+    //认证用户类型userType：1：客户端用户 2：货主用户 3：船方用户 4：船货代用户
+    userType: 2,
+    //是否认证isApproved: 0:未认证 1:已认证
+    isApproved: 0,
+    //认证单位ID
+    company: ''
+  };
+
+  private orderId: any = null;
 
   private itemList = [];
 
@@ -24,6 +46,9 @@ export class OrderEvaluatePage {
 
   constructor(public navCtrl: NavController,
               public app: App,
+              public viewCtrl:ViewController,
+              public orderService: OrderServiceProvider,
+              public storageService: StorageServiceProvider,
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
               public navParams: NavParams) {
@@ -31,7 +56,13 @@ export class OrderEvaluatePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad OrderEvaluatePage');
+    this.orderId = this.navParams.get('orderId');
+    this.initLoginUser();
     this.initServiceEvaItem();
+  }
+
+  initLoginUser() {
+    this.loginUser = this.storageService.read(AppConfig.LOGIN_USER_NAME);
   }
 
   chooseItemScoreStar(index, e) {
@@ -42,44 +73,47 @@ export class OrderEvaluatePage {
 
   initServiceEvaItem() {
     let loading = this.loadingCtrl.create({
-      content: '加载评价项数据中...'
+      content: '加载评价项目中...'
     });
     loading.present();
 
-    setTimeout(() => {
-      loading.dismissAll();
-      this.itemList.push({
-        itemNo: 1,
-        itemName: '描述相符'
-      });
-      this.itemList.push({
-        itemNo: 2,
-        itemName: '物流服务'
-      });
-      this.itemList.push({
-        itemNo: 3,
-        itemName: '服务态度'
-      });
-      this.initItemScores();
-    }, 1000);
-
-
-    // this.orderService.getServiceEvaItem().then(data => {
-    //   console.log(data);
-    //   loading.dismiss();
-    //   this.resultData = data;
-    //   this.itemList = this.resultData.itemList;
+    // setTimeout(() => {
+    //   loading.dismissAll();
+    //   this.itemList.push({
+    //     itemNo: 1,
+    //     itemName: '描述相符'
+    //   });
+    //   this.itemList.push({
+    //     itemNo: 2,
+    //     itemName: '物流服务'
+    //   });
+    //   this.itemList.push({
+    //     itemNo: 3,
+    //     itemName: '服务态度'
+    //   });
     //   this.initItemScores();
-    // }, err => {
-    //   console.log(err);
-    //   loading.dismiss();
-    //   this.alertTips(err);
-    // }).catch(err => {
-    //   console.log(err);
-    //   loading.dismiss();
-    //   this.alertTips('服务器访问超时，请稍后尝试！');
-    // });
+    // }, 1000);
 
+    this.orderService.getServiceEvaItem().then(data => {
+      console.log(data);
+      loading.dismissAll();
+      this.resultData = data;
+      this.itemList = this.resultData.itemList;
+      this.initItemScores();
+    }, err => {
+      console.log(err);
+      loading.dismissAll();
+      this.alertTips(err);
+    }).catch(err => {
+      console.log(err);
+      loading.dismissAll();
+      this.alertTips('服务器访问超时，请稍后尝试！');
+    });
+
+  }
+
+  back() {
+    this.viewCtrl.dismiss({refresh: false});
   }
 
   initItemScores() {
@@ -120,6 +154,7 @@ export class OrderEvaluatePage {
         this.alertTips('请填写服务评价描述！');
         return;
       }
+      contents.push(this.itemResult.content);
       console.log('success');
       console.log(JSON.stringify(itemNos));
       console.log(JSON.stringify(stars));
@@ -139,24 +174,10 @@ export class OrderEvaluatePage {
         });
         alert.present();
         alert.onDidDismiss(() => {
-          // this.navCtrl.push('login');
-          this.navCtrl.popAll();
+          this.viewCtrl.dismiss({refresh: true});
         });
 
       }, 1000);
-
-      // this.orderService.submitServiceEva(this.loginUser.id, this.orderId, JSON.stringify(itemNos), JSON.stringify(stars), JSON.stringify(contents)).then(data => {
-      //   loading.dismiss();
-      //   this.toastService.presentToast('评价成功！');
-      //   this.goToBack();
-      // }, err => {
-      //   loading.dismiss();
-      //   this.alertTips(err);
-      // }).catch(err => {
-      //   loading.dismiss();
-      //   this.alertTips(err);
-      // });
-
     } else {
       this.alertTips('请选择评价内容！');
       return;

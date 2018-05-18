@@ -194,10 +194,10 @@ export class BusinessCommissionPage {
   }
 
   initCommissionData() {
-    this.initAllCommissionData();
     this.initAcceptCommissionData();
     this.initBackCommissionData();
     this.initReleaseCommissionData();
+    this.initAllCommissionData();
   }
 
   initAllCommissionData() {
@@ -236,7 +236,7 @@ export class BusinessCommissionPage {
     this.queryCommissionData(businessDelegationObj, 1, this.pageSize, false);
   }
 
-  doInfinite(infiniteScroll) {
+  doInfinite(infiniteScroll?) {
     console.log(this.commissionState);
     let pager = {
       // 总页数
@@ -250,38 +250,41 @@ export class BusinessCommissionPage {
       // 每页数据
       list: []
     };
-    if (this.commissionState == 'all') {
+
+    if (this.commissionState == 0) {
       this.businessDelegation.state = null;
       pager = this.allPager;
-    } else if (this.commissionState == 'accept') {
+    } else if (this.commissionState == 2) {
       this.businessDelegation.state = 2;
       pager = this.acceptPager;
-    } else if (this.commissionState == 'back') {
+    } else if (this.commissionState == 3) {
       this.businessDelegation.state = 3;
       pager = this.backPager;
-    } else if (this.commissionState == 'release') {
+    } else if (this.commissionState == 4) {
       this.businessDelegation.state = 4;
       pager = this.releasePager;
     }
 
     if (pager.currPageNo >= pager.totalPageCount) {
-      infiniteScroll.complete();
+      if (Boolean(infiniteScroll)) {
+        infiniteScroll.complete();
+      }
     } else {
-      this.queryCommissionData(this.businessDelegation, pager.currPageNo + 1, this.pageSize, false, infiniteScroll);
+      this.queryCommissionData(this.businessDelegation, pager.currPageNo + 1, this.pageSize, true, infiniteScroll);
     }
   }
 
-  queryCommissionData(businessDelegation, page, rows, isFirstLoad?, infiniteScroll?) {
+  queryCommissionData(businessDelegation, page, rows, showLoading?, infiniteScroll?) {
     let loading = this.loadingCtrl.create({
       content: '加载委托数据中...'
     });
-    if (Boolean(isFirstLoad)) {
+    if (Boolean(showLoading)) {
       loading.present();
     }
 
     this.commissionService.getBusinessDelegationListByPage(businessDelegation, page, rows).then(data => {
       console.log(data);
-      if (Boolean(isFirstLoad)) {
+      if (Boolean(showLoading)) {
         loading.dismissAll();
       }
       this.resultData = data;
@@ -314,7 +317,7 @@ export class BusinessCommissionPage {
       }
       console.log('getBusinessDelegationListByPage fail');
       console.log(err);
-      if (Boolean(isFirstLoad)) {
+      if (Boolean(showLoading)) {
         loading.dismissAll();
       }
       this.alertTips(err);
@@ -324,7 +327,7 @@ export class BusinessCommissionPage {
       }
       console.log('getBusinessDelegationListByPage error');
       console.log(err);
-      if (Boolean(isFirstLoad)) {
+      if (Boolean(showLoading)) {
         loading.dismissAll();
       }
       this.alertTips('服务器访问超时，请稍后尝试!');

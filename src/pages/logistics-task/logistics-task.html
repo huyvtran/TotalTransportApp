@@ -10,25 +10,26 @@
 <ion-content class="content-div">
   <div class="weui-tab">
     <div class="weui-navbar">
-      <div class="weui-navbar__item" [ngClass]="{'weui-bar__item_on': taskState == 0}" tappable
-           (click)="setTaskState(0)">
-        未执行(0)
-      </div>
       <div class="weui-navbar__item" [ngClass]="{'weui-bar__item_on': taskState == 1}" tappable
            (click)="setTaskState(1)">
-        在途(1)
+        未执行({{noExecutePager.totalCount}})
       </div>
       <div class="weui-navbar__item" [ngClass]="{'weui-bar__item_on': taskState == 2}" tappable
            (click)="setTaskState(2)">
-        已完成(0)
+        在途({{onPassagePager.totalCount}})
       </div>
       <div class="weui-navbar__item" [ngClass]="{'weui-bar__item_on': taskState == 3}" tappable
            (click)="setTaskState(3)">
-        所有(1)
+        已完成({{completedPager.totalCount}})
+      </div>
+      <div class="weui-navbar__item" [ngClass]="{'weui-bar__item_on': taskState == 0}" tappable
+           (click)="setTaskState(0)">
+        所有({{allPager.totalCount}})
       </div>
     </div>
     <div class="weui-tab__panel">
-      <div class="weui-flex weui-flex-total-tips-title">
+      <!-- 仅水路运输统计船只和总受载量 -->
+      <div *ngIf="queryParam.transportType == 1" class="weui-flex weui-flex-total-tips-title">
         <div class="weui-flex__item">
           <div class="placeholder">船舶（艘次）</div>
         </div>
@@ -36,121 +37,968 @@
           <div class="placeholder">总受载量（吨）</div>
         </div>
       </div>
-      <div class="weui-flex weui-flex-total-tips">
+      <div *ngIf="queryParam.transportType == 1" class="weui-flex weui-flex-total-tips">
         <div class="weui-flex__item">
-          <div class="placeholder">100</div>
+          <div class="placeholder" *ngIf="taskState == 1">{{noExecuteShipCount|number:'1.0-2'}}</div>
+          <div class="placeholder" *ngIf="taskState == 2">{{onPassageShipCount|number:'1.0-2'}}</div>
+          <div class="placeholder" *ngIf="taskState == 3">{{completedShipCount|number:'1.0-2'}}</div>
+          <div class="placeholder" *ngIf="taskState == 0">{{allShipCount|number:'1.0-2'}}</div>
         </div>
         <div class="weui-flex__item">
-          <div class="placeholder">10000</div>
+          <div class="placeholder" *ngIf="taskState == 1">{{noExecuteLoadedTonSum|number:'1.2-2'}}</div>
+          <div class="placeholder" *ngIf="taskState == 2">{{onPassageLoadedTonSum|number:'1.2-2'}}</div>
+          <div class="placeholder" *ngIf="taskState == 3">{{completedLoadedTonSum|number:'1.2-2'}}</div>
+          <div class="placeholder" *ngIf="taskState == 0">{{allLoadedTonSum|number:'1.2-2'}}</div>
         </div>
       </div>
       <!-- 未执行 -->
-      <div *ngIf="taskState == 0">
+      <div *ngIf="taskState == 1">
+        <div class="weui-panel" *ngIf="noExecuteTaskList.length < 1">
+          <div class="weui-panel__bd">
+            <div class="weui-media-box weui-media-box_text">
+              <div class="weui-media-box__desc">
+                未查询到相关信息
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 水路展示方式 -->
+        <div *ngIf="queryParam.transportType == 1">
+          <div *ngFor="let task of noExecuteTaskList" class="weui-panel">
+            <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack(task.id)">
+              <div class="weui-media-box weui-media-box_text">
+                <div class="weui-media-box__desc">
+                  <div class="weui-flex">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货名:{{task.cargoNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货量:{{task.loadedTon|number:'1.2-2'}}吨</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">船名:{{task.shipNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">航次:{{task.voyage}}</div>
+                    </div>
+                  </div>
+
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">起始港:{{task.startPortStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">目的港:{{task.endPortStr}}</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder" *ngIf="task.state == 1">状态:未执行</div>
+                      <div class="placeholder" *ngIf="task.state == 2">状态:在途</div>
+                      <div class="placeholder" *ngIf="task.state == 3">状态:已收货</div>
+                    </div>
+                    <!--<div class="weui-flex__item">-->
+                    <!--<div class="placeholder"></div>-->
+                    <!--</div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="weui-form-preview__ft">
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToContractDetail(task.contractId)">对应合同</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToOrderDetail(task.orderId)">对应订单</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 铁路展示方式 -->
+        <div *ngIf="queryParam.transportType == 2">
+          <div *ngFor="let task of noExecuteTaskList" class="weui-panel">
+            <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack(task.id)">
+              <div class="weui-media-box weui-media-box_text">
+                <div class="weui-media-box__desc">
+                  <div class="weui-flex">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货名:{{task.cargoNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货量:{{task.loadedTon|number:'1.2-2'}}吨</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">车名:{{task.trainName}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">车次:{{task.trainNo}}</div>
+                    </div>
+                  </div>
+
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">起始地:{{task.startPlaceStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">目的地:{{task.endPlaceStr}}</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder" *ngIf="task.state == 1">状态:未执行</div>
+                      <div class="placeholder" *ngIf="task.state == 2">状态:在途</div>
+                      <div class="placeholder" *ngIf="task.state == 3">状态:已收货</div>
+                    </div>
+                    <!--<div class="weui-flex__item">-->
+                    <!--<div class="placeholder"></div>-->
+                    <!--</div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="weui-form-preview__ft">
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToContractDetail(task.contractId)">对应合同</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToOrderDetail(task.orderId)">对应订单</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 公路展示方式 -->
+        <div *ngIf="queryParam.transportType == 3">
+          <div *ngFor="let task of noExecuteTaskList" class="weui-panel">
+            <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack(task.id)">
+              <div class="weui-media-box weui-media-box_text">
+                <div class="weui-media-box__desc">
+                  <div class="weui-flex">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货名:{{task.cargoNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货量:{{task.loadedTon|number:'1.2-2'}}吨</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">车辆数:{{task.truckAmount}}</div>
+                    </div>
+                  </div>
+
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">起始地:{{task.startPlaceStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">目的地:{{task.endPlaceStr}}</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder" *ngIf="task.state == 1">状态:未执行</div>
+                      <div class="placeholder" *ngIf="task.state == 2">状态:在途</div>
+                      <div class="placeholder" *ngIf="task.state == 3">状态:已收货</div>
+                    </div>
+                    <!--<div class="weui-flex__item">-->
+                    <!--<div class="placeholder"></div>-->
+                    <!--</div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="weui-form-preview__ft">
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToContractDetail(task.contractId)">对应合同</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToOrderDetail(task.orderId)">对应订单</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 码头展示方式 -->
+        <div *ngIf="queryParam.transportType == 4">
+          <div *ngFor="let task of noExecuteTaskList" class="weui-panel">
+            <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack(task.id)">
+              <div class="weui-media-box weui-media-box_text">
+                <div class="weui-media-box__desc">
+                  <div class="weui-flex">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">码头:{{task.wharfName}}</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货名:{{task.cargoNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货量:{{task.loadedTon|number:'1.2-2'}}吨</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">船名:{{task.shipNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">航次:{{task.voyage}}</div>
+                    </div>
+                  </div>
+
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder" *ngIf="task.state == 1">状态:未执行</div>
+                      <div class="placeholder" *ngIf="task.state == 2">状态:在途</div>
+                      <div class="placeholder" *ngIf="task.state == 3">状态:已收货</div>
+                    </div>
+                    <!--<div class="weui-flex__item">-->
+                    <!--<div class="placeholder"></div>-->
+                    <!--</div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="weui-form-preview__ft">
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToContractDetail(task.contractId)">对应合同</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToOrderDetail(task.orderId)">对应订单</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="weui-form-preview__ft" *ngIf="noExecutePager.currPageNo < noExecutePager.totalPageCount">
+          <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0)" tappable
+             (click)="doInfinite()">点 击 加 载 更 多</a>
+        </div>
+        <div class="weui-msg__extra-area" *ngIf="noExecutePager.currPageNo == noExecutePager.totalPageCount">
+          <div class="weui-footer">
+            <p class="weui-footer__text">---- 到底了 ----</p>
+          </div>
+        </div>
 
       </div>
       <!-- 在途 -->
-      <div *ngIf="taskState == 1">
-        <div class="weui-panel">
-          <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack()">
+      <div *ngIf="taskState == 2">
+        <div class="weui-panel" *ngIf="onPassageTaskList.length < 1">
+          <div class="weui-panel__bd">
             <div class="weui-media-box weui-media-box_text">
               <div class="weui-media-box__desc">
-                <div class="weui-flex">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货名:铁矿石</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">货量:10000吨</div>
-                  </div>
-                </div>
-                <div class="weui-flex weui-flex-margin-top">
-                  <div class="weui-flex__item">
-                    <div class="placeholder">船名:塔哈罗</div>
-                  </div>
-                  <div class="weui-flex__item">
-                    <div class="placeholder">航次:1804</div>
-                  </div>
-                </div>
-              </div>
-              <div class="weui-flex weui-flex-margin-top">
-                <div class="weui-flex__item">
-                  <div class="placeholder">起始地:北仑港</div>
-                </div>
-                <div class="weui-flex__item">
-                  <div class="placeholder">目的地:张家港</div>
-                </div>
-              </div>
-              <div class="weui-flex weui-flex-margin-top">
-                <div class="weui-flex__item">
-                  <div class="placeholder">状态:在途</div>
-                </div>
-                <!--<div class="weui-flex__item">-->
-                <!--<div class="placeholder"></div>-->
-                <!--</div>-->
+                未查询到相关信息
               </div>
             </div>
           </div>
-          <div class="weui-panel__ft">
-            <a href="javascript:void(0);" tappable (click)="goToLogisticsTaskAttachment()"
-               class="weui-cell weui-cell_access weui-cell_link">
-              <div class="weui-cell__bd">查 看 附 件</div>
-              <span class="weui-cell__ft"></span>
-            </a>
+        </div>
+
+        <!-- 水路展示方式 -->
+        <div *ngIf="queryParam.transportType == 1">
+          <div *ngFor="let task of onPassageTaskList" class="weui-panel">
+            <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack(task.id)">
+              <div class="weui-media-box weui-media-box_text">
+                <div class="weui-media-box__desc">
+                  <div class="weui-flex">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货名:{{task.cargoNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货量:{{task.loadedTon|number:'1.2-2'}}吨</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">船名:{{task.shipNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">航次:{{task.voyage}}</div>
+                    </div>
+                  </div>
+
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">起始港:{{task.startPortStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">目的港:{{task.endPortStr}}</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder" *ngIf="task.state == 1">状态:未执行</div>
+                      <div class="placeholder" *ngIf="task.state == 2">状态:在途</div>
+                      <div class="placeholder" *ngIf="task.state == 3">状态:已收货</div>
+                    </div>
+                    <!--<div class="weui-flex__item">-->
+                    <!--<div class="placeholder"></div>-->
+                    <!--</div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="weui-form-preview__ft">
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToContractDetail(task.contractId)">对应合同</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToOrderDetail(task.orderId)">对应订单</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 铁路展示方式 -->
+        <div *ngIf="queryParam.transportType == 2">
+          <div *ngFor="let task of onPassageTaskList" class="weui-panel">
+            <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack(task.id)">
+              <div class="weui-media-box weui-media-box_text">
+                <div class="weui-media-box__desc">
+                  <div class="weui-flex">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货名:{{task.cargoNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货量:{{task.loadedTon|number:'1.2-2'}}吨</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">车名:{{task.trainName}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">车次:{{task.trainNo}}</div>
+                    </div>
+                  </div>
+
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">起始地:{{task.startPlaceStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">目的地:{{task.endPlaceStr}}</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder" *ngIf="task.state == 1">状态:未执行</div>
+                      <div class="placeholder" *ngIf="task.state == 2">状态:在途</div>
+                      <div class="placeholder" *ngIf="task.state == 3">状态:已收货</div>
+                    </div>
+                    <!--<div class="weui-flex__item">-->
+                    <!--<div class="placeholder"></div>-->
+                    <!--</div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="weui-form-preview__ft">
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToContractDetail(task.contractId)">对应合同</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToOrderDetail(task.orderId)">对应订单</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 公路展示方式 -->
+        <div *ngIf="queryParam.transportType == 3">
+          <div *ngFor="let task of onPassageTaskList" class="weui-panel">
+            <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack(task.id)">
+              <div class="weui-media-box weui-media-box_text">
+                <div class="weui-media-box__desc">
+                  <div class="weui-flex">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货名:{{task.cargoNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货量:{{task.loadedTon|number:'1.2-2'}}吨</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">车辆数:{{task.truckAmount}}</div>
+                    </div>
+                  </div>
+
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">起始地:{{task.startPlaceStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">目的地:{{task.endPlaceStr}}</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder" *ngIf="task.state == 1">状态:未执行</div>
+                      <div class="placeholder" *ngIf="task.state == 2">状态:在途</div>
+                      <div class="placeholder" *ngIf="task.state == 3">状态:已收货</div>
+                    </div>
+                    <!--<div class="weui-flex__item">-->
+                    <!--<div class="placeholder"></div>-->
+                    <!--</div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="weui-form-preview__ft">
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToContractDetail(task.contractId)">对应合同</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToOrderDetail(task.orderId)">对应订单</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 码头展示方式 -->
+        <div *ngIf="queryParam.transportType == 4">
+          <div *ngFor="let task of onPassageTaskList" class="weui-panel">
+            <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack(task.id)">
+              <div class="weui-media-box weui-media-box_text">
+                <div class="weui-media-box__desc">
+                  <div class="weui-flex">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">码头:{{task.wharfName}}</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货名:{{task.cargoNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货量:{{task.loadedTon|number:'1.2-2'}}吨</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">船名:{{task.shipNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">航次:{{task.voyage}}</div>
+                    </div>
+                  </div>
+
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder" *ngIf="task.state == 1">状态:未执行</div>
+                      <div class="placeholder" *ngIf="task.state == 2">状态:在途</div>
+                      <div class="placeholder" *ngIf="task.state == 3">状态:已收货</div>
+                    </div>
+                    <!--<div class="weui-flex__item">-->
+                    <!--<div class="placeholder"></div>-->
+                    <!--</div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="weui-form-preview__ft">
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToContractDetail(task.contractId)">对应合同</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToOrderDetail(task.orderId)">对应订单</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="weui-form-preview__ft" *ngIf="onPassagePager.currPageNo < onPassagePager.totalPageCount">
+          <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0)" tappable
+             (click)="doInfinite()">点 击 加 载 更 多</a>
+        </div>
+        <div class="weui-msg__extra-area" *ngIf="onPassagePager.currPageNo == onPassagePager.totalPageCount">
+          <div class="weui-footer">
+            <p class="weui-footer__text">---- 到底了 ----</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 已完成 -->
+      <div *ngIf="taskState == 3">
+        <div class="weui-panel" *ngIf="completedTaskList.length < 1">
+          <div class="weui-panel__bd">
+            <div class="weui-media-box weui-media-box_text">
+              <div class="weui-media-box__desc">
+                未查询到相关信息
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 水路展示方式 -->
+        <div *ngIf="queryParam.transportType == 1">
+          <div *ngFor="let task of completedTaskList" class="weui-panel">
+            <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack(task.id)">
+              <div class="weui-media-box weui-media-box_text">
+                <div class="weui-media-box__desc">
+                  <div class="weui-flex">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货名:{{task.cargoNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货量:{{task.loadedTon|number:'1.2-2'}}吨</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">船名:{{task.shipNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">航次:{{task.voyage}}</div>
+                    </div>
+                  </div>
+
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">起始港:{{task.startPortStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">目的港:{{task.endPortStr}}</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder" *ngIf="task.state == 1">状态:未执行</div>
+                      <div class="placeholder" *ngIf="task.state == 2">状态:在途</div>
+                      <div class="placeholder" *ngIf="task.state == 3">状态:已收货</div>
+                    </div>
+                    <!--<div class="weui-flex__item">-->
+                    <!--<div class="placeholder"></div>-->
+                    <!--</div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="weui-form-preview__ft">
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToContractDetail(task.contractId)">对应合同</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToOrderDetail(task.orderId)">对应订单</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 铁路展示方式 -->
+        <div *ngIf="queryParam.transportType == 2">
+          <div *ngFor="let task of completedTaskList" class="weui-panel">
+            <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack(task.id)">
+              <div class="weui-media-box weui-media-box_text">
+                <div class="weui-media-box__desc">
+                  <div class="weui-flex">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货名:{{task.cargoNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货量:{{task.loadedTon|number:'1.2-2'}}吨</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">车名:{{task.trainName}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">车次:{{task.trainNo}}</div>
+                    </div>
+                  </div>
+
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">起始地:{{task.startPlaceStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">目的地:{{task.endPlaceStr}}</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder" *ngIf="task.state == 1">状态:未执行</div>
+                      <div class="placeholder" *ngIf="task.state == 2">状态:在途</div>
+                      <div class="placeholder" *ngIf="task.state == 3">状态:已收货</div>
+                    </div>
+                    <!--<div class="weui-flex__item">-->
+                    <!--<div class="placeholder"></div>-->
+                    <!--</div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="weui-form-preview__ft">
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToContractDetail(task.contractId)">对应合同</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToOrderDetail(task.orderId)">对应订单</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 公路展示方式 -->
+        <div *ngIf="queryParam.transportType == 3">
+          <div *ngFor="let task of completedTaskList" class="weui-panel">
+            <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack(task.id)">
+              <div class="weui-media-box weui-media-box_text">
+                <div class="weui-media-box__desc">
+                  <div class="weui-flex">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货名:{{task.cargoNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货量:{{task.loadedTon|number:'1.2-0'}}吨</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">车辆数:{{task.truckAmount}}</div>
+                    </div>
+                  </div>
+
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">起始地:{{task.startPlaceStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">目的地:{{task.endPlaceStr}}</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder" *ngIf="task.state == 1">状态:未执行</div>
+                      <div class="placeholder" *ngIf="task.state == 2">状态:在途</div>
+                      <div class="placeholder" *ngIf="task.state == 3">状态:已收货</div>
+                    </div>
+                    <!--<div class="weui-flex__item">-->
+                    <!--<div class="placeholder"></div>-->
+                    <!--</div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="weui-form-preview__ft">
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToContractDetail(task.contractId)">对应合同</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToOrderDetail(task.orderId)">对应订单</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 码头展示方式 -->
+        <div *ngIf="queryParam.transportType == 4">
+          <div *ngFor="let task of completedTaskList" class="weui-panel">
+            <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack(task.id)">
+              <div class="weui-media-box weui-media-box_text">
+                <div class="weui-media-box__desc">
+                  <div class="weui-flex">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">码头:{{task.wharfName}}</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货名:{{task.cargoNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货量:{{task.loadedTon|number:'1.2-2'}}吨</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">船名:{{task.shipNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">航次:{{task.voyage}}</div>
+                    </div>
+                  </div>
+
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder" *ngIf="task.state == 1">状态:未执行</div>
+                      <div class="placeholder" *ngIf="task.state == 2">状态:在途</div>
+                      <div class="placeholder" *ngIf="task.state == 3">状态:已收货</div>
+                    </div>
+                    <!--<div class="weui-flex__item">-->
+                    <!--<div class="placeholder"></div>-->
+                    <!--</div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="weui-form-preview__ft">
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToContractDetail(task.contractId)">对应合同</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToOrderDetail(task.orderId)">对应订单</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="weui-form-preview__ft" *ngIf="completedPager.currPageNo < completedPager.totalPageCount">
+          <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0)" tappable
+             (click)="doInfinite()">点 击 加 载 更 多</a>
+        </div>
+        <div class="weui-msg__extra-area" *ngIf="completedPager.currPageNo == completedPager.totalPageCount">
+          <div class="weui-footer">
+            <p class="weui-footer__text">---- 到底了 ----</p>
           </div>
         </div>
       </div>
-    </div>
-    <!-- 已完成 -->
-    <div *ngIf="taskState == 2">
-
-    </div>
-    <!-- 所有 -->
-    <div *ngIf="taskState == 3">
-      <div class="weui-panel">
-        <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack()">
-          <div class="weui-media-box weui-media-box_text">
-            <div class="weui-media-box__desc">
-              <div class="weui-flex">
-                <div class="weui-flex__item">
-                  <div class="placeholder">货名:铁矿石</div>
-                </div>
-                <div class="weui-flex__item">
-                  <div class="placeholder">货量:10000吨</div>
-                </div>
+      <!-- 所有 -->
+      <div *ngIf="taskState == 0">
+        <div class="weui-panel" *ngIf="allTaskList.length < 1">
+          <div class="weui-panel__bd">
+            <div class="weui-media-box weui-media-box_text">
+              <div class="weui-media-box__desc">
+                未查询到相关信息
               </div>
-              <div class="weui-flex weui-flex-margin-top">
-                <div class="weui-flex__item">
-                  <div class="placeholder">船名:塔哈罗</div>
-                </div>
-                <div class="weui-flex__item">
-                  <div class="placeholder">航次:1804</div>
-                </div>
-              </div>
-            </div>
-            <div class="weui-flex weui-flex-margin-top">
-              <div class="weui-flex__item">
-                <div class="placeholder">起始地:北仑港</div>
-              </div>
-              <div class="weui-flex__item">
-                <div class="placeholder">目的地:张家港</div>
-              </div>
-            </div>
-            <div class="weui-flex weui-flex-margin-top">
-              <div class="weui-flex__item">
-                <div class="placeholder">状态:在途</div>
-              </div>
-              <!--<div class="weui-flex__item">-->
-              <!--<div class="placeholder"></div>-->
-              <!--</div>-->
             </div>
           </div>
         </div>
-        <div class="weui-panel__ft">
-          <a href="javascript:void(0);" tappable (click)="goToLogisticsTaskAttachment()"
-             class="weui-cell weui-cell_access weui-cell_link">
-            <div class="weui-cell__bd">查 看 附 件</div>
-            <span class="weui-cell__ft"></span>
-          </a>
+
+
+        <!-- 水路展示方式 -->
+        <div *ngIf="queryParam.transportType == 1">
+          <div *ngFor="let task of allTaskList" class="weui-panel">
+            <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack(task.id)">
+              <div class="weui-media-box weui-media-box_text">
+                <div class="weui-media-box__desc">
+                  <div class="weui-flex">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货名:{{task.cargoNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货量:{{task.loadedTon|number:'1.2-2'}}吨</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">船名:{{task.shipNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">航次:{{task.voyage}}</div>
+                    </div>
+                  </div>
+
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">起始港:{{task.startPortStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">目的港:{{task.endPortStr}}</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder" *ngIf="task.state == 1">状态:未执行</div>
+                      <div class="placeholder" *ngIf="task.state == 2">状态:在途</div>
+                      <div class="placeholder" *ngIf="task.state == 3">状态:已收货</div>
+                    </div>
+                    <!--<div class="weui-flex__item">-->
+                    <!--<div class="placeholder"></div>-->
+                    <!--</div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="weui-form-preview__ft">
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToContractDetail(task.contractId)">对应合同</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToOrderDetail(task.orderId)">对应订单</a>
+            </div>
+          </div>
         </div>
+
+        <!-- 铁路展示方式 -->
+        <div *ngIf="queryParam.transportType == 2">
+          <div *ngFor="let task of allTaskList" class="weui-panel">
+            <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack(task.id)">
+              <div class="weui-media-box weui-media-box_text">
+                <div class="weui-media-box__desc">
+                  <div class="weui-flex">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货名:{{task.cargoNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货量:{{task.loadedTon|number:'1.2-2'}}吨</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">车名:{{task.trainName}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">车次:{{task.trainNo}}</div>
+                    </div>
+                  </div>
+
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">起始地:{{task.startPlaceStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">目的地:{{task.endPlaceStr}}</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder" *ngIf="task.state == 1">状态:未执行</div>
+                      <div class="placeholder" *ngIf="task.state == 2">状态:在途</div>
+                      <div class="placeholder" *ngIf="task.state == 3">状态:已收货</div>
+                    </div>
+                    <!--<div class="weui-flex__item">-->
+                    <!--<div class="placeholder"></div>-->
+                    <!--</div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="weui-form-preview__ft">
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToContractDetail(task.contractId)">对应合同</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToOrderDetail(task.orderId)">对应订单</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 公路展示方式 -->
+        <div *ngIf="queryParam.transportType == 3">
+          <div *ngFor="let task of allTaskList" class="weui-panel">
+            <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack(task.id)">
+              <div class="weui-media-box weui-media-box_text">
+                <div class="weui-media-box__desc">
+                  <div class="weui-flex">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货名:{{task.cargoNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货量:{{task.loadedTon|number:'1.2-2'}}吨</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">车辆数:{{task.truckAmount}}</div>
+                    </div>
+                  </div>
+
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">起始地:{{task.startPlaceStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">目的地:{{task.endPlaceStr}}</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder" *ngIf="task.state == 1">状态:未执行</div>
+                      <div class="placeholder" *ngIf="task.state == 2">状态:在途</div>
+                      <div class="placeholder" *ngIf="task.state == 3">状态:已收货</div>
+                    </div>
+                    <!--<div class="weui-flex__item">-->
+                    <!--<div class="placeholder"></div>-->
+                    <!--</div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="weui-form-preview__ft">
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToContractDetail(task.contractId)">对应合同</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToOrderDetail(task.orderId)">对应订单</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 码头展示方式 -->
+        <div *ngIf="queryParam.transportType == 4">
+          <div *ngFor="let task of allTaskList" class="weui-panel">
+            <div class="weui-panel__bd" tappable (click)="goToLogisticsTaskTrack(task.id)">
+              <div class="weui-media-box weui-media-box_text">
+                <div class="weui-media-box__desc">
+                  <div class="weui-flex">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">码头:{{task.wharfName}}</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货名:{{task.cargoNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">货量:{{task.loadedTon|number:'1.2-2'}}吨</div>
+                    </div>
+                  </div>
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder">船名:{{task.shipNameStr}}</div>
+                    </div>
+                    <div class="weui-flex__item">
+                      <div class="placeholder">航次:{{task.voyage}}</div>
+                    </div>
+                  </div>
+
+                  <div class="weui-flex weui-flex-margin-top">
+                    <div class="weui-flex__item">
+                      <div class="placeholder" *ngIf="task.state == 1">状态:未执行</div>
+                      <div class="placeholder" *ngIf="task.state == 2">状态:在途</div>
+                      <div class="placeholder" *ngIf="task.state == 3">状态:已收货</div>
+                    </div>
+                    <!--<div class="weui-flex__item">-->
+                    <!--<div class="placeholder"></div>-->
+                    <!--</div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="weui-form-preview__ft">
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToContractDetail(task.contractId)">对应合同</a>
+              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+                 (click)="goToOrderDetail(task.orderId)">对应订单</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="weui-form-preview__ft" *ngIf="allPager.currPageNo < allPager.totalPageCount">
+          <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0)" tappable
+             (click)="doInfinite()">点 击 加 载 更 多</a>
+        </div>
+        <div class="weui-msg__extra-area" *ngIf="allPager.currPageNo == allPager.totalPageCount">
+          <div class="weui-footer">
+            <p class="weui-footer__text">---- 到底了 ----</p>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>

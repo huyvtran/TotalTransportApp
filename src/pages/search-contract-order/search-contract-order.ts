@@ -30,6 +30,7 @@ export class SearchContractOrderPage {
     console.log('ionViewDidLoad SearchContractOrderPage');
     let startTime = new Date();
     let endTime = new Date();
+    startTime.setFullYear(startTime.getFullYear() - 1);
     startTime.setDate(1);
     endTime.setMonth(endTime.getMonth() + 1);
     endTime.setDate(1);
@@ -45,7 +46,7 @@ export class SearchContractOrderPage {
       this.alertTips('起始时间不能大于截止时间！');
       return;
     }
-    this.navCtrl.push('contract-order');
+    this.navCtrl.push('contract-order', {startDate: this.startDate, endDate: this.endDate});
   }
 
   formatDate(date) {
