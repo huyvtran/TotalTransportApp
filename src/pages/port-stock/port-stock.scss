@@ -9,13 +9,13 @@ page-port-stock {
     text-align: center;
   }
 
-  .weui-flex .weui-flex__item{
+  .weui-flex .weui-flex__item {
     height: 42px;
     line-height: 42px;
     border-bottom: 1px #cccccc solid;
   }
 
-  .weui-flex-total-tips .weui-flex__item{
+  .weui-flex-total-tips .weui-flex__item {
     border-bottom: none;
   }
 
@@ -32,4 +32,16 @@ page-port-stock {
   .weui-flex-title {
     color: #1e9bdd;
   }
+
+  .weui-msg__extra-area {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    padding-bottom: 10px;
+    position: relative;
+    left: auto;
+    bottom: auto;
+    width: 100%;
+    text-align: center
+  }
+
 }

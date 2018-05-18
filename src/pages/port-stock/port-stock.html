@@ -8,9 +8,17 @@
 
 
 <ion-content class="container-div">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="松开刷新"
+      refreshingSpinner="circles"
+      refreshingText="刷新中...">
+    </ion-refresher-content>
+  </ion-refresher>
   <div class="weui-flex weui-flex-total-tips">
     <div class="weui-flex__item">
-      <div class="placeholder">港存量：50000（吨）</div>
+      <div class="placeholder">港存量：{{stockTotalCount|number:'1.2-2'}}（吨）</div>
     </div>
   </div>
   <div class="weui-flex weui-flex-title">
@@ -27,74 +35,31 @@
       <div class="placeholder">港存量(吨)</div>
     </div>
   </div>
-  <div class="weui-flex" tappable (click)="goToPortStockDetail()">
+  <div *ngIf="stockInfoList.length < 1" class="weui-flex">
     <div class="weui-flex__item">
-      <div class="placeholder">宁波港</div>
-    </div>
-    <div class="weui-flex__item">
-      <div class="placeholder">矿石码头</div>
-    </div>
-    <div class="weui-flex__item">
-      <div class="placeholder">铁矿石</div>
-    </div>
-    <div class="weui-flex__item">
-      <div class="placeholder">10000</div>
+      <div class="placeholder">未查询到相关信息</div>
     </div>
   </div>
-  <div class="weui-flex" tappable (click)="goToPortStockDetail()">
+  <div *ngFor="let stockInfo of stockInfoList" class="weui-flex" tappable (click)="goToPortStockDetail(stockInfo)">
     <div class="weui-flex__item">
-      <div class="placeholder">宁波港</div>
+      <div class="placeholder">{{stockInfo.portName}}</div>
     </div>
     <div class="weui-flex__item">
-      <div class="placeholder">矿石码头</div>
+      <div class="placeholder">{{stockInfo.terminalName}}</div>
     </div>
     <div class="weui-flex__item">
-      <div class="placeholder">铁矿石</div>
+      <div class="placeholder">{{stockInfo.cargoName}}</div>
     </div>
     <div class="weui-flex__item">
-      <div class="placeholder">10000</div>
-    </div>
-  </div>
-  <div class="weui-flex" tappable (click)="goToPortStockDetail()">
-    <div class="weui-flex__item">
-      <div class="placeholder">宁波港</div>
-    </div>
-    <div class="weui-flex__item">
-      <div class="placeholder">矿石码头</div>
-    </div>
-    <div class="weui-flex__item">
-      <div class="placeholder">铁矿石</div>
-    </div>
-    <div class="weui-flex__item">
-      <div class="placeholder">10000</div>
+      <div class="placeholder">{{stockInfo.cargoQuantity}}</div>
     </div>
   </div>
-  <div class="weui-flex" tappable (click)="goToPortStockDetail()">
-    <div class="weui-flex__item">
-      <div class="placeholder">宁波港</div>
-    </div>
-    <div class="weui-flex__item">
-      <div class="placeholder">矿石码头</div>
-    </div>
-    <div class="weui-flex__item">
-      <div class="placeholder">铁矿石</div>
-    </div>
-    <div class="weui-flex__item">
-      <div class="placeholder">10000</div>
+  <div class="weui-msg__extra-area" *ngIf="pager.currPageNo == pager.totalPageCount">
+    <div class="weui-footer">
+      <p class="weui-footer__text">---- 到底了 ----</p>
     </div>
   </div>
-  <div class="weui-flex" tappable (click)="goToPortStockDetail()">
-    <div class="weui-flex__item">
-      <div class="placeholder">宁波港</div>
-    </div>
-    <div class="weui-flex__item">
-      <div class="placeholder">矿石码头</div>
-    </div>
-    <div class="weui-flex__item">
-      <div class="placeholder">铁矿石</div>
-    </div>
-    <div class="weui-flex__item">
-      <div class="placeholder">10000</div>
-    </div>
-  </div>
+  <ion-infinite-scroll *ngIf="pager.currPageNo < pager.totalPageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

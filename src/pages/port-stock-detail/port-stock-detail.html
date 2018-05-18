@@ -12,19 +12,19 @@
     <div class="weui-form-preview__bd">
       <p>
         <label class="weui-form-preview__label">港口</label>
-        <span class="weui-form-preview__value">宁波港</span>
+        <span class="weui-form-preview__value">{{stockInfo.portName}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">码头</label>
-        <span class="weui-form-preview__value">矿石码头</span>
+        <span class="weui-form-preview__value">{{stockInfo.terminalName}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">货名</label>
-        <span class="weui-form-preview__value">铁矿石</span>
+        <span class="weui-form-preview__value">{{stockInfo.cargoName}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">港存量</label>
-        <span class="weui-form-preview__value">10000(吨)</span>
+        <span class="weui-form-preview__value">{{stockInfo.cargoQuantity}}(吨)</span>
       </p>
     </div>
   </div>
@@ -38,24 +38,39 @@
       <div class="placeholder">航次</div>
     </div>
     <div class="weui-flex__item">
-      <div class="placeholder">堆期</div>
+      <div class="placeholder">堆期(天)</div>
     </div>
     <div class="weui-flex__item">
       <div class="placeholder">港存量(吨)</div>
     </div>
   </div>
-  <div class="weui-flex">
+
+  <div *ngIf="stockInfo.length < 1" class="weui-flex">
     <div class="weui-flex__item">
-      <div class="placeholder">塔哈罗尔</div>
-    </div>
-    <div class="weui-flex__item">
-      <div class="placeholder">1804</div>
-    </div>
-    <div class="weui-flex__item">
-      <div class="placeholder">30天</div>
-    </div>
-    <div class="weui-flex__item">
-      <div class="placeholder">10000</div>
+      <div class="placeholder">未查询到相关信息</div>
     </div>
   </div>
+
+  <div class="weui-flex" *ngFor="let detail of stockDetailList">
+    <div class="weui-flex__item">
+      <div class="placeholder">{{detail.vesselName}}</div>
+    </div>
+    <div class="weui-flex__item">
+      <div class="placeholder">{{detail.voyage}}</div>
+    </div>
+    <div class="weui-flex__item">
+      <div class="placeholder">{{detail.detailPeriod}}</div>
+    </div>
+    <div class="weui-flex__item">
+      <div class="placeholder">{{detail.cargoQuantity}}</div>
+    </div>
+  </div>
+  <div class="weui-msg__extra-area" *ngIf="pager.currPageNo == pager.totalPageCount">
+    <div class="weui-footer">
+      <p class="weui-footer__text">---- 到底了 ----</p>
+    </div>
+  </div>
+  <ion-infinite-scroll *ngIf="pager.currPageNo < pager.totalPageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

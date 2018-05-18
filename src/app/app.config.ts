@@ -8,6 +8,11 @@ export class AppConfig {
   //AppKey
   public static APP_KEY: string = 'TotalLogisticsApp';
 
+  //附件访问地址
+  public static getAttachmentUrl() {
+    return 'http://202.96.124.70:8886/cbosAppServer';
+  }
+
   //使用的url
   public static getUrl() {
     return AppConfig.getDebugUrl();
