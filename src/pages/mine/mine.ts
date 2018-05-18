@@ -1,9 +1,11 @@
 import {Component} from '@angular/core';
-import {App, AlertController, IonicPage, NavController, LoadingController, NavParams} from 'ionic-angular';
+import {App, Platform, AlertController, IonicPage, NavController, LoadingController, NavParams} from 'ionic-angular';
 import {StorageServiceProvider} from "../../providers/storage-service/storage-service";
 import {AppVersion} from '@ionic-native/app-version';
 import {JpushUtilProvider} from "../../providers/jpush-util/jpush-util";
 import {AppConfig} from "../../app/app.config";
+import {InAppBrowser} from '@ionic-native/in-app-browser';
+import {BaseServiceProvider} from "../../providers/base-service/base-service";
 
 /**
  * 我的
@@ -16,15 +18,20 @@ import {AppConfig} from "../../app/app.config";
 @Component({
   selector: 'page-mine',
   templateUrl: 'mine.html',
-  providers: [AppVersion, StorageServiceProvider, JpushUtilProvider]
+  providers: [AppVersion, StorageServiceProvider, JpushUtilProvider, InAppBrowser, BaseServiceProvider]
 })
 export class MinePage {
   private appVersionNo: any = '1.0.1';
 
+  private resultData: any = {};
+
   constructor(public app: App,
+              public platform: Platform,
               public alertCtrl: AlertController,
               public appVersion: AppVersion,
               public navCtrl: NavController,
+              public inAppBrowser: InAppBrowser,
+              public baseService: BaseServiceProvider,
               public storageService: StorageServiceProvider,
               public jPushUtil: JpushUtilProvider,
               public navParams: NavParams) {
@@ -99,6 +106,65 @@ export class MinePage {
 
   goToModifyPassword() {
     this.navCtrl.push('modify-password');
+  }
+
+  goToAboutApprove() {
+    this.navCtrl.push('about-approve');
+  }
+
+  checkVersionUpdate() {
+    this.baseService.getLastestVersion().then(data => {
+      this.resultData = data;
+      let serverVersionNo = this.resultData.appVersionHistory.versionNo;
+      if (this.appVersionNo >= serverVersionNo) {
+        // this.noticeService.presentToastNew('当前版本是最新的', 2000, 'middle');
+        let alert = this.alertCtrl.create({
+          title: '提示',
+          subTitle: '已是最新版！',
+          buttons: ['确定']
+        });
+        alert.present();
+      } else {
+        this.confirmUpdateVersion();
+      }
+    }, err => {
+      let alert = this.alertCtrl.create({
+        title: '提示',
+        subTitle: err,
+        buttons: ['确定']
+      });
+      alert.present();
+    });
+  }
+
+  confirmUpdateVersion() {
+    let confirm = this.alertCtrl.create({
+      title: '提示',
+      message: '有新的版本,是否更新?',
+      buttons: [
+        {
+          text: '确认',
+          handler: () => {
+            console.log('Agree clicked');
+            //根据不同平台跳往不同的页面下载更新
+            if (this.platform.is("android")) {
+              const browser = this.inAppBrowser.create(AppConfig.getAndroidUpdateUrl(), '_system');
+              browser.show();
+            } else if (this.platform.is("ios")) {
+              const browser = this.inAppBrowser.create(AppConfig.getIosUpdateUrl(), '_system');
+              browser.show();
+            }
+          }
+        },
+        {
+          text: '取消',
+          handler: () => {
+            console.log('Disagree clicked');
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 

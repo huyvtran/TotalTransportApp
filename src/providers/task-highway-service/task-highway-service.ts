@@ -25,9 +25,9 @@ export class TaskHighwayServiceProvider {
       // 物流任务状态   0 ：所有物流任务； 1：未执行； 2： 在途； 3： 已完成
       state: queryParam.state,
       //托运人(船方)
-      carrier:queryParam.carrier,
+      carrier: queryParam.carrier,
       //承运人(货主)
-      consignor:queryParam.consignor,
+      consignor: queryParam.consignor,
       page: page,
       rows: rows
     };
@@ -56,10 +56,12 @@ export class TaskHighwayServiceProvider {
     });
   }
 
-  getAttachmentFileListByPage(taskId) {
+  getAttachmentFileListByPage(taskId, page, rows) {
     let url = AppConfig.getUrl() + '/app/taskHighway/getAttachmentFileListByPage.do';
     let params = {
-      taskId: taskId
+      taskId: taskId,
+      page: page,
+      rows: rows
     };
     return new Promise((resolve, reject) => {
       this.http.post(url, this.toQueryString(params), this.options)

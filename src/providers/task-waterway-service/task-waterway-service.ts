@@ -59,10 +59,12 @@ export class TaskWaterwayServiceProvider {
     });
   }
 
-  getAttachmentFileListByPage(taskId) {
+  getAttachmentFileListByPage(taskId, page, rows) {
     let url = AppConfig.getUrl() + '/app/taskWaterway/getAttachmentFileListByPage.do';
     let params = {
-      taskId: taskId
+      taskId: taskId,
+      page: page,
+      rows: rows
     };
     return new Promise((resolve, reject) => {
       this.http.post(url, this.toQueryString(params), this.options)
