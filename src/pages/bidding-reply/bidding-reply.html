@@ -1,0 +1,55 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="back-custom"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>竞 价 回 复</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+      <div class="weui-cell__hd">
+        <label class="weui-label">运输工具</label>
+      </div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="text" [(ngModel)]="orderEnquiryReply.toolMemo" placeholder="请输入运输工具"/>
+      </div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__hd">
+        <label class="weui-label">报价(元)</label>
+      </div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="number" pattern="[0-9]*" [(ngModel)]="orderEnquiryReply.quote"
+               placeholder="请输入报价"/>
+      </div>
+    </div>
+
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label">有效期</label></div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="date" [(ngModel)]="orderEnquiryReply.validityPeriod"/>
+      </div>
+    </div>
+
+    <div class="weui-cell">
+      <div class="weui-cell__bd">
+        <textarea class="weui-textarea" placeholder="请输入备注" [(ngModel)]="orderEnquiryReply.memo" rows="3"></textarea>
+        <div class="weui-textarea-counter"><span>{{orderEnquiryReply.memo.length}}</span>/200</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="weui-btn-area">
+    <button ion-button block (click)="submit()">
+      提&nbsp;&nbsp;&nbsp;&nbsp;交
+    </button>
+  </div>
+</ion-content>

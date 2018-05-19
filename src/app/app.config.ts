@@ -10,7 +10,7 @@ export class AppConfig {
 
   //附件访问地址
   public static getAttachmentUrl() {
-    return 'http://202.96.124.70:8886/cbosAppServer';
+    return 'http://202.96.124.70:8886/cbosAppServer/';
   }
 
   //使用的url
@@ -21,9 +21,9 @@ export class AppConfig {
 
   //测试环境URL
   public static getDebugUrl() {
-    return "http://127.0.0.1:8086/cbosAppServer";
+    // return "http://127.0.0.1:8086/cbosAppServer";
     // return "http://10.1.1.87:8080/cbosAppServer";
-    // return "http://202.96.124.70:8886/cbosAppServer";
+    return "http://202.96.124.70:8886/cbosAppServer";
   }
 
   //生产环境URL

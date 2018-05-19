@@ -351,7 +351,6 @@ export class BusinessCommissionPage {
         alert.dismiss();
       }, timeout);
     }
-
   }
 
 }

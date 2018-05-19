@@ -1,0 +1,102 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>竞价回复详情</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="content-div">
+  <div class="weui-cells__title weui-cells__title_contract_no">竞价详情</div>
+  <div class="weui-form-preview">
+    <div class="weui-form-preview__bd">
+      <p>
+        <label class="weui-form-preview__label">货名</label>
+        <span class="weui-form-preview__value">{{bidding.cargoNameStr}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">货类</label>
+        <span class="weui-form-preview__value">{{bidding.cargoTypeStr}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">起始地</label>
+        <span class="weui-form-preview__value">{{bidding.startPlaceStr}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">目的地</label>
+        <span class="weui-form-preview__value">{{bidding.endPlaceStr}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">货量</label>
+        <span class="weui-form-preview__value">{{bidding.amount}}{{bidding.unitStr}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">有效期</label>
+        <span class="weui-form-preview__value">{{bidding.validityPeriod|date:'yyyy.MM.dd'}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">询价对象</label>
+        <span class="weui-form-preview__value">{{bidding.enquiryObjectStr}}</span>
+      </p>
+      <p>
+        <label class="weui-form-preview__label">最低价</label>
+        <span class="weui-form-preview__value">¥{{bidding.lowerPrice|number:'1.2-2'}}</span>
+      </p>
+    </div>
+    <div class="weui-form-preview__ft">
+      <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0)" tappable
+         (click)="goToBiddingReply()">竞 价 回 复</a>
+    </div>
+  </div>
+  <div class="weui-cells__title">历史回复信息</div>
+  <div class="weui-panel" *ngIf="biddingReplyList.length < 1">
+    <div class="weui-panel__bd">
+      <div class="weui-media-box weui-media-box_text">
+        <div class="weui-media-box__desc">
+          未查询到相关信息
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="weui-panel" *ngFor="let biddingReply of biddingReplyList">
+    <div class="weui-panel__bd">
+      <div class="weui-media-box weui-media-box_text">
+        <div class="weui-media-box__desc">
+          <div class="weui-flex">
+            <div class="weui-flex__item">
+              <div class="placeholder">运输工具:{{biddingReply.toolMemo}}</div>
+            </div>
+            <div class="weui-flex__item">
+              <div class="placeholder">报价:¥{{biddingReply.quote|number:'1.2-2'}}</div>
+            </div>
+          </div>
+          <div class="weui-flex weui-flex-margin-top">
+            <div class="weui-flex__item">
+              <div class="placeholder">有效期:{{biddingReply.validityPeriod|date:'yyyy.MM.dd'}}</div>
+            </div>
+          </div>
+          <div class="weui-flex weui-flex-margin-top">
+            <div class="weui-flex__item">
+              <div class="placeholder">回复对象:{{biddingReply.providerName}}</div>
+            </div>
+          </div>
+          <div class="weui-flex weui-flex-margin-top">
+            <div class="weui-flex__item">
+              <div class="placeholder">回复时间:{{biddingReply.createTime|date:'yyyy.MM.dd HH:mm'}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="weui-form-preview__ft" *ngIf="pager.currPageNo < pager.totalPageCount">
+    <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0)" tappable
+       (click)="doInfinite()">点 击 加 载 更 多</a>
+  </div>
+  <div class="weui-msg__extra-area" *ngIf="pager.currPageNo == pager.totalPageCount">
+    <div class="weui-footer">
+      <p class="weui-footer__text">---- 到底了 ----</p>
+    </div>
+  </div>
+</ion-content>

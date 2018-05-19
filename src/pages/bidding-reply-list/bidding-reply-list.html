@@ -1,0 +1,73 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>竞 价 回 复 列 表</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="container-div">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="松开刷新"
+      refreshingSpinner="circles"
+      refreshingText="刷新中...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="weui-panel" *ngIf="biddingList.length < 1">
+    <div class="weui-panel__bd">
+      <div class="weui-media-box weui-media-box_text">
+        <div class="weui-media-box__desc">
+          未查询到相关信息
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="weui-panel" *ngFor="let bidding of biddingList">
+    <div class="weui-panel__bd" tappable (click)="goToBiddingReplyDetail(bidding)">
+      <div class="weui-media-box weui-media-box_text">
+        <div class="weui-media-box__desc">
+          <div class="weui-flex">
+            <div class="weui-flex__item">
+              <div class="placeholder">货名:{{bidding.cargoNameStr}}</div>
+            </div>
+            <div class="weui-flex__item">
+              <div class="placeholder">货量:{{bidding.amount}}{{bidding.unitStr}}</div>
+            </div>
+          </div>
+          <div class="weui-flex weui-flex-margin-top">
+            <div class="weui-flex__item">
+              <div class="placeholder">起始地:{{bidding.startPlaceStr}}</div>
+            </div>
+            <div class="weui-flex__item">
+              <div class="placeholder">目的地:{{bidding.endPlaceStr}}</div>
+            </div>
+          </div>
+          <div class="weui-flex weui-flex-margin-top">
+            <div class="weui-flex__item">
+              <div class="placeholder">最低价:¥{{bidding.lowerPrice|number:'1.2-2'}}</div>
+            </div>
+            <div class="weui-flex__item">
+              <div class="placeholder">有效期:{{bidding.validityPeriod|date:'yyyy.MM.dd'}}</div>
+            </div>
+          </div>
+          <div class="weui-flex weui-flex-margin-top">
+            <div class="weui-flex__item">
+              <div class="placeholder">询价对象:{{bidding.enquiryObjectStr}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="weui-msg__extra-area" *ngIf="pager.currPageNo == pager.totalPageCount">
+    <div class="weui-footer">
+      <p class="weui-footer__text">---- 到底了 ----</p>
+    </div>
+  </div>
+  <ion-infinite-scroll *ngIf="pager.currPageNo < pager.totalPageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

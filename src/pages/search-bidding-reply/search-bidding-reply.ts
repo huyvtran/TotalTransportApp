@@ -1,43 +1,33 @@
 import {Component} from '@angular/core';
 import {App, LoadingController, AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
-import {BaseServiceProvider} from "../../providers/base-service/base-service";
 
 /**
- * 船盘查询
+ * 搜索竞价回复
  */
 
 @IonicPage({
-  name: 'search-ship',
-  segment: 'search-ship'
+  name: 'search-bidding-reply',
+  segment: 'search-bidding-reply'
 })
 @Component({
-  selector: 'page-search-ship',
-  templateUrl: 'search-ship.html',
-  providers: [BaseServiceProvider]
+  selector: 'page-search-bidding-reply',
+  templateUrl: 'search-bidding-reply.html',
 })
-export class SearchShipPage {
+export class SearchBiddingReplyPage {
 
-  private resultData: any = {};
+  private startDate: any;
 
-  private queryParam: any = {
-    port: '',
-    startDate: '',
-    endDate: ''
-  };
-
-  private portList = [];
+  private endDate: any;
 
   constructor(public navCtrl: NavController,
               public app: App,
-              public baseService: BaseServiceProvider,
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
               public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SearchShipPage');
-    this.initPort();
+    console.log('ionViewDidLoad SearchBiddingReplyPage');
     let startTime = new Date();
     let endTime = new Date();
     startTime.setFullYear(startTime.getFullYear() - 1);
@@ -45,26 +35,18 @@ export class SearchShipPage {
     endTime.setMonth(endTime.getMonth() + 1);
     endTime.setDate(1);
     endTime.setTime(endTime.getTime() - 24 * 60 * 60 * 1000);
-    this.queryParam.startDate = this.formatDate(startTime);
-    this.queryParam.endDate = this.formatDate(endTime);
-  }
-
-  initPort() {
-    this.baseService.getBasePortList().then(data => {
-      console.log(data);
-      this.resultData = data;
-      this.portList = this.resultData.basePortList;
-    });
+    this.startDate = this.formatDate(startTime);
+    this.endDate = this.formatDate(endTime);
   }
 
   search() {
-    console.log(this.queryParam.startDate);
-    console.log(this.queryParam.endDate);
-    if (new Date(this.queryParam.startDate).getTime() > new Date(this.queryParam.endDate).getTime()) {
+    console.log(this.startDate);
+    console.log(this.endDate);
+    if (new Date(this.startDate).getTime() > new Date(this.endDate).getTime()) {
       this.alertTips('起始时间不能大于截止时间！');
       return;
     }
-    this.navCtrl.push('ship', {queryParam: this.queryParam});
+    this.navCtrl.push('bidding-reply-list', {startDate: this.startDate, endDate: this.endDate});
   }
 
   formatDate(date) {
