@@ -46,7 +46,7 @@ export class SearchContractOrderPage {
       this.alertTips('起始时间不能大于截止时间！');
       return;
     }
-    this.navCtrl.push('bidding-reply-list', {startDate: this.startDate, endDate: this.endDate});
+    this.navCtrl.push('contract-order', {startDate: this.startDate, endDate: this.endDate});
   }
 
   formatDate(date) {
