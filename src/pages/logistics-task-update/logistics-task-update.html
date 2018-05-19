@@ -1,0 +1,61 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="back-custom"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>物 流 更 新</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div class="weui-cells weui-cells_form">
+    <div class="weui-cell weui-cell_select weui-cell_select-after">
+      <div class="weui-cell__hd">
+        <label class="weui-label">物流状态</label>
+      </div>
+      <div class="weui-cell__bd">
+        <select class="weui-select" [(ngModel)]="taskTrack.state">
+          <option value="">请选择</option>
+          <option value="1">未执行</option>
+          <option value="2">在途</option>
+          <option value="3">已收货</option>
+        </select>
+      </div>
+    </div>
+    <div class="weui-cell" tappable (click)="updateLogisticsAttachment()">
+      <div class="weui-cell__hd"><label class="weui-label">附件上传</label></div>
+      <div class="weui-cell__bd">
+        请点击上传附件
+      </div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__bd">
+        <textarea class="weui-textarea" placeholder="请输入物流备注信息" [(ngModel)]="taskTrack.taskDesc" rows="3"></textarea>
+        <div class="weui-textarea-counter"><span>{{taskTrack.taskDesc.length}}</span>/200</div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="chooseAttachmentPhoto && chooseAttachmentPhoto.length > 0" class="photo-cont-wrap">
+    <ul class="photo-cont" [ngStyle]="setAttachmentPhotoGalleryStyle()">
+      <li class="photo-cont-list" [ngStyle]="setAttachmentPhotoStyle()"
+          *ngFor="let attachment of chooseAttachmentPhoto;">
+        <a href="javascript:void(0)">
+          <img [ngStyle]="setAttachmentPhotoStyle()"
+               src="{{attachment}}"/>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="weui-btn-area">
+    <button ion-button block (click)="updateTaskTrack()">
+      提&nbsp;&nbsp;&nbsp;&nbsp;交
+    </button>
+  </div>
+</ion-content>

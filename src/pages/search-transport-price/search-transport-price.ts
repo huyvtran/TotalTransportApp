@@ -33,6 +33,7 @@ export class SearchTransportPricePage {
     console.log('ionViewDidLoad SearchTransportPricePage');
     let startTime = new Date();
     let endTime = new Date();
+    startTime.setFullYear(startTime.getFullYear() - 1);
     startTime.setDate(1);
     endTime.setMonth(endTime.getMonth() + 1);
     endTime.setDate(1);

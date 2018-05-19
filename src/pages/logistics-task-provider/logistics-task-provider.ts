@@ -1,5 +1,13 @@
 import {Component} from '@angular/core';
-import {App, LoadingController, AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {
+  App,
+  LoadingController,
+  ModalController,
+  AlertController,
+  IonicPage,
+  NavController,
+  NavParams
+} from 'ionic-angular';
 import {StorageServiceProvider} from "../../providers/storage-service/storage-service";
 import {AppConfig} from "../../app/app.config";
 import {TaskHighwayServiceProvider} from "../../providers/task-highway-service/task-highway-service";
@@ -8,19 +16,19 @@ import {TaskWaterwayServiceProvider} from "../../providers/task-waterway-service
 import {TaskWharfServiceProvider} from "../../providers/task-wharf-service/task-wharf-service";
 
 /**
- * 物流任务
+ * 物流任务 - 服务商
  */
 
 @IonicPage({
-  name: 'logistics-task',
-  segment: 'logistics-task'
+  name: 'logistics-task-provider',
+  segment: 'logistics-task-provider'
 })
 @Component({
-  selector: 'page-logistics-task',
-  templateUrl: 'logistics-task.html',
+  selector: 'page-logistics-task-provider',
+  templateUrl: 'logistics-task-provider.html',
   providers: [StorageServiceProvider, TaskHighwayServiceProvider, TaskRailwayServiceProvider, TaskWaterwayServiceProvider, TaskWharfServiceProvider]
 })
-export class LogisticsTaskPage {
+export class LogisticsTaskProviderPage {
 
   //物流任务状态 1未执行 2在途 3已完成 0所有
   private taskState: any = 2;
@@ -31,8 +39,8 @@ export class LogisticsTaskPage {
     shipName: '',
     //任务状态 1未执行 2在途 3已完成 0所有
     state: 0,
-    //货主单位ID
-    consignor: ''
+    //服务商ID
+    carrier: ''
   };
 
   private noExecutePager: any = {
@@ -128,6 +136,7 @@ export class LogisticsTaskPage {
 
   constructor(public navCtrl: NavController,
               public app: App,
+              public modalCtrl: ModalController,
               public storageService: StorageServiceProvider,
               public taskHignwayService: TaskHighwayServiceProvider,
               public taskRailwayService: TaskRailwayServiceProvider,
@@ -140,7 +149,7 @@ export class LogisticsTaskPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LogisticsTaskPage');
+    console.log('ionViewDidLoad LogisticsTaskProviderPage');
     let queryParam = this.navParams.get('queryParam');
     if (Boolean(queryParam)) {
       this.queryParam.transportType = queryParam.transportType;
@@ -154,7 +163,7 @@ export class LogisticsTaskPage {
     this.loginUser = this.storageService.read(AppConfig.LOGIN_USER_NAME);
     console.log(this.loginUser);
     if (Boolean(this.loginUser)) {
-      this.queryParam.consignor = this.loginUser.company;
+      this.queryParam.carrier = this.loginUser.company;
     }
   }
 
@@ -166,8 +175,15 @@ export class LogisticsTaskPage {
     this.navCtrl.push('logistics-task-track', {taskId: taskId, taskType: this.queryParam.transportType});
   }
 
-  goToLogisticsTaskAttachment(taskId) {
-    this.navCtrl.push('logistics-task-attachment', {taskId: taskId, taskType: this.queryParam.transportType});
+  goToLogisticsTrackUpdate(taskId) {
+    let modal = this.modalCtrl.create("logistics-task-update", {'taskId': taskId});
+    modal.present();
+    modal.onDidDismiss(data => {
+      console.log(data);
+      if (Boolean(data.refresh)) {
+        this.initTaskData();
+      }
+    });
   }
 
   doRefresh(refresher) {
@@ -228,7 +244,7 @@ export class LogisticsTaskPage {
       shipName: this.queryParam.shipName,
       //任务状态 1未执行 2在途 3已完成 0所有
       state: 1,
-      consignor: this.queryParam.consignor
+      carrier: this.queryParam.carrier
     };
     this.noExecuteTaskList = [];
     this.queryTaskData(queryParamObj, 1, this.pageSize, true);
@@ -241,7 +257,7 @@ export class LogisticsTaskPage {
       shipName: this.queryParam.shipName,
       //任务状态 1未执行 2在途 3已完成 0所有
       state: 2,
-      consignor: this.queryParam.consignor
+      carrier: this.queryParam.carrier
     };
     this.onPassageTaskList = [];
     this.queryTaskData(queryParamObj, 1, this.pageSize, false);
@@ -254,7 +270,7 @@ export class LogisticsTaskPage {
       shipName: this.queryParam.shipName,
       //任务状态 1未执行 2在途 3已完成 0所有
       state: 3,
-      consignor: this.queryParam.consignor
+      carrier: this.queryParam.carrier
     };
     this.completedTaskList = [];
     this.queryTaskData(queryParamObj, 1, this.pageSize, false);
@@ -267,7 +283,7 @@ export class LogisticsTaskPage {
       shipName: this.queryParam.shipName,
       //任务状态 1未执行 2在途 3已完成 0所有
       state: 0,
-      consignor: this.queryParam.consignor
+      carrier: this.queryParam.carrier
     };
     this.allTaskList = [];
     this.queryTaskData(queryParamObj, 1, this.pageSize, false);
@@ -585,5 +601,6 @@ export class LogisticsTaskPage {
     }
 
   }
+
 
 }

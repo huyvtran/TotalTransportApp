@@ -112,8 +112,12 @@ export class LogisticsTaskAttachmentPage {
     return style;
   }
 
-  showAttachmentPhoto(src) {
-    this.photoViewer.show(src, '物流任务附件信息', {share: false});
+  getAttachmentPhotoSrc(fileName) {
+    return AppConfig.getAttachmentUrl() + fileName;
+  }
+
+  showAttachmentPhoto(fileName) {
+    this.photoViewer.show(AppConfig.getAttachmentUrl() + fileName, '物流任务附件信息', {share: false});
   }
 
   doRefresh(refresher) {

@@ -205,6 +205,14 @@ export class HomePage {
     this.navCtrl.push('business-commission');
   }
 
+  goToSearchBiddingReply() {
+    this.navCtrl.push('search-bidding-reply');
+  }
+
+  goToSearchLogisticsTaskProvider() {
+    this.navCtrl.push('search-logistics-task-provider');
+  }
+
   /*验证提醒*/
   alertTips(tips, title?, timeout?) {
     let titleTip = '提示';
