@@ -575,10 +575,12 @@ export class LogisticsTaskProviderPage {
   }
 
   goToContractDetail(contractId) {
+    console.log(contractId);
     this.navCtrl.push('contract-detail', {contractId: contractId});
   }
 
   goToOrderDetail(orderId) {
+    console.log(orderId);
     this.navCtrl.push('order-detail', {orderId: orderId});
   }
 
