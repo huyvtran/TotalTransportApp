@@ -16,6 +16,7 @@ import {FileTransfer, FileTransferObject, FileUploadOptions} from '@ionic-native
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {ImagePicker} from '@ionic-native/image-picker';
 import {LogisticsTaskServiceProvider} from "../../providers/logistics-task-service/logistics-task-service";
+import {PhotoViewer} from '@ionic-native/photo-viewer';
 
 /**
  * 物流任务更新
@@ -28,7 +29,7 @@ import {LogisticsTaskServiceProvider} from "../../providers/logistics-task-servi
 @Component({
   selector: 'page-logistics-task-update',
   templateUrl: 'logistics-task-update.html',
-  providers: [StorageServiceProvider, File, FileTransfer, Camera, ImagePicker, LogisticsTaskServiceProvider]
+  providers: [StorageServiceProvider, File, FileTransfer, PhotoViewer, Camera, ImagePicker, LogisticsTaskServiceProvider]
 })
 export class LogisticsTaskUpdatePage {
 
@@ -63,6 +64,7 @@ export class LogisticsTaskUpdatePage {
               private transfer: FileTransfer,
               private file: File,
               public camera: Camera,
+              public photoViewer: PhotoViewer,
               public imagePicker: ImagePicker,
               public viewCtrl: ViewController,
               public storageService: StorageServiceProvider,
@@ -269,7 +271,8 @@ export class LogisticsTaskUpdatePage {
   }
 
   setAttachmentPhotoStyle() {
-    let classImgWidth = (AppConfig.getWindowWidth() - 72) / 3;
+    //每个图片所占屏幕宽度
+    let classImgWidth = (AppConfig.getWindowWidth() - 40) / 3;
     let classImgHeight = classImgWidth * 0.75;
     let styles = {
       'width': classImgWidth + 'px',
@@ -279,7 +282,8 @@ export class LogisticsTaskUpdatePage {
   }
 
   setAttachmentPhotoGalleryStyle() {
-    let classImgWidth = (AppConfig.getWindowWidth() - 72) / 3 + 10;
+    //每个图片所占宽度+左边距10px
+    let classImgWidth = (AppConfig.getWindowWidth() - 40) / 3 + 10;
     if (Boolean(this.chooseAttachmentPhoto) && this.chooseAttachmentPhoto.length > 0) {
       let styles = {
         'width': this.chooseAttachmentPhoto.length * classImgWidth + 10 + 'px'
@@ -288,6 +292,10 @@ export class LogisticsTaskUpdatePage {
     } else {
       return '';
     }
+  }
+
+  showAttachmentPhoto(src) {
+    this.photoViewer.show(src, '物流任务附件信息', {share: false});
   }
 
   /*验证提醒*/

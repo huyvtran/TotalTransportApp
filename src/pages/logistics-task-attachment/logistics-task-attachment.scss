@@ -7,6 +7,7 @@ page-logistics-task-attachment {
 
   .photo-cont-wrap {
     width: 100%;
+    height: auto;
   }
   .photo-cont {
     padding-top: 10px;
@@ -29,7 +30,7 @@ page-logistics-task-attachment {
     padding-bottom: 10px;
     position: relative;
     left: auto;
-    bottom: auto;
+    bottom: 0px;
     width: 100%;
     text-align: center
   }

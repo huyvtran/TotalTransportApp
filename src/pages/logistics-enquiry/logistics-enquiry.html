@@ -21,6 +21,15 @@
       refreshingText="刷新中...">
     </ion-refresher-content>
   </ion-refresher>
+  <div class="weui-panel" *ngIf="enquiryList.length < 1">
+    <div class="weui-panel__bd">
+      <div class="weui-media-box weui-media-box_text">
+        <div class="weui-media-box__desc">
+          未查询到相关信息
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="weui-panel" *ngFor="let enquiry of enquiryList">
     <div class="weui-panel__bd" tappable (click)="goToLogisticsEnquiryDetail(enquiry.id)">
       <div class="weui-media-box weui-media-box_text">

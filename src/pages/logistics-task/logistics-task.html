@@ -45,10 +45,10 @@
           <div class="placeholder" *ngIf="taskState == 0">{{allShipCount|number:'1.0-2'}}</div>
         </div>
         <div class="weui-flex__item">
-          <div class="placeholder" *ngIf="taskState == 1">{{noExecuteLoadedTonSum|number:'1.2-2'}}</div>
-          <div class="placeholder" *ngIf="taskState == 2">{{onPassageLoadedTonSum|number:'1.2-2'}}</div>
-          <div class="placeholder" *ngIf="taskState == 3">{{completedLoadedTonSum|number:'1.2-2'}}</div>
-          <div class="placeholder" *ngIf="taskState == 0">{{allLoadedTonSum|number:'1.2-2'}}</div>
+          <div class="placeholder" *ngIf="taskState == 1">{{noExecuteLoadedTonSum|number:'1.0-2'}}</div>
+          <div class="placeholder" *ngIf="taskState == 2">{{onPassageLoadedTonSum|number:'1.0-2'}}</div>
+          <div class="placeholder" *ngIf="taskState == 3">{{completedLoadedTonSum|number:'1.0-2'}}</div>
+          <div class="placeholder" *ngIf="taskState == 0">{{allLoadedTonSum|number:'1.0-2'}}</div>
         </div>
       </div>
       <!-- 未执行 -->
@@ -110,9 +110,11 @@
             <div class="weui-form-preview__ft">
               <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
                  (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.contractId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToContractDetail(task.contractId)">对应合同</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.orderId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToOrderDetail(task.orderId)">对应订单</a>
             </div>
           </div>
@@ -165,9 +167,11 @@
             <div class="weui-form-preview__ft">
               <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
                  (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.contractId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToContractDetail(task.contractId)">对应合同</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.orderId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToOrderDetail(task.orderId)">对应订单</a>
             </div>
           </div>
@@ -217,9 +221,11 @@
             <div class="weui-form-preview__ft">
               <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
                  (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.contractId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToContractDetail(task.contractId)">对应合同</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.orderId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToOrderDetail(task.orderId)">对应订单</a>
             </div>
           </div>
@@ -269,9 +275,11 @@
             <div class="weui-form-preview__ft">
               <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
                  (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.contractId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToContractDetail(task.contractId)">对应合同</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.orderId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToOrderDetail(task.orderId)">对应订单</a>
             </div>
           </div>
@@ -347,9 +355,11 @@
             <div class="weui-form-preview__ft">
               <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
                  (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.contractId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToContractDetail(task.contractId)">对应合同</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.orderId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToOrderDetail(task.orderId)">对应订单</a>
             </div>
           </div>
@@ -402,9 +412,11 @@
             <div class="weui-form-preview__ft">
               <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
                  (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.contractId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToContractDetail(task.contractId)">对应合同</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.orderId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToOrderDetail(task.orderId)">对应订单</a>
             </div>
           </div>
@@ -454,9 +466,11 @@
             <div class="weui-form-preview__ft">
               <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
                  (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.contractId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToContractDetail(task.contractId)">对应合同</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.orderId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToOrderDetail(task.orderId)">对应订单</a>
             </div>
           </div>
@@ -506,9 +520,11 @@
             <div class="weui-form-preview__ft">
               <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
                  (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.contractId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToContractDetail(task.contractId)">对应合同</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.orderId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToOrderDetail(task.orderId)">对应订单</a>
             </div>
           </div>
@@ -585,9 +601,11 @@
             <div class="weui-form-preview__ft">
               <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
                  (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.contractId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToContractDetail(task.contractId)">对应合同</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.orderId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToOrderDetail(task.orderId)">对应订单</a>
             </div>
           </div>
@@ -640,9 +658,11 @@
             <div class="weui-form-preview__ft">
               <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
                  (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.contractId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToContractDetail(task.contractId)">对应合同</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.orderId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToOrderDetail(task.orderId)">对应订单</a>
             </div>
           </div>
@@ -692,9 +712,11 @@
             <div class="weui-form-preview__ft">
               <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
                  (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.contractId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToContractDetail(task.contractId)">对应合同</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.orderId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToOrderDetail(task.orderId)">对应订单</a>
             </div>
           </div>
@@ -744,9 +766,11 @@
             <div class="weui-form-preview__ft">
               <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
                  (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.contractId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToContractDetail(task.contractId)">对应合同</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.orderId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToOrderDetail(task.orderId)">对应订单</a>
             </div>
           </div>
@@ -822,9 +846,11 @@
             <div class="weui-form-preview__ft">
               <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
                  (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.contractId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToContractDetail(task.contractId)">对应合同</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.orderId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToOrderDetail(task.orderId)">对应订单</a>
             </div>
           </div>
@@ -877,9 +903,11 @@
             <div class="weui-form-preview__ft">
               <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
                  (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.contractId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToContractDetail(task.contractId)">对应合同</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.orderId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToOrderDetail(task.orderId)">对应订单</a>
             </div>
           </div>
@@ -929,9 +957,11 @@
             <div class="weui-form-preview__ft">
               <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
                  (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.contractId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToContractDetail(task.contractId)">对应合同</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.orderId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToOrderDetail(task.orderId)">对应订单</a>
             </div>
           </div>
@@ -981,9 +1011,11 @@
             <div class="weui-form-preview__ft">
               <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
                  (click)="goToLogisticsTaskAttachment(task.id)">查看附件</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.contractId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToContractDetail(task.contractId)">对应合同</a>
-              <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0);" tappable
+              <a *ngIf="task.orderId" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                 href="javascript:void(0);" tappable
                  (click)="goToOrderDetail(task.orderId)">对应订单</a>
             </div>
           </div>
