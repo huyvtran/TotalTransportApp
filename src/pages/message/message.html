@@ -7,33 +7,39 @@
 </ion-header>
 
 
-<ion-content>
-  <ion-list>
-    <!--<ion-list-header>Follow us on Twitter</ion-list-header>-->
-    <button ion-item>
-      <ion-icon name="user-info" item-start></ion-icon>
-      货物已到港...
-      <span class="message-time" item-end>2018.05.02 12:33</span>
-    </button>
-    <button ion-item>
-      <ion-icon name="user-info" item-start></ion-icon>
-      货物已到港...
-      <span class="message-time" item-end>2018.05.02 12:33</span>
-    </button>
-    <button ion-item>
-      <ion-icon name="user-info" item-start></ion-icon>
-      货物已到港...
-      <span class="message-time" item-end>2018.05.02 12:33</span>
-    </button>
-    <button ion-item>
-      <ion-icon name="user-info" item-start></ion-icon>
-      货物已到港...
-      <span class="message-time" item-end>2018.05.02 12:33</span>
-    </button>
-    <button ion-item>
-      <ion-icon name="user-info" item-start></ion-icon>
-      货物已到港...
-      <span class="message-time" item-end>2018.05.02 12:33</span>
-    </button>
-  </ion-list>
+<ion-content class="container-div">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="松开刷新"
+      refreshingSpinner="circles"
+      refreshingText="刷新中...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="weui-panel" *ngIf="todoTaskList.length < 1">
+    <div class="weui-panel__bd">
+      <div class="weui-media-box weui-media-box_text">
+        <div class="weui-media-box__desc">
+          未查询到相关信息
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let todoTask of todoTaskList;let itemIndex = index" class="weui-cells"
+       [ngClass]="{'weui-cells-first':itemIndex == 0}">
+    <a class="weui-cell weui-cell_access" href="javascript:void(0);" tappable (click)="doTask(task)">
+      <div class="weui-cell__bd">
+        <p>{{todoTask.taskTitle}}</p>
+      </div>
+      <div class="weui-cell__ft weui-cell__ft-time">{{todoTask.originateTime|date:'yyyy.MM.dd'}}</div>
+    </a>
+  </div>
+  <div class="weui-msg__extra-area" *ngIf="pager.currPageNo == pager.totalPageCount">
+    <div class="weui-footer">
+      <p class="weui-footer__text">---- 到底了 ----</p>
+    </div>
+  </div>
+  <ion-infinite-scroll *ngIf="pager.currPageNo < pager.totalPageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
