@@ -1,6 +1,20 @@
 page-message {
-  .message-time{
-    color: #707070;
+  @import "../../theme/weui.min";
+
+  .container-div {
+    background-color: #efeeee;
+  }
+
+  .weui-cells {
+    margin-top: 10px;
+  }
+
+  .weui-cells-first {
+    margin-top: 0px;
+  }
+
+  .weui-cell__ft-time {
     font-size: 14px;
   }
+
 }

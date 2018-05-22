@@ -140,7 +140,6 @@ export class ShipPage {
         alert.dismiss();
       }, timeout);
     }
-
   }
 
 }
