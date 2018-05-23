@@ -3,6 +3,7 @@ import {App, LoadingController, AlertController, IonicPage, NavController, NavPa
 import {StorageServiceProvider} from "../../providers/storage-service/storage-service";
 import {AppConfig} from "../../app/app.config";
 import {TodoTaskServiceProvider} from "../../providers/todo-task-service/todo-task-service";
+import {JpushUtilProvider} from "../../providers/jpush-util/jpush-util";
 
 /**
  * Tab
@@ -14,7 +15,7 @@ import {TodoTaskServiceProvider} from "../../providers/todo-task-service/todo-ta
 })
 @Component({
   templateUrl: 'tabs.html',
-  providers: [StorageServiceProvider, TodoTaskServiceProvider]
+  providers: [StorageServiceProvider, JpushUtilProvider, TodoTaskServiceProvider]
 })
 export class TabsPage {
 
@@ -37,6 +38,7 @@ export class TabsPage {
 
   constructor(public navCtrl: NavController,
               public app: App,
+              public jpushUtil: JpushUtilProvider,
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
               public navParams: NavParams,
@@ -44,6 +46,14 @@ export class TabsPage {
               public storageService: StorageServiceProvider) {
     this.initLoginUser();
     this.initTodoTaskCount();
+    this.refreshTaskCount();
+
+  }
+
+  refreshTaskCount() {
+    setInterval(() => {
+      this.initTodoTaskCount();
+    }, 5000);
   }
 
   initLoginUser() {
@@ -59,6 +69,7 @@ export class TabsPage {
       console.log(data);
       this.resultData = data;
       this.todoTaskCount = this.resultData.totalCount;
+      this.jpushUtil.setBadge(this.todoTaskCount);
     }, err => {
       loading.dismissAll();
       this.alertTips(err);

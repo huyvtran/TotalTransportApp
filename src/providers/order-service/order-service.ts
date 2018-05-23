@@ -5,8 +5,8 @@ import {AppConfig} from "../../app/app.config";
 
 
 /*
-  订单Service
-*/
+ 订单Service
+ */
 @Injectable()
 export class OrderServiceProvider {
   //封装Header提交表单数据
@@ -183,7 +183,7 @@ export class OrderServiceProvider {
    */
   submitServiceEva(userId, orderId, itemId, starVal, serviceInfo) {
     let url = AppConfig.getUrl() + '/app/order/submitServiceEva.do';
-    let params = {orderId: orderId, itemId: itemId, starVal: starVal, serviceInfo: serviceInfo};
+    let params = {userId: userId, orderId: orderId, itemId: itemId, starVal: starVal, serviceInfo: serviceInfo};
     return new Promise((resolve, reject) => {
       this.http.post(url, this.toQueryString(params), this.options)
         .map(res => res.json())

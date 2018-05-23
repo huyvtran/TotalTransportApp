@@ -27,13 +27,15 @@
   </div>
   <div *ngIf="attachmentList && attachmentList.length > 0" class="photo-cont-wrap">
     <ul class="photo-cont" [ngStyle]="setAttachmentPhotoGalleryStyle()">
-      <li class="photo-cont-list" [ngStyle]="setAttachmentPhotoStyle()" *ngFor="let attachment of attachmentList;">
-        <a href="javascript:void(0)">
-          <img [ngStyle]="setAttachmentPhotoStyle()" tappable
-               (click)="showAttachmentPhoto(attachment.attachmentPicBase64Str)"
-               src="{{attachment.attachmentPicBase64Str}}"/>
-        </a>
-      </li>
+      <div *ngFor="let attachment of attachmentList;">
+        <li *ngIf="attachment.attachmentPicBase64Str" class="photo-cont-list" [ngStyle]="setAttachmentPhotoStyle()">
+          <a href="javascript:void(0)">
+            <img [ngStyle]="setAttachmentPhotoStyle()" tappable
+                 (click)="showAttachmentPhoto(attachment.attachmentPicBase64Str)"
+                 src="{{attachment.attachmentPicBase64Str}}"/>
+          </a>
+        </li>
+      </div>
     </ul>
   </div>
 

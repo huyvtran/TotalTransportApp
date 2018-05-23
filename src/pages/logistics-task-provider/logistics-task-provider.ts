@@ -175,6 +175,10 @@ export class LogisticsTaskProviderPage {
     this.navCtrl.push('logistics-task-track', {taskId: taskId, taskType: this.queryParam.transportType});
   }
 
+  goToLogisticsTaskAttachment(taskId) {
+    this.navCtrl.push('logistics-task-attachment', {taskId: taskId, taskType: this.queryParam.transportType});
+  }
+
   goToLogisticsTrackUpdate(taskId) {
     let modal = this.modalCtrl.create("logistics-task-update", {'taskId': taskId});
     modal.present();

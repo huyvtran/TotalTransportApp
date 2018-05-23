@@ -187,9 +187,11 @@ export class OrderDetailPage {
                 this.initOrderDetail();
               });
             }, err => {
+              console.log(err);
               loading.dismissAll();
               this.alertTips(err);
             }).catch(err => {
+              console.log(err);
               loading.dismissAll();
               this.alertTips(err);
             });
@@ -209,6 +211,10 @@ export class OrderDetailPage {
         this.initOrderDetail();
       }
     });
+  }
+
+  goToOrderEvaluateView() {
+    console.log(this.orderId);
   }
 
   initOrderDetail() {

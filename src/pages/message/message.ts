@@ -80,6 +80,7 @@ export class MessagePage {
   }
 
   initTodoTaskList() {
+    this.todoTaskList = [];
     this.queryTodoTaskData(1, this.pageSize, true);
   }
 

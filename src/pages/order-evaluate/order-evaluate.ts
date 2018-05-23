@@ -46,7 +46,7 @@ export class OrderEvaluatePage {
 
   constructor(public navCtrl: NavController,
               public app: App,
-              public viewCtrl:ViewController,
+              public viewCtrl: ViewController,
               public orderService: OrderServiceProvider,
               public storageService: StorageServiceProvider,
               public loadingCtrl: LoadingController,
@@ -165,7 +165,8 @@ export class OrderEvaluatePage {
       });
       loading.present();
 
-      setTimeout(() => {
+      this.orderService.submitServiceEva(this.loginUser.id, this.orderId, JSON.stringify(itemNos), JSON.stringify(stars), JSON.stringify(contents)).then(data => {
+        console.log(data);
         loading.dismissAll();
         let alert = this.alertCtrl.create({
           title: '提示',
@@ -176,8 +177,29 @@ export class OrderEvaluatePage {
         alert.onDidDismiss(() => {
           this.viewCtrl.dismiss({refresh: true});
         });
+      }, err => {
+        console.log(err);
+        loading.dismissAll();
+        this.alertTips(err);
+      }).catch(err => {
+        console.log(err);
+        loading.dismissAll();
+        this.alertTips(err);
+      });
 
-      }, 1000);
+      // setTimeout(() => {
+      //   loading.dismissAll();
+      //   let alert = this.alertCtrl.create({
+      //     title: '提示',
+      //     subTitle: '评价成功！',
+      //     buttons: ['确定']
+      //   });
+      //   alert.present();
+      //   alert.onDidDismiss(() => {
+      //     this.viewCtrl.dismiss({refresh: true});
+      //   });
+      //
+      // }, 1000);
     } else {
       this.alertTips('请选择评价内容！');
       return;
