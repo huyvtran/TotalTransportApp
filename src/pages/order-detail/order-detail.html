@@ -21,8 +21,8 @@
       </p>
       <p>
         <label class="weui-form-preview__label">一程船</label>
-        <span *ngIf="!order.shipName" class="weui-form-preview__value weui-form-preview__value_ship">无</span>
-        <span *ngIf="order.shipName" class="weui-form-preview__value weui-form-preview__value_ship" tappable
+        <span *ngIf="!order.shipNameStr" class="weui-form-preview__value weui-form-preview__value_ship">无</span>
+        <span *ngIf="order.shipNameStr" class="weui-form-preview__value weui-form-preview__value_ship" tappable
               (click)="goToShipBaseInfo(order.shipName)">{{order.shipNameStr}}</span>
       </p>
       <p>

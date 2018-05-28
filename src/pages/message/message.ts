@@ -36,7 +36,8 @@ export class MessagePage {
     //认证用户类型userType：1：客户端用户 2：货主用户 3：船方用户 4：船货代用户
     userType: 2,
     //是否认证isApproved: 0:未认证 1:已认证
-    isApproved: 0
+    isApproved: 0,
+    company: ''
   };
 
   private pageSize: number = 10;
@@ -104,7 +105,7 @@ export class MessagePage {
     if (Boolean(isFirstLoad)) {
       loading.present();
     }
-    this.todoTaskService.getTodoTaskListByPage(this.loginUser.id, page, rows).then(data => {
+    this.todoTaskService.getTodoTaskListByPage(this.loginUser.company, page, rows).then(data => {
       console.log(data);
       if (Boolean(isFirstLoad)) {
         loading.dismissAll();
