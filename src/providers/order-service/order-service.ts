@@ -178,7 +178,7 @@ export class OrderServiceProvider {
    * @param orderId 订单ID
    * @param itemId 项目json字符串
    * @param starVal 打分json字符串
-   * @param serviceInfo 评价描述json字符串
+   * @param serviceInfo 评价描述
    * @returns {Promise<any>}
    */
   submitServiceEva(userId, orderId, itemId, starVal, serviceInfo) {
@@ -226,6 +226,37 @@ export class OrderServiceProvider {
                 taskRailwayList: data.taskRailwayList,
                 //公路运输信息
                 taskHighwayList: data.taskHighwayList
+              };
+              resolve(result);
+            } else {
+              reject(data.message);
+            }
+          } else {
+            reject('服务器未响应');
+          }
+        }, err => {
+          console.log(err);
+          reject('服务器异常,请检查!');
+        })
+    });
+  }
+
+  getRateByOrderId(orderId) {
+    let url = AppConfig.getUrl() + '/app/order/getRateByOrderId.do';
+    let params = {orderId: orderId};
+    return new Promise((resolve, reject) => {
+      this.http.post(url, this.toQueryString(params), this.options)
+        .map(res => res.json())
+        .subscribe(data => {
+          if (Boolean(data)) {
+            if (data.result == 'success') {
+              let result = {
+                result: data.result,
+                message: data.message,
+                orderId: data.orderId,
+                order: data.order,
+                //评价内容项信息
+                rateList: data.rateList
               };
               resolve(result);
             } else {

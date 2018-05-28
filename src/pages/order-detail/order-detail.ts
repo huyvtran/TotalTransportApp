@@ -214,7 +214,7 @@ export class OrderDetailPage {
   }
 
   goToOrderEvaluateView() {
-    console.log(this.orderId);
+    this.navCtrl.push('order-evaluate-view', {orderId: this.orderId})
   }
 
   initOrderDetail() {

@@ -141,7 +141,6 @@ export class OrderEvaluatePage {
     if (Boolean(this.itemResult.itemStars) && this.itemResult.itemStars.length > 0) {
       let itemNos = [];
       let stars = [];
-      let contents = [];
       for (let itemScore of this.itemResult.itemStars) {
         if (itemScore.star == 0) {
           this.alertTips('请选择服务评价星级！');
@@ -154,18 +153,16 @@ export class OrderEvaluatePage {
         this.alertTips('请填写服务评价描述！');
         return;
       }
-      contents.push(this.itemResult.content);
       console.log('success');
       console.log(JSON.stringify(itemNos));
       console.log(JSON.stringify(stars));
-      console.log(JSON.stringify(contents));
 
       let loading = this.loadingCtrl.create({
         content: '提交中...'
       });
       loading.present();
 
-      this.orderService.submitServiceEva(this.loginUser.id, this.orderId, JSON.stringify(itemNos), JSON.stringify(stars), JSON.stringify(contents)).then(data => {
+      this.orderService.submitServiceEva(this.loginUser.id, this.orderId, JSON.stringify(itemNos), JSON.stringify(stars), this.itemResult.content).then(data => {
         console.log(data);
         loading.dismissAll();
         let alert = this.alertCtrl.create({
