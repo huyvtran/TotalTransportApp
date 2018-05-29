@@ -18,11 +18,6 @@ export class AppConfig {
   // 服务商更新物流信息
   public static CARRIER_LOGISTICS_TASK_UPDATE = 'CARRIER_LOGISTICS_TASK_UPDATE';
 
-  //附件访问地址
-  public static getAttachmentUrl() {
-    return 'http://202.96.124.70:8886/cbosAppServer/';
-  }
-
   //使用的url
   public static getUrl() {
     return AppConfig.getDebugUrl();

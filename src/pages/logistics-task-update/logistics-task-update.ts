@@ -316,7 +316,7 @@ export class LogisticsTaskUpdatePage {
         {
           text: '查看',
           handler: () => {
-            this.showAttachmentPhoto(attachment.src);
+            this.showAttachmentPhoto(attachment.url);
           }
         }, {
           text: '删除',
