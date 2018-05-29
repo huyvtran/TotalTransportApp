@@ -176,11 +176,16 @@ export class LogisticsTaskProviderPage {
   }
 
   goToLogisticsTaskAttachment(taskId) {
+    console.log("taskId:" + taskId);
+    console.log("taskType:" + this.queryParam.transportType);
     this.navCtrl.push('logistics-task-attachment', {taskId: taskId, taskType: this.queryParam.transportType});
   }
 
   goToLogisticsTrackUpdate(taskId) {
-    let modal = this.modalCtrl.create("logistics-task-update", {'taskId': taskId});
+    let modal = this.modalCtrl.create("logistics-task-update", {
+      taskId: taskId,
+      taskType: this.queryParam.transportType
+    });
     modal.present();
     modal.onDidDismiss(data => {
       console.log(data);

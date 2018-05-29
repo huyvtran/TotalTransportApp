@@ -39,11 +39,11 @@
     </ul>
   </div>
 
-  <div class="weui-msg__extra-area" *ngIf="pager.currPageNo == pager.totalPageCount">
-    <div class="weui-footer">
-      <p class="weui-footer__text">---- 到底了 ----</p>
-    </div>
-  </div>
+  <!--<div class="weui-msg__extra-area" *ngIf="pager.currPageNo == pager.totalPageCount">-->
+  <!--<div class="weui-footer">-->
+  <!--<p class="weui-footer__text">&#45;&#45;&#45;&#45; 到底了 &#45;&#45;&#45;&#45;</p>-->
+  <!--</div>-->
+  <!--</div>-->
   <ion-infinite-scroll *ngIf="pager.currPageNo < pager.totalPageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
   </ion-infinite-scroll>

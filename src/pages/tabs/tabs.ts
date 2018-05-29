@@ -53,7 +53,7 @@ export class TabsPage {
   refreshTaskCount() {
     setInterval(() => {
       this.initTodoTaskCount();
-    }, 5000);
+    }, 1000 * 20);
   }
 
   initLoginUser() {

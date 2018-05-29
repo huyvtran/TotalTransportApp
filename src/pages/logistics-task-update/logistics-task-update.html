@@ -46,8 +46,8 @@
       <li class="photo-cont-list" [ngStyle]="setAttachmentPhotoStyle()"
           *ngFor="let attachment of chooseAttachmentPhoto;">
         <a href="javascript:void(0)">
-          <img tappable (click)="showAttachmentPhoto(attachment)" [ngStyle]="setAttachmentPhotoStyle()"
-               src="{{attachment}}"/>
+          <img tappable (click)="attachmentOperation(attachment)" [ngStyle]="setAttachmentPhotoStyle()"
+               src="{{attachment.url}}"/>
         </a>
       </li>
     </ul>

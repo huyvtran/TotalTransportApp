@@ -54,6 +54,36 @@ export class LogisticsTaskServiceProvider {
     });
   }
 
+  //删除关联的物流任务附件
+  deleteAttachment(attachmentId) {
+    let url = AppConfig.getUrl() + '/app/logisticsTask/deleteAttachment.do';
+    let params = {
+      attachmentId: attachmentId
+    };
+    return new Promise((resolve, reject) => {
+      this.http.post(url, this.toQueryString(params), this.options)
+        .map(res => res.json())
+        .subscribe(data => {
+          if (Boolean(data)) {
+            if (data.result == 'success') {
+              let result = {
+                result: data.result,
+                message: data.message
+              };
+              resolve(result);
+            } else {
+              reject(data.message);
+            }
+          } else {
+            reject('服务器未响应');
+          }
+        }, err => {
+          console.log(err);
+          reject('服务器异常,请检查!');
+        })
+    });
+  }
+
   //参数序列化
   private toQueryString(obj) {
     let result = [];

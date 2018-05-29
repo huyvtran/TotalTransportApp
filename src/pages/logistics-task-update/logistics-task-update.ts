@@ -57,7 +57,13 @@ export class LogisticsTaskUpdatePage {
     creator: ''
   };
 
+  //任务类型 1水路 2铁路 3公路 4码头
+  private taskType: any = 1;
+
   private chooseAttachmentPhoto = [];
+
+  //上传成功返回的json
+  private uploadResultData: any = {};
 
   constructor(public navCtrl: NavController,
               public app: App,
@@ -79,6 +85,7 @@ export class LogisticsTaskUpdatePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad LogisticsTaskUpdatePage');
     this.taskTrack.taskId = this.navParams.get('taskId');
+    this.taskType = this.navParams.get('taskType');
   }
 
   initLoginUser() {
@@ -230,6 +237,7 @@ export class LogisticsTaskUpdatePage {
       headers: {},
       params: {
         taskId: this.taskTrack.taskId,
+        taskType: this.taskType,
         userId: this.loginUser.id
       }    // 如果要传参数，写这里
     };
@@ -238,16 +246,20 @@ export class LogisticsTaskUpdatePage {
 
     fileTransfer.upload(uri, uploadUrl, options)
       .then((data) => {
-        console.log(data);
-        if (Boolean(data) && data.responseCode == 200) {
-          this.alertTips('上传成功!');
-          this.chooseAttachmentPhoto.push(uri);
-        } else {
-          this.alertTips('服务器未响应,请重试!');
+          console.log(data);
+          if (Boolean(data) && data.responseCode == 200) {
+            this.uploadResultData = JSON.parse(data.response);
+            if (this.uploadResultData.result == 'success') {
+              this.chooseAttachmentPhoto.push({attachmentId: this.uploadResultData.attachmentId, url: uri});
+              this.alertTips('上传成功!');
+            } else {
+              this.alertTips('服务器未响应,请重试!');
+            }
+          }
+        }, (err) => {
+          this.alertTips('上传失败:' + err);
         }
-      }, (err) => {
-        this.alertTips('上传失败:' + err);
-      });
+      );
 
     let loader = this.loadingCtrl.create({
       content: "已上传:0%"
@@ -297,6 +309,81 @@ export class LogisticsTaskUpdatePage {
   showAttachmentPhoto(src) {
     this.photoViewer.show(src, '物流任务附件信息', {share: false});
   }
+
+  attachmentOperation(attachment) {
+    let actionSheet = this.actionSheetCtrl.create({
+      buttons: [
+        {
+          text: '查看',
+          handler: () => {
+            this.showAttachmentPhoto(attachment.src);
+          }
+        }, {
+          text: '删除',
+          handler: () => {
+            let confirm = this.alertCtrl.create({
+              title: '提示',
+              message: '确定删除关联附件?',
+              enableBackdropDismiss: false,
+              buttons: [
+                {
+                  text: '取消',
+                  role: 'cancel',
+                  handler: () => {
+                    console.log('Disagree clicked');
+                  }
+                },
+                {
+                  text: '确定',
+                  handler: () => {
+                    this.deleteAttachment(attachment.attachmentId);
+                  }
+                }]
+            });
+            confirm.present();
+          }
+        }, {
+          text: '取消',
+          role: 'cancel',
+          handler: () => {
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
+  deleteAttachment(attachmentId) {
+    let loader = this.loadingCtrl.create({
+      content: "删除中..."
+    });
+    loader.present();
+    this.logisticsTaskService.deleteAttachment(attachmentId).then(data => {
+      console.log(data);
+      loader.dismissAll();
+      this.removeAttachmentPhoto(attachmentId);
+    }, err => {
+      console.log(err);
+      loader.dismissAll();
+      this.alertTips(err);
+    }).catch(err => {
+      console.log(err);
+      loader.dismissAll();
+      this.alertTips(err);
+    });
+
+  }
+
+  removeAttachmentPhoto(attachmentId) {
+    if (this.chooseAttachmentPhoto && this.chooseAttachmentPhoto.length > 0) {
+      for (let attachementPhoto of this.chooseAttachmentPhoto) {
+        if (attachementPhoto.attachmentId == attachmentId) {
+          this.chooseAttachmentPhoto.splice(this.chooseAttachmentPhoto.indexOf(attachementPhoto), 1);
+        }
+      }
+    }
+  }
+
 
   /*验证提醒*/
   alertTips(tips, title?, timeout?) {

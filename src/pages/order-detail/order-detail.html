@@ -53,21 +53,21 @@
         <span class="weui-form-preview__value" *ngIf="order.auditStatus == -1">退回</span>
       </p>
     </div>
-    <div class="weui-form-preview__ft" *ngIf="order.auditStatus == 3">
+    <div class="weui-form-preview__ft" *ngIf="loginUser.userType == 2 && order.auditStatus == 3">
       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0)" tappable
          (click)="confirm()">确 认 订 单</a>
     </div>
-    <div class="weui-form-preview__ft" *ngIf="order.auditStatus >= 6&&order.isReceived != 1">
+    <div class="weui-form-preview__ft" *ngIf="loginUser.userType == 2 && order.auditStatus >= 6 && order.isReceived != 1">
       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0)" tappable
          (click)="confirmReceiving()">确 认 收 货</a>
     </div>
     <div class="weui-form-preview__ft"
-         *ngIf="order.auditStatus >= 6&&order.isReceived == 1&&order.estimateState != 1">
+         *ngIf=" loginUser.userType == 2 && order.auditStatus >= 6 && order.isReceived == 1 && order.estimateState != 1">
       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0)" tappable
          (click)="goToOrderEvaluate()">评 价</a>
     </div>
     <div class="weui-form-preview__ft"
-         *ngIf="order.auditStatus >= 6&&order.isReceived == 1&&order.estimateState == 1">
+         *ngIf="loginUser.userType == 2 && order.auditStatus >= 6 && order.isReceived == 1 && order.estimateState == 1">
       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:void(0)" tappable
          (click)="goToOrderEvaluateView()">查 看 评 价</a>
     </div>
