@@ -55,7 +55,8 @@
     "rxjs": "5.5.10",
     "sw-toolbox": "3.6.0",
     "zone.js": "0.8.26",
-    "com.synconset.imagepicker": "~2.1.10"
+    "com.synconset.imagepicker": "~2.1.10",
+    "cordova-plugin-ionic-keyboard": "^2.0.5"
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.1.9",
@@ -80,7 +81,8 @@
       "cordova-plugin-file-transfer": {},
       "com.synconset.imagepicker": {
         "PHOTO_LIBRARY_USAGE_DESCRIPTION": "your usage message"
-      }
+      },
+      "cordova-plugin-ionic-keyboard": {}
     },
     "platforms": [
       "android"

@@ -46,6 +46,7 @@ export class TabsPage {
               public todoTaskService: TodoTaskServiceProvider,
               public storageService: StorageServiceProvider) {
     this.initLoginUser();
+    this.initTodoTaskCount();
     this.refreshTaskCount();
 
   }

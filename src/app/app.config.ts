@@ -20,33 +20,33 @@ export class AppConfig {
 
   //使用的url
   public static getUrl() {
-    return AppConfig.getDebugUrl();
-    // return AppConfig.getProdUrl();
+    // return AppConfig.getDebugUrl();
+    return AppConfig.getProdUrl();
   }
 
   //测试环境URL
   public static getDebugUrl() {
-    return 'http://127.0.0.1:8086/cbosAppServer';
+    // return 'http://127.0.0.1:8086/cbosAppServer';
     // return 'http://10.1.1.87:8080/cbosAppServer';
-    // return 'http://202.96.124.70:8886/cbosAppServer';
+    return 'http://202.96.124.70:8886/cbosAppServer';
   }
 
   //生产环境URL
   public static getProdUrl() {
     //正式库直连地址
-    return 'http://tl.nbport.com.cn:8990/cbosAppServer';
+    // return 'http://tl.nbport.com.cn:8990/cbosAppServer';
     //统一接口认证地址
-    // return 'http://app.npedi.com:8083/cbosAppServer';
+    return 'http://app.npedi.com:8083/cbosAppServer';
   }
 
   //安卓更新地址
   public static getAndroidUpdateUrl() {
-    return 'https://www.pgyer.com/YFmr';
+    return 'https://www.pgyer.com/B11e';
   }
 
   //Ios更新地址
   public static getIosUpdateUrl() {
-    return 'https://www.pgyer.com/7mD9';
+    return 'https://www.pgyer.com/Dwny';
   }
 
   //获取设备高度
