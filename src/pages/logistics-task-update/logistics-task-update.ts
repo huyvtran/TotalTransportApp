@@ -187,7 +187,7 @@ export class LogisticsTaskUpdatePage {
               sourceType: this.camera.PictureSourceType.CAMERA,//从哪里选择图片，PHOTOLIBRARY=0(相册选择)，PHOTOLIBRARY=1(相机拍照)，PHOTOLIBRARY=2(相册选择)
               destinationType: this.camera.DestinationType.DATA_URL,//返回类型，DATA_URL= 0，返回作为 base64 編碼字串。 FILE_URI=1，返回影像档的 URI。NATIVE_URI=2，返回图像本机URI (例如，資產庫)
               // allowEdit: true,//在选择之前允许修改截图
-              encodingType: this.camera.EncodingType.JPEG,//保存的图片格式： JPEG = 0, PNG = 1
+              encodingType: this.camera.EncodingType.PNG,//保存的图片格式： JPEG = 0, PNG = 1
               targetWidth: 900,//照片的宽度
               targetHeight: 900,//照片的高度
               mediaType: this.camera.MediaType.PICTURE,//可选媒体类型：圖片=0，只允许选择图片將返回指定DestinationType的参数。 視頻格式=1，允许选择视频，最终返回 FILE_URI。ALLMEDIA= 2，允许所有媒体类型的选择。
