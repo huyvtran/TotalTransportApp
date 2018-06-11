@@ -143,7 +143,9 @@ export class BusinessCommissionPage {
   }
 
   goToCreateCommission() {
-    let modal = this.modalCtrl.create("create-commission");
+    let modal = this.modalCtrl.create("create-commission", null, {
+      enableBackdropDismiss: false
+    });
     modal.present();
     modal.onDidDismiss(data => {
       console.log(data);

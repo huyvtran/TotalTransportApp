@@ -9,15 +9,10 @@
 
 <ion-content>
   <div class="weui-cells weui-cells_form">
-    <div class="weui-cell weui-cell_select weui-cell_select-after">
-      <div class="weui-cell__hd">
-        <label class="weui-label">空船港</label>
-      </div>
+    <div class="weui-cell" tappable (click)="goToSelectBasePortModel()">
+      <div class="weui-cell__hd"><label class="weui-label">空船港</label></div>
       <div class="weui-cell__bd">
-        <select class="weui-select" [(ngModel)]="queryParam.port">
-          <option value="">全部</option>
-          <option *ngFor="let port of portList" value="{{port.portId}}">{{port.portName}}</option>
-        </select>
+        {{portNameTips}}
       </div>
     </div>
     <div class="weui-cell">

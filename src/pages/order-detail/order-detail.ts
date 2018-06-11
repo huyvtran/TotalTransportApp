@@ -203,7 +203,9 @@ export class OrderDetailPage {
   }
 
   goToOrderEvaluate() {
-    let modal = this.modalCtrl.create("order-evaluate", {orderId: this.orderId});
+    let modal = this.modalCtrl.create("order-evaluate", {orderId: this.orderId}, {
+      enableBackdropDismiss: false
+    });
     modal.present();
     modal.onDidDismiss(data => {
       console.log(data);

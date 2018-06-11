@@ -66,7 +66,9 @@ export class BiddingReplyDetailPage {
   }
 
   goToBiddingReply() {
-    let modal = this.modalCtrl.create("bidding-reply");
+    let modal = this.modalCtrl.create("bidding-reply", null, {
+      enableBackdropDismiss: false
+    });
     modal.present();
     modal.onDidDismiss(data => {
       console.log(data);

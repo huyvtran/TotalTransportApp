@@ -2,10 +2,8 @@ import {Component} from '@angular/core';
 import {App, LoadingController, AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {AppConfig} from "../../app/app.config";
 import {PhotoViewer} from '@ionic-native/photo-viewer';
-import {TaskHighwayServiceProvider} from "../../providers/task-highway-service/task-highway-service";
-import {TaskRailwayServiceProvider} from "../../providers/task-railway-service/task-railway-service";
-import {TaskWaterwayServiceProvider} from "../../providers/task-waterway-service/task-waterway-service";
-import {TaskWharfServiceProvider} from "../../providers/task-wharf-service/task-wharf-service";
+import {LogisticsTaskServiceProvider} from "../../providers/logistics-task-service/logistics-task-service";
+
 
 /**
  * 物流任务附件信息
@@ -18,7 +16,7 @@ import {TaskWharfServiceProvider} from "../../providers/task-wharf-service/task-
 @Component({
   selector: 'page-logistics-task-attachment',
   templateUrl: 'logistics-task-attachment.html',
-  providers: [PhotoViewer, TaskHighwayServiceProvider, TaskRailwayServiceProvider, TaskWaterwayServiceProvider, TaskWharfServiceProvider]
+  providers: [PhotoViewer, LogisticsTaskServiceProvider]
 })
 export class LogisticsTaskAttachmentPage {
 
@@ -46,14 +44,9 @@ export class LogisticsTaskAttachmentPage {
 
   private attachmentList = [];
 
-  // private attachmentPhotos = [];
-
   constructor(public navCtrl: NavController,
               public app: App,
-              public taskHignwayService: TaskHighwayServiceProvider,
-              public taskRailwayService: TaskRailwayServiceProvider,
-              public taskWaterwayService: TaskWaterwayServiceProvider,
-              public taskWharfService: TaskWharfServiceProvider,
+              public logisticsTaskService: LogisticsTaskServiceProvider,
               public photoViewer: PhotoViewer,
               public alertCtrl: AlertController,
               public loadingCtrl: LoadingController,
@@ -67,33 +60,6 @@ export class LogisticsTaskAttachmentPage {
     this.taskId = this.navParams.get('taskId');
     this.queryAttachmentData(1, this.pageSize, true);
   }
-
-  // initAttachmentPhotos() {
-  //   this.attachmentPhotos.push({
-  //     src: 'https://images2015.cnblogs.com/news/24442/201705/24442-20170502163240086-1545306933.jpg',
-  //     name: 'test'
-  //   });
-  //   this.attachmentPhotos.push({
-  //     src: 'https://images2015.cnblogs.com/news/24442/201705/24442-20170502163240086-1545306933.jpg',
-  //     name: 'test'
-  //   });
-  //   this.attachmentPhotos.push({
-  //     src: 'https://images2015.cnblogs.com/news/24442/201705/24442-20170502163240086-1545306933.jpg',
-  //     name: 'test'
-  //   });
-  //   this.attachmentPhotos.push({
-  //     src: 'https://images2015.cnblogs.com/news/24442/201705/24442-20170502163240086-1545306933.jpg',
-  //     name: 'test'
-  //   });
-  //   this.attachmentPhotos.push({
-  //     src: 'https://images2015.cnblogs.com/news/24442/201705/24442-20170502163240086-1545306933.jpg',
-  //     name: 'test'
-  //   });
-  //   this.attachmentPhotos.push({
-  //     src: 'https://images2015.cnblogs.com/news/24442/201705/24442-20170502163240086-1545306933.jpg',
-  //     name: 'test'
-  //   });
-  // }
 
   setAttachmentPhotoStyle() {
     let classImgWidth = (AppConfig.getWindowWidth() - 40) / 3;
@@ -137,147 +103,40 @@ export class LogisticsTaskAttachmentPage {
       loading.present();
     }
 
-    if (this.taskType == 1) {
-      this.taskWaterwayService.getAttachmentFileListByPage(this.taskId, page, rows).then(data => {
-        console.log(data);
-        if (Boolean(showLoading)) {
-          loading.dismissAll();
+    this.logisticsTaskService.getAttachmentFileListByPage(this.taskId, this.taskType, page, rows).then(data => {
+      console.log(data);
+      if (Boolean(showLoading)) {
+        loading.dismissAll();
+      }
+      this.resultData = data;
+      this.pager = this.resultData.pager;
+      if (Boolean(this.pager.list) && this.pager.list.length > 0) {
+        for (let attachmentObj of this.pager.list) {
+          this.attachmentList.push(attachmentObj);
         }
-        this.resultData = data;
-        this.pager = this.resultData.pager;
-        if (Boolean(this.pager.list) && this.pager.list.length > 0) {
-          for (let attachmentObj of this.pager.list) {
-            this.attachmentList.push(attachmentObj);
-          }
-        }
-        if (Boolean(infiniteScroll)) {
-          infiniteScroll.complete();
-        }
-      }, err => {
-        if (Boolean(infiniteScroll)) {
-          infiniteScroll.complete();
-        }
-        console.log(err);
-        if (Boolean(showLoading)) {
-          loading.dismissAll();
-        }
-        this.alertTips(err);
-      }).catch(err => {
-        if (Boolean(infiniteScroll)) {
-          infiniteScroll.complete();
-        }
-        console.log(err);
-        if (Boolean(showLoading)) {
-          loading.dismissAll();
-        }
-        this.alertTips('服务器访问超时，请稍后尝试！');
-      });
-    } else if (this.taskType == 2) {
-      this.taskRailwayService.getAttachmentFileListByPage(this.taskId, page, rows).then(data => {
-        console.log(data);
-        if (Boolean(showLoading)) {
-          loading.dismissAll();
-        }
-        this.resultData = data;
-        this.pager = this.resultData.pager;
-        if (Boolean(this.pager.list) && this.pager.list.length > 0) {
-          for (let attachmentObj of this.pager.list) {
-            this.attachmentList.push(attachmentObj);
-          }
-        }
-        if (Boolean(infiniteScroll)) {
-          infiniteScroll.complete();
-        }
-      }, err => {
-        if (Boolean(infiniteScroll)) {
-          infiniteScroll.complete();
-        }
-        console.log(err);
-        if (Boolean(showLoading)) {
-          loading.dismissAll();
-        }
-        this.alertTips(err);
-      }).catch(err => {
-        if (Boolean(infiniteScroll)) {
-          infiniteScroll.complete();
-        }
-        console.log(err);
-        if (Boolean(showLoading)) {
-          loading.dismissAll();
-        }
-        this.alertTips('服务器访问超时，请稍后尝试！');
-      });
-    } else if (this.taskType == 3) {
-      this.taskHignwayService.getAttachmentFileListByPage(this.taskId, page, rows).then(data => {
-        console.log(data);
-        if (Boolean(showLoading)) {
-          loading.dismissAll();
-        }
-        this.resultData = data;
-        this.pager = this.resultData.pager;
-        if (Boolean(this.pager.list) && this.pager.list.length > 0) {
-          for (let attachmentObj of this.pager.list) {
-            this.attachmentList.push(attachmentObj);
-          }
-        }
-        if (Boolean(infiniteScroll)) {
-          infiniteScroll.complete();
-        }
-      }, err => {
-        if (Boolean(infiniteScroll)) {
-          infiniteScroll.complete();
-        }
-        console.log(err);
-        if (Boolean(showLoading)) {
-          loading.dismissAll();
-        }
-        this.alertTips(err);
-      }).catch(err => {
-        if (Boolean(infiniteScroll)) {
-          infiniteScroll.complete();
-        }
-        console.log(err);
-        if (Boolean(showLoading)) {
-          loading.dismissAll();
-        }
-        this.alertTips('服务器访问超时，请稍后尝试！');
-      });
-    } else if (this.taskType == 4) {
-      this.taskWharfService.getAttachmentFileListByPage(this.taskId, page, rows).then(data => {
-        console.log(data);
-        if (Boolean(showLoading)) {
-          loading.dismissAll();
-        }
-        this.resultData = data;
-        this.pager = this.resultData.pager;
-        if (Boolean(this.pager.list) && this.pager.list.length > 0) {
-          for (let attachmentObj of this.pager.list) {
-            this.attachmentList.push(attachmentObj);
-          }
-        }
-        if (Boolean(infiniteScroll)) {
-          infiniteScroll.complete();
-        }
-      }, err => {
-        if (Boolean(infiniteScroll)) {
-          infiniteScroll.complete();
-        }
-        console.log(err);
-        if (Boolean(showLoading)) {
-          loading.dismissAll();
-        }
-        this.alertTips(err);
-      }).catch(err => {
-        if (Boolean(infiniteScroll)) {
-          infiniteScroll.complete();
-        }
-        console.log(err);
-        if (Boolean(showLoading)) {
-          loading.dismissAll();
-        }
-        this.alertTips('服务器访问超时，请稍后尝试！');
-      });
-    }
+      }
+      if (Boolean(infiniteScroll)) {
+        infiniteScroll.complete();
+      }
+    }, err => {
+      if (Boolean(infiniteScroll)) {
+        infiniteScroll.complete();
+      }
+      console.log(err);
+      if (Boolean(showLoading)) {
+        loading.dismissAll();
+      }
+      this.alertTips(err);
+    }).catch(err => {
+      if (Boolean(infiniteScroll)) {
+        infiniteScroll.complete();
+      }
+      console.log(err);
+      if (Boolean(showLoading)) {
+        loading.dismissAll();
+      }
+      this.alertTips('服务器访问超时，请稍后尝试！');
+    });
 
   }
 

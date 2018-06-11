@@ -1,6 +1,13 @@
 import {Component} from '@angular/core';
-import {App, LoadingController, AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
-import {BaseServiceProvider} from "../../providers/base-service/base-service";
+import {
+  App,
+  LoadingController,
+  ModalController,
+  AlertController,
+  IonicPage,
+  NavController,
+  NavParams
+} from 'ionic-angular';
 
 /**
  * 船盘查询
@@ -12,8 +19,7 @@ import {BaseServiceProvider} from "../../providers/base-service/base-service";
 })
 @Component({
   selector: 'page-search-ship',
-  templateUrl: 'search-ship.html',
-  providers: [BaseServiceProvider]
+  templateUrl: 'search-ship.html'
 })
 export class SearchShipPage {
 
@@ -25,11 +31,11 @@ export class SearchShipPage {
     endDate: ''
   };
 
-  private portList = [];
+  private portNameTips = '请选择';
 
   constructor(public navCtrl: NavController,
               public app: App,
-              public baseService: BaseServiceProvider,
+              public modalCtrl: ModalController,
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
               public navParams: NavParams) {
@@ -37,7 +43,6 @@ export class SearchShipPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SearchShipPage');
-    this.initPort();
     let startTime = new Date();
     let endTime = new Date();
     startTime.setFullYear(startTime.getFullYear() - 1);
@@ -49,14 +54,6 @@ export class SearchShipPage {
     this.queryParam.endDate = this.formatDate(endTime);
   }
 
-  initPort() {
-    this.baseService.getBasePortList().then(data => {
-      console.log(data);
-      this.resultData = data;
-      this.portList = this.resultData.basePortList;
-    });
-  }
-
   search() {
     console.log(this.queryParam.startDate);
     console.log(this.queryParam.endDate);
@@ -65,6 +62,20 @@ export class SearchShipPage {
       return;
     }
     this.navCtrl.push('ship', {queryParam: this.queryParam});
+  }
+
+  goToSelectBasePortModel() {
+    let modal = this.modalCtrl.create('select-base-port-model', {portId: this.queryParam.port}, {
+      enableBackdropDismiss: false
+    });
+    modal.present();
+    modal.onDidDismiss(data => {
+      console.log(data);
+      if (Boolean(data.selected)) {
+        this.queryParam.port = data.portId;
+        this.portNameTips = data.portName;
+      }
+    });
   }
 
   formatDate(date) {

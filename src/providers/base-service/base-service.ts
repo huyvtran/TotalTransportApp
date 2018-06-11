@@ -179,6 +179,38 @@ export class BaseServiceProvider {
     });
   }
 
+  getBasePortListByPage(queryParam, page, rows) {
+    let url = AppConfig.getUrl() + '/app/basePort/getBasePortListByPage.do';
+    let params = {
+      portName: queryParam.portName,
+      page: page,
+      rows: rows
+    };
+    return new Promise((resolve, reject) => {
+      this.http.post(url, this.toQueryString(params), this.options)
+        .map(res => res.json())
+        .subscribe(data => {
+          if (Boolean(data)) {
+            if (data.result == 'success') {
+              let result = {
+                result: data.result,
+                message: data.message,
+                pager: data.pager
+              };
+              resolve(result);
+            } else {
+              reject(data.message);
+            }
+          } else {
+            reject('服务器未响应');
+          }
+        }, err => {
+          console.log(err);
+          reject('服务器异常,请检查!');
+        })
+    });
+  }
+
   /**
    * 基础货类列表
    * @returns {Promise<any>}
