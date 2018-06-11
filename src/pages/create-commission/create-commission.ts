@@ -102,6 +102,13 @@ export class CreateCommissionPage {
       console.log(data);
       this.resultData = data;
       this.baseItemUnitList = this.resultData.baseItemList;
+      if (this.baseItemUnitList && this.baseItemUnitList.length > 0) {
+        for (let item of this.baseItemUnitList) {
+          if (item && item.itemName == '吨') {
+            this.commission.unit = item.itemNo;
+          }
+        }
+      }
     }, err => {
       console.log(err);
     });
