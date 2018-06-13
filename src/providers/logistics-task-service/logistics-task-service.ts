@@ -117,6 +117,36 @@ export class LogisticsTaskServiceProvider {
     });
   }
 
+  /**
+   * 物流任务更新状态字典
+   * @returns {Promise<any>}
+   */
+  getTaskStateBaseItemList() {
+    let url = AppConfig.getUrl() + '/app/logisticsTask/getTaskStateBaseItemList.do';
+    return new Promise((resolve, reject) => {
+      this.http.get(url)
+        .map(res => res.json())
+        .subscribe(data => {
+          if (Boolean(data)) {
+            if (data.result == 'success') {
+              let result = {
+                result: data.result,
+                message: data.message,
+                baseItemList: data.baseItemList
+              };
+              resolve(result);
+            } else {
+              reject(data.message);
+            }
+          } else {
+            reject('服务器未响应');
+          }
+        }, err => {
+          reject(err);
+        });
+    });
+  }
+
   //参数序列化
   private toQueryString(obj) {
     let result = [];

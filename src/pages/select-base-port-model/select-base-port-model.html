@@ -1,0 +1,67 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="back-custom"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>空船港</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="save()">
+        <ion-icon name="sure-custom"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+  <ion-searchbar class="tips" debounce="500"
+                 placeholder="请输入港口名称" animated="true"
+                 [(ngModel)]="queryParam.portName"
+                 [showCancelButton]="true"
+                 cancelButtonText="取消"
+                 (ionInput)="onInput($event)">
+  </ion-searchbar>
+
+</ion-header>
+
+
+<ion-content class="container-div">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="松开刷新"
+      refreshingSpinner="circles"
+      refreshingText="刷新中...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="weui-panel" *ngIf="basePortList.length < 1">
+    <div class="weui-panel__bd">
+      <div class="weui-media-box weui-media-box_text">
+        <div class="weui-media-box__desc">
+          未查询到相关信息
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ion-list radio-group [(ngModel)]="selectModel.portId">
+    <ion-item>
+      <ion-label>全部</ion-label>
+      <ion-radio value=""></ion-radio>
+    </ion-item>
+    <ion-item *ngFor="let port of basePortList">
+      <ion-label>{{port.portName}}</ion-label>
+      <ion-radio value="{{port.portId}}"></ion-radio>
+    </ion-item>
+  </ion-list>
+
+  <div class="weui-msg__extra-area" *ngIf="pager.currPageNo == pager.totalPageCount">
+    <div class="weui-footer">
+      <p class="weui-footer__text">---- 到底了 ----</p>
+    </div>
+  </div>
+  <ion-infinite-scroll *ngIf="pager.currPageNo < pager.totalPageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>

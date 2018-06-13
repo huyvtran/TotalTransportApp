@@ -33,6 +33,8 @@ import {PhotoViewer} from '@ionic-native/photo-viewer';
 })
 export class LogisticsTaskUpdatePage {
 
+  private resultData: any = {};
+
   private loginUser: any = {
     id: null,
     userName: '管理员',
@@ -47,7 +49,7 @@ export class LogisticsTaskUpdatePage {
   private taskTrack = {
     taskId: '',
     logisticsProvider: '',
-    //状态 1:已确认 2：在途 3：已收货
+    //状态 读取字典表
     state: '',
     //物流更新信息描述
     taskDesc: '',
@@ -56,6 +58,9 @@ export class LogisticsTaskUpdatePage {
     linkTel: '',
     creator: ''
   };
+
+  //物流状态字典数组
+  private taskStateItems = [];
 
   //任务类型 1水路 2铁路 3公路 4码头
   private taskType: any = 1;
@@ -86,7 +91,19 @@ export class LogisticsTaskUpdatePage {
     console.log('ionViewDidLoad LogisticsTaskUpdatePage');
     this.taskTrack.taskId = this.navParams.get('taskId');
     this.taskType = this.navParams.get('taskType');
+    this.initBaseItemUnitList();
   }
+
+  initBaseItemUnitList() {
+    this.logisticsTaskService.getTaskStateBaseItemList().then(data => {
+      console.log(data);
+      this.resultData = data;
+      this.taskStateItems = this.resultData.baseItemList;
+    }, err => {
+      console.log(err);
+    });
+  }
+
 
   initLoginUser() {
     this.loginUser = this.storageService.read(AppConfig.LOGIN_USER_NAME);
