@@ -12,7 +12,7 @@
     <div class="weui-form-preview__bd">
       <p>
         <label class="weui-form-preview__label">货类</label>
-        <span class="weui-form-preview__value">{{cargoInfo.cargoTypeCname}}</span>
+        <span class="weui-form-preview__value">{{cargoInfo.cargoTypeCname?cargoInfo.cargoTypeCname:'无'}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">货名</label>
@@ -86,11 +86,11 @@
       </p>
       <p>
         <label class="weui-form-preview__label">联系人员</label>
-        <span class="weui-form-preview__value">{{cargoInfo.linkMan}}</span>
+        <span class="weui-form-preview__value">{{cargoInfo.linkMan?cargoInfo.linkMan:'无'}}</span>
       </p>
       <p>
         <label class="weui-form-preview__label">联系电话</label>
-        <span class="weui-form-preview__value">{{cargoInfo.linkTel}}</span>
+        <span class="weui-form-preview__value">{{cargoInfo.linkTel?cargoInfo.linkTel:'无'}}</span>
       </p>
     </div>
   </div>
