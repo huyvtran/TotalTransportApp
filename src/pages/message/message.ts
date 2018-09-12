@@ -82,7 +82,7 @@ export class MessagePage {
 
   initTodoTaskList() {
     this.todoTaskList = [];
-    this.queryTodoTaskData(1, this.pageSize, true);
+    this.queryTodoTaskData(1, this.pageSize, false);
   }
 
   doRefresh(refresher) {
@@ -99,7 +99,7 @@ export class MessagePage {
   }
 
   queryTodoTaskData(page, rows, isFirstLoad?, infiniteScroll?) {
-    if(!Boolean(this.loginUser.company)){
+    if (!Boolean(this.loginUser.company)) {
       if (Boolean(infiniteScroll)) {
         infiniteScroll.complete();
       }
