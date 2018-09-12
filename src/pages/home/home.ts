@@ -116,12 +116,12 @@ export class HomePage {
     this.jPushPlugin.getRegistrationID().then(res => {
       // alert(res);
       console.log(res);
-      let alert = this.alertCtrl.create({
-        title: '获取极光推送ID',
-        subTitle: '内容：' + JSON.stringify(res),
-        buttons: ['确定']
-      });
-      alert.present();
+      // let alert = this.alertCtrl.create({
+      //   title: '获取极光推送ID',
+      //   subTitle: '内容：' + JSON.stringify(res),
+      //   buttons: ['确定']
+      // });
+      // alert.present();
       let jpushRegistrationId = res;
       if (Boolean(this.loginUser.id) && Boolean(jpushRegistrationId)) {
         // let alert = this.alertCtrl.create({
