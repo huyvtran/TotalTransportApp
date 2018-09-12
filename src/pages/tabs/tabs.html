@@ -1,7 +1,5 @@
 <ion-tabs>
   <ion-tab [root]="tab1Root" tabTitle="首页" tabIcon="home-page"></ion-tab>
-  <ion-tab [show]="todoTaskCount > 0" [root]="tab2Root" tabTitle="消息" tabIcon="my-message" tabBadge="{{todoTaskCount}}"
-           tabBadgeStyle="danger"></ion-tab>
-  <ion-tab [show]="todoTaskCount < 1" [root]="tab2Root" tabTitle="消息" tabIcon="my-message"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="消息" tabIcon="my-message"></ion-tab>
   <ion-tab [root]="tab3Root" tabTitle="我的" tabIcon="user-info"></ion-tab>
 </ion-tabs>

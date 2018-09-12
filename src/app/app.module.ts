@@ -7,6 +7,9 @@ import {IonJPushModule} from 'ionic2-jpush';
 import {Keyboard} from '@ionic-native/keyboard';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
+import {AppVersion} from '@ionic-native/app-version';
+import {InAppBrowser} from '@ionic-native/in-app-browser';
+import {BaseServiceProvider} from "../providers/base-service/base-service";
 
 @NgModule({
   declarations: [
@@ -35,6 +38,9 @@ import {SplashScreen} from '@ionic-native/splash-screen';
     Keyboard,
     StatusBar,
     SplashScreen,
+    AppVersion,
+    InAppBrowser,
+    BaseServiceProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
   ]
 })

@@ -6,6 +6,7 @@ import {JpushUtilProvider} from "../../providers/jpush-util/jpush-util";
 import {AppConfig} from "../../app/app.config";
 import {InAppBrowser} from '@ionic-native/in-app-browser';
 import {BaseServiceProvider} from "../../providers/base-service/base-service";
+import {UserServiceProvider} from "../../providers/user-service/user-service";
 
 /**
  * 我的
@@ -18,12 +19,21 @@ import {BaseServiceProvider} from "../../providers/base-service/base-service";
 @Component({
   selector: 'page-mine',
   templateUrl: 'mine.html',
-  providers: [AppVersion, StorageServiceProvider, JpushUtilProvider, InAppBrowser, BaseServiceProvider]
+  providers: [AppVersion, StorageServiceProvider, JpushUtilProvider, InAppBrowser, BaseServiceProvider, UserServiceProvider]
 })
 export class MinePage {
   private appVersionNo: any = '1.0.1';
 
   private resultData: any = {};
+
+  private loginUser: any = {
+    id: null,
+    userName: '管理员',
+    //认证用户类型userType：1：客户端用户 2：货主用户 3：船方用户 4：船货代用户
+    userType: 2,
+    //是否认证isApproved: 0:未认证 1:已认证
+    isApproved: 0
+  };
 
   constructor(public app: App,
               public platform: Platform,
@@ -33,13 +43,19 @@ export class MinePage {
               public inAppBrowser: InAppBrowser,
               public baseService: BaseServiceProvider,
               public storageService: StorageServiceProvider,
+              public userService: UserServiceProvider,
               public jPushUtil: JpushUtilProvider,
               public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     // console.log('ionViewDidLoad MinePage');
+    this.initLoginUser();
     this.initVersionNo();
+  }
+
+  initLoginUser() {
+    this.loginUser = this.storageService.read(AppConfig.LOGIN_USER_NAME);
   }
 
   initVersionNo() {
@@ -75,15 +91,15 @@ export class MinePage {
             this.jPushUtil.clearBadge();
 
             //清空推送ID
-            // if (Boolean(this.loginTeacher.teacherId)) {
-            //   this.userService.clearJpushRegistrationId(this.loginTeacher.teacherId).then(data => {
-            //     console.log(data);
-            //   }, err => {
-            //     console.log(err);
-            //   }).catch(err => {
-            //     console.log(err);
-            //   });
-            // }
+            if (Boolean(this.loginUser.id)) {
+              this.userService.clearJpushRegistrationId(this.loginUser.id).then(data => {
+                console.log(data);
+              }, err => {
+                console.log(err);
+              }).catch(err => {
+                console.log(err);
+              });
+            }
 
             //跳转登录页面后，不能让用户通过物理返回按键返回到之前的页面栈中
             this.app.getRootNav().setRoot('login');

@@ -99,6 +99,12 @@ export class MessagePage {
   }
 
   queryTodoTaskData(page, rows, isFirstLoad?, infiniteScroll?) {
+    if(!Boolean(this.loginUser.company)){
+      if (Boolean(infiniteScroll)) {
+        infiniteScroll.complete();
+      }
+      return;
+    }
     let loading = this.loadingCtrl.create({
       content: '加载代办消息中...'
     });

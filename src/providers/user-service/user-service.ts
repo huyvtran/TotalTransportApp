@@ -244,6 +244,54 @@ export class UserServiceProvider {
     });
   }
 
+  //修改用户的推送ID
+  updateJpushRegistrationId(userId, jpushRegistrationId) {
+    let url = AppConfig.getUrl() + '/app/user/updatePushId.do';
+    let params = {userId: userId, jPushRegistrationId: jpushRegistrationId};
+    return new Promise((resolve, reject) => {
+      this.http.post(url, this.toQueryString(params), this.options)
+        .map(res => res.json())
+        .subscribe(data => {
+          if (Boolean(data)) {
+            if (data.result == 'fail') {
+              reject(data.message);
+            } else {
+              resolve(data);
+            }
+          } else {
+            reject('服务器未响应');
+          }
+        }, err => {
+          console.log(err);
+          reject('网络连接超时,请检查!');
+        })
+    });
+  }
+
+  //清空用户的推送ID
+  clearJpushRegistrationId(userId) {
+    let url = AppConfig.getUrl() + '/app/user/emptyPushId.do';
+    let params = {userId: userId};
+    return new Promise((resolve, reject) => {
+      this.http.post(url, this.toQueryString(params), this.options)
+        .map(res => res.json())
+        .subscribe(data => {
+          if (Boolean(data)) {
+            if (data.result == 'fail') {
+              reject(data.message);
+            } else {
+              resolve(data);
+            }
+          } else {
+            reject('服务器未响应');
+          }
+        }, err => {
+          console.log(err);
+          reject('网络连接超时,请检查!');
+        })
+    });
+  }
+
 
   //参数序列化
   private toQueryString(obj) {

@@ -13,6 +13,7 @@ import {StorageServiceProvider} from "../../providers/storage-service/storage-se
 import {AppConfig} from "../../app/app.config";
 import {JPushService} from 'ionic2-jpush';
 import {JpushUtilProvider} from "../../providers/jpush-util/jpush-util";
+import {UserServiceProvider} from "../../providers/user-service/user-service";
 
 /**
  * 首页
@@ -25,7 +26,7 @@ import {JpushUtilProvider} from "../../providers/jpush-util/jpush-util";
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers: [JpushUtilProvider, StorageServiceProvider]
+  providers: [JpushUtilProvider, StorageServiceProvider, UserServiceProvider]
 })
 export class HomePage {
 
@@ -45,19 +46,17 @@ export class HomePage {
               public alertCtrl: AlertController,
               public storageService: StorageServiceProvider,
               public jPushUtil: JpushUtilProvider,
-              public jPushService: JPushService,) {
+              public userService: UserServiceProvider,
+              public jPushPlugin: JPushService) {
 
     platform.ready().then(() => {
       //初始化极光推送
       this.initJPush();
 
       //注册极光推送通知栏打开事件
-      this.jPushService.openNotification().subscribe(res => {
-        //设置服务器Badge为0
-        // this.jPushService.setBadge(0);
-        //设置本地Badge为0
-        // this.jPushService.setApplicationIconBadgeNumber(0);
+      this.jPushPlugin.openNotification().subscribe(res => {
         console.log('点击通知事件');
+        this.jPushUtil.reduceBadge();
         console.log(res);
         // this.alertTips('点击通知消息内容：' + JSON.stringify(res));
 
@@ -74,19 +73,19 @@ export class HomePage {
 
       });
 
-      this.jPushService.receiveNotification().subscribe(res => {
+      this.jPushPlugin.receiveNotification().subscribe(res => {
         console.log('收到通知事件');
         console.log(res);
         // this.alertTips('收到通知消息内容：' + JSON.stringify(res));
       });
 
-      this.jPushService.receiveMessage().subscribe(res => {
+      this.jPushPlugin.receiveMessage().subscribe(res => {
         console.log('收到自定义消息事件');
         console.log(res);
         // this.alertTips('自定义消息内容：' + JSON.stringify(res));
       });
 
-      this.jPushService.backgroundNotification().subscribe(res => {
+      this.jPushPlugin.backgroundNotification().subscribe(res => {
         console.log(res);
         console.log('收到后台消息');
         // this.alertTips('后台消息内容：' + JSON.stringify(res));
@@ -101,12 +100,12 @@ export class HomePage {
    * 注册极光推送
    */
   initJPush() {
-    this.jPushService.init().then(res => {
+    this.jPushPlugin.init().then(res => {
       console.log(res);
-      // this.alertTips('后台消息内容：' + JSON.stringify(res), '注册极光推送成功');
+      //this.alertTips('后台消息内容：' + JSON.stringify(res), '注册极光推送成功');
     }).catch(err => {
       console.log(err);
-      // this.alertTips(err);
+      //this.alertTips(err);
     });
   }
 
@@ -114,27 +113,52 @@ export class HomePage {
    * 极光推送获取ID
    */
   getRegistrationID() {
-    this.jPushService.getRegistrationID().then(res => {
+    this.jPushPlugin.getRegistrationID().then(res => {
+      // alert(res);
       console.log(res);
-      // this.alertTips('内容：' + JSON.stringify(res), '获取极光推送ID');
-      // let jpushRegistrationId = res;
-      // if (Boolean(this.loginTeacher.teacherId) && Boolean(jpushRegistrationId)) {
-      // this.alertTips('内容：teacherId:' + this.loginTeacher.teacherId + ',推送ID:' + jpushRegistrationId,'绑定极光推送ID调用');
-      // this.userService.updateJpushRegistrationId(this.loginTeacher.teacherId, jpushRegistrationId).then(data => {
-      //   console.log(data);
-      // this.alertTips( '内容：' + JSON.stringify(data),'绑定极光推送ID返回');
-      // }, err => {
-      //   console.log(err);
-      // this.alertTips('内容：' + JSON.stringify(err), '绑定极光推送ID错误返回');
-      // }).catch(err => {
-      // console.log(err);
-      // this.alertTips('内容：' + JSON.stringify(err), '绑定极光推送ID异常返回');
-      // });
-      // }
-
+      let alert = this.alertCtrl.create({
+        title: '获取极光推送ID',
+        subTitle: '内容：' + JSON.stringify(res),
+        buttons: ['确定']
+      });
+      alert.present();
+      let jpushRegistrationId = res;
+      if (Boolean(this.loginUser.id) && Boolean(jpushRegistrationId)) {
+        // let alert = this.alertCtrl.create({
+        //   title: '绑定极光推送ID调用',
+        //   subTitle: '内容：teacherId:' + this.loginTeacher.teacherId + ',推送ID:' + jpushRegistrationId,
+        //   buttons: ['确定']
+        // });
+        // alert.present();
+        this.userService.updateJpushRegistrationId(this.loginUser.id, jpushRegistrationId).then(data => {
+          console.log(data);
+          // let alert = this.alertCtrl.create({
+          //   title: '绑定极光推送ID返回',
+          //   subTitle: '内容：' + JSON.stringify(data),
+          //   buttons: ['确定']
+          // });
+          // alert.present();
+        }, err => {
+          console.log(err);
+          // let alert = this.alertCtrl.create({
+          //   title: '绑定极光推送ID错误返回',
+          //   subTitle: '内容：' + JSON.stringify(err),
+          //   buttons: ['确定']
+          // });
+          // alert.present();
+        }).catch(err => {
+          console.log(err);
+          // let alert = this.alertCtrl.create({
+          //   title: '绑定极光推送ID异常返回',
+          //   subTitle: '内容：' + JSON.stringify(err),
+          //   buttons: ['确定']
+          // });
+          // alert.present();
+        });
+      }
     }).catch(err => {
+      // alert(err);
       console.log(err);
-      // this.alertTips(err);
     });
   }
 
@@ -142,7 +166,7 @@ export class HomePage {
    * 极光推送设置标签
    */
   setTags(tags) {
-    this.jPushService.setTags({
+    this.jPushPlugin.setTags({
       sequence: Date.now(),
       tags: tags
     }).then((res: any) => {
@@ -158,11 +182,11 @@ export class HomePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad HomePage');
-    // this.initLoginUser();
   }
 
   initLoginUser() {
     this.loginUser = this.storageService.read(AppConfig.LOGIN_USER_NAME);
+    this.getRegistrationID();
   }
 
   goToNotice() {

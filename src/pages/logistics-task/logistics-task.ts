@@ -312,6 +312,12 @@ export class LogisticsTaskPage {
   }
 
   queryTaskData(queryParam, page, rows, showLoading?, infiniteScroll?) {
+    if (!Boolean(this.queryParam.consignor)) {
+      if (Boolean(infiniteScroll)) {
+        infiniteScroll.complete();
+      }
+      return;
+    }
     let loading = this.loadingCtrl.create({
       content: '加载物流任务数据中...'
     });

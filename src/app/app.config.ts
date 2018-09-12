@@ -20,8 +20,8 @@ export class AppConfig {
 
   //使用的url
   public static getUrl() {
-    // return AppConfig.getDebugUrl();
-    return AppConfig.getProdUrl();
+    return AppConfig.getDebugUrl();
+    // return AppConfig.getProdUrl();
   }
 
   //测试环境URL
