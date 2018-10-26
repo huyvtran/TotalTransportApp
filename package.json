@@ -43,7 +43,6 @@
     "cordova-plugin-file": "^6.0.1",
     "cordova-plugin-file-transfer": "^1.7.1",
     "cordova-plugin-inappbrowser": "^3.0.0",
-    "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^1.2.1",
     "cordova-plugin-jcore": "^1.2.3",
     "cordova-plugin-splashscreen": "^5.0.2",
@@ -79,7 +78,6 @@
       "com.synconset.imagepicker": {
         "PHOTO_LIBRARY_USAGE_DESCRIPTION": "your usage message"
       },
-      "cordova-plugin-ionic-keyboard": {},
       "jpush-phonegap-plugin": {
         "APP_KEY": "91fa960d0470ce506fc1c8b2"
       }
