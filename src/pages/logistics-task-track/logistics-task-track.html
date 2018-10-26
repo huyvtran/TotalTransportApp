@@ -21,9 +21,7 @@
 
               <li *ngFor="let track of trackList;let isfirst = first" [ngClass]="{'first': isfirst == true}">
                 <p>{{track.trackTime|date:'yyyy-MM-dd HH:mm:ss'}}</p>
-
                 <p>{{track.stateName}}</p>
-
                 <p>{{track.taskDesc}}</p>
                 <span class="before"></span><span class="after"></span><i *ngIf="isfirst == true"
                                                                           class="mh-icon mh-icon-new"></i>
